@@ -1,0 +1,34 @@
+* {
+    margin: 0;
+    padding: 0;
+    border: 0;
+}
+
+body {
+    background-color: #282A36;
+    font-family: 'Source Sans Pro', sans-serif;
+}
+
+header {
+    padding: 32px;
+    border-bottom: 1px solid #333;
+    background-color: rgba(0, 0, 0, 0.274);
+}
+
+header div {
+    text-align: center;
+}
+
+header div a {
+    color: #fff;
+    font-size: 18px;
+    font-weight: bold;
+    line-height: 28px;
+    margin: 0 16px;
+    text-decoration: none;
+    transition: 400ms;
+}
+
+header div a:hover {
+    color: #50fa7b;
+}
