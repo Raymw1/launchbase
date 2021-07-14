@@ -1,0 +1,22 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: #121214;
+    font-family: 'Roboto', sans-serif;
+}
+
+header {
+    padding: 30px;
+    text-align: center;
+}
+
+header a {
+    margin: 30px;
+    color: #fff;
+    font-weight: bold;
+    text-decoration: none;
+}
