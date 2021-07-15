@@ -144,6 +144,8 @@ header div, .links {
     top: 0;
     left: 0;
     opacity: 0;
+    display: flex;
+    align-items: center;
     visibility: hidden;
     /* display: none; */
 }
@@ -155,7 +157,9 @@ header div, .links {
 
 .modal {
     background-color: #fff;
+    max-width: 708px;
     width: 90%;
+    max-height: 398px;
     height: 90%;
     margin: 5vh auto;
     position: relative;
@@ -167,4 +171,11 @@ header div, .links {
     position: absolute;
     top: 8px;
     right: 8px;
+}
+
+iframe {
+    width: 100%;
+    height: 90%;
+    position: absolute;
+    bottom: 0;
 }
