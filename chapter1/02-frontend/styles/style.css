@@ -96,6 +96,14 @@ header div, .links {
 
 .card {
     background-color: var(--color-rocket);
+    border-radius: 8px;
+    overflow: hidden;
+    cursor: pointer;
+    transition: box-shadow 400ms;
+}
+
+.card:hover {
+    box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.7);
 }
 
 .card-image-container {
