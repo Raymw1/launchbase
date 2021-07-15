@@ -1,5 +1,6 @@
 :root {
-    --green: #50fa7b;
+    --color-green: #50fa7b;
+    --color-rocket: #7159C1;
 }
 
 * {
@@ -35,7 +36,7 @@ header div, .links {
 }
 
 .links a:hover {
-    color: var(--green);
+    color: var(--color-green);
 }
 
 #wrapper {
@@ -46,7 +47,7 @@ header div, .links {
 #wrapper img {
     margin-bottom: 32px;
     border-radius: 50%;
-    border: 5px solid var(--green);
+    border: 5px solid var(--color-green);
     height: 300px;
 }
 
@@ -72,7 +73,7 @@ header div, .links {
 }
 
 #wrapper p a {
-    color: var(--green);
+    color: var(--color-green);
     font-weight: bold;
 }
 
@@ -81,5 +82,81 @@ header div, .links {
 }
 
 #links-footer a {
-    border-bottom: 1px solid var(--green);
+    border-bottom: 1px solid var(--color-green);
+}
+
+/* ================== CARDS ================== */
+.cards {
+    max-width: 800px;
+    margin: 0 auto 2rem;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+}
+
+.card {
+    background-color: var(--color-rocket);
+}
+
+.card-image-container {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    justify-content: space-between;
+}
+
+.card-image-container img {
+    width: 100%;
+}
+
+.card-content, .card-info {
+    padding: 24px;
+}
+
+.card-info {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.card-price {
+    text-align: center;
+    background-color: var(--color-rocket);
+    filter: brightness(90%);
+    padding: 5px 20px;
+    border-radius: 20px;
+}
+
+/* ================== MODAL ================== */
+.modal-overlay {
+    background-color: rgba(0, 0, 0, 0.7);
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    opacity: 0;
+    visibility: hidden;
+    /* display: none; */
+}
+
+.modal-overlay.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.modal {
+    background-color: #fff;
+    width: 90%;
+    height: 90%;
+    margin: 5vh auto;
+    position: relative;
+}
+
+.close-modal {
+    color: #111;
+    cursor: pointer;
+    position: absolute;
+    top: 8px;
+    right: 8px;
 }
