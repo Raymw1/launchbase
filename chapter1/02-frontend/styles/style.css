@@ -122,13 +122,14 @@ header div, .links {
 }
 
 .card-info {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
 }
 
 .card-price {
-    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     background-color: var(--color-rocket);
     filter: brightness(90%);
     padding: 5px 20px;
