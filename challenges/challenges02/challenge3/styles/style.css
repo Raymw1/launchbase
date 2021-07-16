@@ -129,5 +129,53 @@ main#about ul {
     height: 100%;
     width: 100%;
     background-color: rgba(0, 0, 0, 0.7);
-    
+    position: fixed;
+    top: 0;
+    left: 0;
+    opacity: 0;
+    visibility: hidden;
+}
+
+.modal-overlay.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.modal {
+    margin: 5% auto;
+    width: 80%;
+    height: 80%;
+    background-color: #f0eaea;
+    position: relative;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.icons {
+    position: absolute;
+    top: 2px;
+    right: 16px;
+}
+
+.icons a i {
+    color: var(--purple);
+    width: 18px;
+    margin-left: 16px;
+    cursor: pointer;
+}
+
+iframe {
+    bottom: 0;
+    width: 100%;
+    height: 95%;
+    position: absolute;
+
+}
+
+.modal.maximize {
+    width: 100%;
+    height: 100%;
+    background-color: #f0eaea;
+    border-radius: 0;
+    margin-top: 0;
 }
