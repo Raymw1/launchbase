@@ -1,0 +1,85 @@
+:root {
+    --primary-color: #111111;
+    --secondary-color: #777777;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    background-color: #fff;
+    color: var(--primary-color);
+    font-family: "Roboto", sans-serif;
+}
+
+body {
+    margin: 0 auto;
+    width: 90%;
+    max-width: 940px;
+}
+
+a {
+    text-decoration: none;
+    color: var(--primary-color);
+}
+
+/* ================= HEADER ================= */
+header {
+    margin: 30px 0;
+    display: flex;
+    align-items: center;
+}
+
+header > a {
+    margin-right: 120px;
+}
+
+header ul {
+    display: flex;
+    justify-content: space-between;
+    list-style: none;
+}
+
+header ul li {
+    margin-right: 30px;
+    font-size: 16px;
+}
+
+/* ================= CONTAINER CHEF ================= */
+main {
+    font-size: 18px;
+}
+
+.container-chef {
+    height: 366px;
+    width: 100%;
+    padding: 117px 60px;
+    background-color: #FBDFDB ;
+    border-radius: 30px;
+    display: flex;
+    align-items: center;
+    position: relative;
+}
+
+.best-recipes {
+    max-width: 320px;
+}
+
+.best-recipes h2 {
+    font-size: 32px;
+    margin-bottom: 10px;
+}
+
+.best-recipes p {
+    color: #000000;
+    opacity: 0.7;
+}
+
+.chef-image {
+    position: absolute;
+    right: 100px;
+    bottom: -3px;
+}
