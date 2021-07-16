@@ -54,7 +54,7 @@ main#about p + p {
     margin-top: 16px;
 }
 
-main ul {
+main#about ul {
     color: var(--purple);
     opacity: 0.6;
     font-weight: bold;
@@ -86,11 +86,11 @@ main ul {
     border-radius: 8px;
     overflow: hidden;
     transition: box-shadow 400ms;
+    cursor: pointer;
 }
 
 .card:hover {
     box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.7);
-    cursor: pointer;
 }
 
 .card img {
@@ -108,16 +108,26 @@ main ul {
     padding: 24px;
 }
 
-.card .card-content .card-description {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
+.card .card-description {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
 }
 
 .card-reading-time {
     background-color: var(--purple);
     padding: 5px 20px;
-    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     border-radius: 20px;
     filter: brightness(70%);
+}
+
+
+/* =================== MODAL =================== */
+.modal-overlay {
+    height: 100%;
+    width: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    
 }

@@ -123,6 +123,7 @@ header div, .links {
 
 .card-info {
     display: grid;
+    align-items: center;
     grid-template-columns: repeat(2, 1fr);
 }
 
