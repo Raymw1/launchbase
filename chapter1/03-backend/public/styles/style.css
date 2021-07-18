@@ -98,7 +98,6 @@ header div, .links {
     background-color: var(--color-rocket);
     border-radius: 8px;
     display: grid;
-    overflow: hidden;
     cursor: pointer;
     transition: box-shadow 400ms;
 }
@@ -116,6 +115,7 @@ header div, .links {
 
 .card-image-container img {
     width: 100%;
+    border-radius: 8px 8px 0 0;
 }
 
 .card-content, .card-info {
@@ -179,4 +179,19 @@ iframe {
     height: 90%;
     position: absolute;
     bottom: 0;
+}
+
+/* ================== FEATURED ================== */
+.featured-wrapper.card-image-container {
+    position: relative;
+}
+
+.featured {
+    background-color: #ffd500;
+    color: #111;
+    padding: 2px 8px;
+    border-radius: 16px;
+    top: -10px;
+    position: absolute;
+    right: 5px;
 }

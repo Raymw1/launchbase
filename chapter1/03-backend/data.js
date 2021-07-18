@@ -9,7 +9,8 @@ module.exports = [
     id: "bk4abNFLDE8",
     title: "Git e GitHub - o que é isso? | Jakeline",
     duration: "20 min",
-    price: "Free"
+    price: "Free",
+    featured: true
   },
   {
     id: "q_ppL_sU6qU",
@@ -27,7 +28,8 @@ module.exports = [
     id: "M7CkkeECodk",
     title: "Ubuntu - Comandos básicos para iniciantes no terminal | Jakeline",
     duration: "26 min",
-    price: "Free"
+    price: "Free",
+    featured: true
   },
   {
     id: "RF0nS-EM2Ag",

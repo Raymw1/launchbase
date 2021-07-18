@@ -12,8 +12,11 @@
     <section class="cards">
         {% for video in videos %}
         <div class="card" id="{{ video.id }}">
-            <div class="card-image-container">
+            <div class="card-image-container {{ 'featured-wrapper' if video.featured }}">
                 <img src="https://img.youtube.com/vi/{{ video.id }}/maxresdefault.jpg" alt="{{ video.title }}">
+                {% if video.featured %}
+                <div class="featured">Featured</div>
+                {% endif %}
                 <div class="card-content">
                     <p>{{ video.title }}</p>
                 </div>
