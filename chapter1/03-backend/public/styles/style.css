@@ -195,3 +195,27 @@ iframe {
     position: absolute;
     right: 5px;
 }
+
+
+/* ================== VIDEO PAGE ================== */
+.video {
+    margin: 0 auto;
+    max-width: 800px;
+}
+
+.card-video-container {
+    position: relative;
+    padding-top: 62.5%;
+}
+
+.card-video-container iframe {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+}
+
+.video .card {
+    cursor: auto;
+    margin-bottom: 32px;
+}

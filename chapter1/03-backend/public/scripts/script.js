@@ -4,13 +4,14 @@ const cards = document.querySelectorAll(".card");
 cards.forEach((card) => {
   card.addEventListener("click", () => {
     const videoId = card.getAttribute("id");
-    modalOverlay.querySelector("iframe").src = `https://www.youtube.com/embed/${videoId}`;
-    modalOverlay.classList.add("active");
+    // modalOverlay.querySelector("iframe").src = `https://www.youtube.com/embed/${videoId}`;
+    // modalOverlay.classList.add("active");
+    window.location.href = `/video?id=${videoId}`;
   });
 });
 
-document.querySelector(".modal-overlay a.close-modal").addEventListener("click", () => {
-    modalOverlay.querySelector("iframe").src = '';
-    modalOverlay.classList.remove("active");
-});
+// document.querySelector(".modal-overlay a.close-modal").addEventListener("click", () => {
+//     modalOverlay.querySelector("iframe").src = '';
+//     modalOverlay.classList.remove("active");
+// });
 

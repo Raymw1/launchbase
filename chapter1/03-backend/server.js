@@ -31,6 +31,16 @@ server.get("/classes", function (req, res) {
   return res.render("classes", { videos });
 });
 
+server.get("/video", function (req, res) {
+  const id = req.query.id;
+  const video = videos.find(video => video.id == id )
+  if (!video) {
+    return res.send("Video not found!")
+  }
+  return res.render("video", { video })
+  res.send(id);
+})
+
 const PORT = process.env.PORT || 3000;
 server.listen(PORT, () => {
   console.log(`Go to http://127.0.0.1:${PORT}`);
