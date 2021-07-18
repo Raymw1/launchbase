@@ -38,7 +38,6 @@ server.get("/video", function (req, res) {
     return res.send("Video not found!")
   }
   return res.render("video", { video })
-  res.send(id);
 })
 
 const PORT = process.env.PORT || 3000;
