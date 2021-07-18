@@ -97,6 +97,7 @@ header div, .links {
 .card {
     background-color: var(--color-rocket);
     border-radius: 8px;
+    display: grid;
     overflow: hidden;
     cursor: pointer;
     transition: box-shadow 400ms;
@@ -128,9 +129,7 @@ header div, .links {
 }
 
 .card-price {
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    text-align: center;
     background-color: var(--color-rocket);
     filter: brightness(90%);
     padding: 5px 20px;

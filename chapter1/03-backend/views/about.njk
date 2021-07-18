@@ -2,14 +2,14 @@
 
 {% block content %}
     <div id="wrapper">
-        <img src="https://github.com/raymw1.png" alt="Rayan Wilbert">
-        <h1>Rayan Wilbert</h1>
-        <h2>Desenvolvedor FullStack</h2>
-        <p>Desenvolvedor FullStack de 17 anos, procurando desafios que melhore sua rotina e também a dos outros. Aluno da <a href="https://rocketseat.com.br/" target="_blank">RocketSeat</a></p>
+        <img src="{{ about.avatar_url }}" alt="{{ about.name }}">
+        <h1>{{ about.name }}</h1>
+        <h2>{{ about.role }}</h2>
+        <p>{{ about.description }}</p>
     </div>
     <div id="links-footer" class="links">
-        <a href="https://github.com/Raymw1/" target="_blank">GitHub</a>
-        <a href="https://www.instagram.com/ray.coding/" target="_blank">Instagram</a>
-        <a href="https://www.linkedin.com/in/rayanwilbert/" target="_blank">LinkedIn</a>
+    {% for link in about.links %}
+        <a href="{{ link.url }}" target="_blank">{{ link.name }}</a>
+    {% endfor %}
     </div>
 {% endblock content %}
