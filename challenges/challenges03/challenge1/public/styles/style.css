@@ -81,6 +81,7 @@ main#about ul {
 
 .card {
     text-align: left;
+    display: grid;
     background-color: #1C1F26;
     border: 1px solid #6c4fbb;
     border-radius: 8px;
@@ -110,15 +111,14 @@ main#about ul {
 
 .card .card-description {
     display: grid;
+    align-items: center;
     grid-template-columns: repeat(2, 1fr);
 }
 
 .card-reading-time {
     background-color: var(--purple);
     padding: 5px 20px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    text-align: center;
     border-radius: 20px;
     filter: brightness(70%);
 }
