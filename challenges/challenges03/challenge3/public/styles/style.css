@@ -102,6 +102,7 @@ main#about ul {
 .card-time {
     background-color: var(--purple);
     padding: 5px 20px;
+    display: inline-block;
     text-align: center;
     border-radius: 20px;
     filter: brightness(70%);

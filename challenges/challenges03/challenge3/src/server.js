@@ -40,7 +40,7 @@ server.get("/course", function (req, res) {
     const courseId = req.query.id;
     const course = courses.find(course => course.id == courseId);
     if (!course) {
-        return res.send("Course not found");
+        return res.render("apology", { message: "Course not found!"});
     }
     return res.render("course", { course })
 });

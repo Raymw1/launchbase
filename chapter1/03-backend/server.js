@@ -19,7 +19,7 @@ server.get("/", function (req, res) {
     role: "Desenvolvedor FullStack",
     description: `Desenvolvedor FullStack de 17 anos, procurando desafios que melhore sua rotina e também a dos outros. Aluno da <a href="https://rocketseat.com.br/" target="_blank">RocketSeat</a>`,
     links: [
-      { name: "Gitub", url: "https://github.com/Raymw1/" },
+      { name: "Github", url: "https://github.com/Raymw1/" },
       { name: "Instagram", url: "https://www.instagram.com/ray.coding/" },
       { name: "LinkedIn", url: "https://www.linkedin.com/in/rayanwilbert/" }
     ]

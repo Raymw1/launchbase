@@ -5,7 +5,11 @@
 {% block content %}
 <main>
     <img id="logo" src="https://pbs.twimg.com/profile_images/1291682473592659968/sEorc6oh_400x400.jpg" alt="RocketSeat logo">
+    {% if not message %}
     <h1 class="message-error">Something went wrong</h1>
+    {% else %}
+    <h1 class="message-error">{{ message }}</h1>
+    {% endif %}
     <p>Try again later!</p>
 </main>
 {%endblock content %}
