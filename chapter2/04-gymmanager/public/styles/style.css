@@ -1,5 +1,6 @@
 :root {
     --primary-color: #7159C1;
+    --secondary-color: #F7DF1E;
 }
 
 * {
@@ -66,7 +67,7 @@ header {
 .card {
     background-color: #fff;
     width: 800px;
-    height: 400px;
+    min-height: 400px;
     margin: 45px auto;
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -94,4 +95,51 @@ section.avatar {
         opacity: 1;
         transform: translateY(0);
     }
+}
+
+/* ============== DETAILS ============== */
+.details {
+    padding: 32px;
+}
+
+
+.details .item {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    padding: 16px 0;
+}
+
+.details .item:last-child {
+    border-bottom: none;
+}
+
+.details h3, .details .item div:first-child {
+    font-size: 14px;
+    line-height: 24px;
+    color: #777;
+    letter-spacing: 0.7px;
+    font-weight: normal;
+}
+
+.details h3 {
+    text-transform: uppercase;
+    font-weight: bold;
+    color: var(--primary-color);
+}
+.details .item div:last-child {
+    color: #555;
+    font-weight: bold;
+    font-size: 18px;
+}
+
+.details .item div span {
+    padding: 8px 16px;
+    background-color: var(--secondary-color);
+    border-radius: 16px;
+    color: #777;
+    margin-right: 4px;
+    margin-top: 8px;
+    display: inline-block;
+    font-weight: bold;
+    text-transform: uppercase;
+    font-size: 12px;
 }
