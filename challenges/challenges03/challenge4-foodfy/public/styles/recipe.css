@@ -1,3 +1,7 @@
+header nav li:last-child {
+    font-weight: bold;
+}
+
 /* ================= MAIN ================= */
 main {
     color: var(--third-color);

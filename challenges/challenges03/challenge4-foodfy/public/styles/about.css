@@ -1,3 +1,7 @@
+header nav li:first-child {
+    font-weight: bold;
+}
+
 /* ================= MAIN ================= */
 main {
     margin-bottom: 50px;
