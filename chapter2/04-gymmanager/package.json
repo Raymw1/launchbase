@@ -4,8 +4,10 @@
   "description": "",
   "main": "server.js",
   "scripts": {
-    "dev": "nodemon server.js",
-    "start": "node server.js"
+    "nodemon": "nodemon server.js",
+    "browsersync": "browser-sync start --proxy http://127.0.0.1:3000/ --files 'public, views'",
+    "dev": "npm-run-all -p nodemon browsersync",
+    "start": "node ."
   },
   "keywords": [],
   "author": "Rayan Wilbert",
@@ -15,6 +17,8 @@
     "nunjucks": "^3.2.3"
   },
   "devDependencies": {
-    "nodemon": "^2.0.12"
+    "browser-sync": "^2.27.4",
+    "nodemon": "^2.0.12",
+    "npm-run-all": "^4.1.5"
   }
 }
