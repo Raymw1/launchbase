@@ -14,6 +14,8 @@ body {
     font-family: "Roboto", sans-serif;
 }
 
+
+/* ============== HEADER ============== */
 header {
     background-color: #fff;
     width: 100%;
@@ -57,4 +59,39 @@ header {
 
 .links a + a {
     margin-left: 32px;
+}
+
+
+/* ============== CARD ============== */
+.card {
+    background-color: #fff;
+    width: 800px;
+    height: 400px;
+    margin: 45px auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    box-shadow: 2px 2px 6px -2px rgba(0, 0, 0, 0.4);
+    animation: up 700ms ease-out;
+    /* animation-timing-function: ease-out;    SMOOTH Animation */
+    /* animation-fill-mode: forwards;  Use the properties of animation */
+    /* animation-delay: 1s; */
+    /* animation-play-state: running; */
+    /* animation-direction: reverse; */
+    /* animation-iteration-count: 3; */
+}
+
+section.avatar {
+    background: url("https://source.unsplash.com/collection/8172461/400x400") no-repeat center center / cover;
+}
+
+/* ============== ANIMATIONS ============== */
+@keyframes up {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
