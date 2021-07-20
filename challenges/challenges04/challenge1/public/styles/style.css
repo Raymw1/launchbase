@@ -1,0 +1,162 @@
+:root {
+    --purple: #6C4FBB;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Roboto', sans-serif;
+    background-color: #333;
+    color: #fff;
+}
+
+header {
+    background-color: #121214;
+    padding: 30px;
+    border-bottom: 5px solid var(--purple);
+    text-align: center;
+}
+
+.links a {
+    color: #fff;
+    font-weight: bold;
+    text-decoration: none;
+    position: relative;
+    transition: color 400ms;
+}
+
+.links a + a {
+    margin-left: 32px;
+}
+
+.links a:hover {
+    color: var(--purple);
+}
+
+.links a::after {
+    content: '';
+    width: 0;
+    height: 2px;
+    background-color: var(--purple);
+    position: absolute;
+    left: 0;
+    bottom: -4px;
+}
+
+.links a:hover::after {
+    width: 100%;
+    transition: width 400ms ease-in-out;
+}
+
+
+main {
+    padding: 32px 0;
+    text-align: center;
+}
+
+main img#logo {
+    width: 200px;
+    border-radius: 50%;
+    border: 5px solid var(--purple);
+}
+
+main h2, .message-error {
+    color: var(--purple);
+    opacity: 0.9;
+    margin: 16px auto;
+}
+
+main#about p + p {
+    margin-top: 16px;
+}
+
+main#about ul {
+    color: var(--purple);
+    opacity: 0.6;
+    font-weight: bold;
+    margin-bottom: 16px;
+}
+
+#links-bottom {
+    text-align: center;
+    margin-bottom: 32px;
+}
+
+#links-bottom a {
+    border-bottom: 1px solid var(--purple);
+}
+
+/* =================== CARDS =================== */
+.cards {
+    margin: 2rem auto;
+    max-width: 800px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+}
+
+.card {
+    padding: 24px;
+    display: grid;
+    gap: 32px;
+    background-color: #111114;
+    border: 2px solid #6c4fbb;
+    border-radius: 8px;
+    overflow: hidden;
+    transition: box-shadow 400ms;
+    cursor: pointer;
+}
+
+.card:hover {
+    box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.7);
+}
+
+.card img {
+    height: 100px;
+}
+
+.card-time {
+    background-color: var(--purple);
+    padding: 5px 20px;
+    display: inline-block;
+    text-align: center;
+    border-radius: 20px;
+    filter: brightness(70%);
+}
+
+
+/* =================== COURSE PAGE =================== */
+.course {
+    max-width: 800px;
+    width: 90%;
+    margin: 32px auto;
+}
+
+.card-course-container {
+    position: relative;
+    padding-top: 62.5%;
+}
+
+.card-course-container iframe {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    left: 0;
+    top: 0;
+}
+
+.course.card {
+    cursor: auto;
+    margin-bottom: 32px;
+    padding: 0;
+}
+
+.course.card .card-info {
+    display: grid;
+    gap: 20px;
+    padding: 20px;
+}

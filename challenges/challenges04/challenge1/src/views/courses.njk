@@ -1,0 +1,31 @@
+{% extends 'layout.njk' %}
+{% block head %}
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <title>RocketSeat</title>
+{% endblock head %}
+{% block content %}
+
+    <main>
+        <div class="wrapper">
+            <h1>Cursos</h1>
+        </div>
+        <div class="cards">
+            {% for course in courses %}
+            <div class="card" id="{{ course.id }}">
+                <div class="card-image-container">
+                    <img src="{{ course.image }}" alt="{{ course.title }}">
+                </div>
+                <div class="card-title">
+                    <p>{{ course.title }}</p>
+                </div>
+                <div class="card-description">
+                    <p>{{ course.author }}</p>
+                    <p class="card-time">{{ course.duration }}</p>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </main>
+    <script src="scripts/script.js"></script>
+{% endblock content %}
+
