@@ -5,7 +5,7 @@
   "main": "server.js",
   "scripts": {
     "nodemon": "nodemon server.js",
-    "browsersync": "browser-sync start --proxy http://127.0.0.1:3000/ --files 'public, views'",
+    "browsersync": "browser-sync start --proxy http://127.0.0.1:5000/ --files 'public, views'",
     "dev": "npm-run-all -p nodemon browsersync",
     "start": "node ."
   },

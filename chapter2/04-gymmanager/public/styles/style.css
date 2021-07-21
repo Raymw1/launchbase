@@ -143,3 +143,48 @@ section.avatar {
     text-transform: uppercase;
     font-size: 12px;
 }
+
+
+/* ============== FORM ============== */
+input {
+    width: 100%;
+    outline: none;
+    color: #555;
+    font-weight: bold;
+    font-size: 18px;
+    margin-top: 0.5rem;
+    background-color: #f1f1f1;
+    padding: 8px 16px;
+    border-radius: 16px;
+}
+
+input[type="radio"] {
+    width: initial;
+    margin-right: 4px;
+    margin-top: 0;
+    vertical-align: middle;
+    cursor: pointer;
+}
+
+span label {
+    cursor: pointer;
+    vertical-align: middle;
+}
+
+input::placeholder {
+    font-size: 16px;
+    font-weight: normal;
+}
+
+button[type="submit"] {
+    padding: 8px 32px;
+    color: #fff;
+    background-color: var(--primary-color);
+    border-radius: 4px;
+    margin-top: 32px;
+    width: 100%;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
