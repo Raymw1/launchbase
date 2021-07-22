@@ -13,7 +13,7 @@ nunjucks.configure("views", {
 });
 server.use(routes); // Use routes imported
 
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 3000;
 server.listen(PORT, () => {
   console.log(`Go to http://127.0.0.1:${PORT}`);
 });
