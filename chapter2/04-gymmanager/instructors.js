@@ -1,6 +1,18 @@
 const fs = require("fs"); // File system
 const data = require("./data.json");
 
+exports.show = function (req, res) {
+  const { id } = req.params; // const id = req.params.id;
+  const foundInstructor = data.instructors.find(instructor => instructor.id == id);
+  if (!foundInstructor) return res.send("Instructor not found!");
+  const instructor = {
+    ...foundInstructor,
+    age: "",
+    services: foundInstructor.services.split(",")
+  }
+  return res.render("instructors/show", { instructor });
+}
+
 exports.post = function (req, res) {
   const keys = Object.keys(req.body);
   keys.forEach((key) => {
