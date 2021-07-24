@@ -1,0 +1,204 @@
+:root {
+    --purple: #6C4FBB;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Roboto', sans-serif;
+    background-color: #333;
+    color: #fff;
+}
+
+header {
+    background-color: #121214;
+    padding: 30px;
+    border-bottom: 5px solid var(--purple);
+    text-align: center;
+}
+
+.links a {
+    color: #fff;
+    font-weight: bold;
+    text-decoration: none;
+    position: relative;
+    transition: color 400ms;
+}
+
+.links a + a {
+    margin-left: 32px;
+}
+
+.links a:hover {
+    color: var(--purple);
+}
+
+.links a::after {
+    content: '';
+    width: 0;
+    height: 2px;
+    background-color: var(--purple);
+    position: absolute;
+    left: 0;
+    bottom: -4px;
+}
+
+.links a:hover::after {
+    width: 100%;
+    transition: width 400ms ease-in-out;
+}
+
+
+main {
+    padding: 32px 0;
+}
+
+main h2, .message-error {
+    color: var(--purple);
+    opacity: 0.9;
+    margin: 16px auto;
+}
+
+
+/* =================== CARD =================== */
+.card {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    width: 800px;
+    min-height: 400px;
+    background-color: #111114;
+    border-radius: 8px;
+    margin: 32px auto;
+    overflow: hidden;
+    border: 1px solid var(--purple);
+    box-shadow: 2px 2px 6px 4px #6c4fbb2a;
+    animation-name: up;
+    animation-duration: 700ms;
+    animation: up 700ms ease-in-out;
+}
+
+@keyframes up {
+    from {
+        transform: translateY(30px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+.card .avatar {
+    background: url("http://source.unsplash.com/collection/440162/400x400") no-repeat center center / cover;
+}
+
+.details {
+    padding: 32px;
+}
+
+.details .item {
+    border-bottom: 1px solid var(--purple);
+    padding: 16px 0;
+}
+
+.details .item:last-child {
+    border: none;
+    padding-bottom: 0;
+}
+
+.details .item div:first-child, .details h3 {
+    font-size: 14px;
+    line-height: 24px;
+    color: #FAD2E1;
+    text-shadow: 1px 1px 2px #FAD2E1aa;
+    /* color: #6c4fbba9; */
+    letter-spacing: 0.7;
+    font-weight: normal;
+}
+
+.details h3 {
+    color: var(--purple);
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.details .item div:last-child {
+    color: #bba8f1;
+    font-weight: bold;
+    font-size: 18px;
+}
+
+.details .item div span {
+    padding: 8px 16px;
+    background-color: #6c4fbba9;
+    border-radius: 16px;
+    margin-right: 4px;
+    margin-top: 8px;
+    display: inline-block;
+    font-weight: bold;
+    font-size: 12px;
+    text-transform: uppercase;
+}
+
+
+/* =================== FORM =================== */
+input, select, button {
+    background-color: rgba(255, 255, 255, 0.1);
+    width: 100%;
+    padding: 8px 16px;
+    border: none;
+    border-radius: 8px;
+    margin-top: 8px;
+    outline: none;
+}
+
+input, input::placeholder, input[type="date"]::-webkit-datetime-edit, select, button {
+    color: #fff;
+    font-weight: bold;
+}
+
+select:focus {
+    color: #fff;
+}
+
+option {
+    color: black;
+}
+
+option:first-of-type {
+    color: #fff;
+}
+
+
+input[type="radio"] {
+    width: initial;
+    margin-top: 0;
+    margin-right: 4px;
+    vertical-align: middle;
+}
+
+label {
+    cursor: pointer;
+    vertical-align: middle;
+}
+
+button, .button {
+    width: 100%;
+    background-color: var(--purple);
+    margin-top: 12px;
+    padding: 8px 0;
+    cursor: pointer;
+}
+
+.button {
+    border-radius: 8px;
+    display: block;
+    font-weight: bold;
+    color: #fff;
+    text-align: center;
+    text-decoration: none;
+}
