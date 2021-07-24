@@ -1,22 +1,13 @@
 {
   "instructors": [
     {
-      "id": 1,
+      "id": "1",
       "avatar_url": "https://github.com/Raymw1.png",
-      "name": "Rayan",
+      "name": "Rayan Melino Wilbert",
       "birth": 1065139200000,
       "gender": "M",
-      "services": "Crossfit, HIIT",
+      "services": "Crossfit, HIIT, Corrida",
       "created_at": 1627069046350
-    },
-    {
-      "id": 2,
-      "avatar_url": "https://github.com/Raymw1.png",
-      "name": "Rayan",
-      "birth": 1065139200000,
-      "gender": "M",
-      "services": "Crossfit, HIIT",
-      "created_at": 1627091063699
     }
   ]
 }

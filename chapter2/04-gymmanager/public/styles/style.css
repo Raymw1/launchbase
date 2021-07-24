@@ -185,6 +185,7 @@ button[type="submit"], a.button {
     width: 100%;
     font-size: 16px;
     font-weight: bold;
+    transition: filter 400ms;
     cursor: pointer;
 }
 
@@ -192,4 +193,19 @@ a.button {
     display: block;
     text-align: center;
     text-decoration: none;
+}
+
+button:hover, .button:hover {
+    filter: brightness(90%);
+}
+
+#form-delete button {
+    margin-top: 8px;
+    background-color: lightcoral;
+    transition: 400ms;
+}
+
+#form-delete button:hover {
+    transition: 700ms;
+    background-color: red;
 }
