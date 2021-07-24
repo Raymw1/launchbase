@@ -2,12 +2,21 @@
   "instructors": [
     {
       "id": 1,
-      "avatar_url": "http://github.com/Raymw1.png",
+      "avatar_url": "https://github.com/Raymw1.png",
       "name": "Rayan",
-      "birth": 1626912000000,
+      "birth": 1065139200000,
       "gender": "M",
-      "services": "wdwqdqwdqw, qwdqwdqw",
-      "created_at": 1626983370543
+      "services": "Crossfit, HIIT",
+      "created_at": 1627069046350
+    },
+    {
+      "id": 2,
+      "avatar_url": "https://github.com/Raymw1.png",
+      "name": "Rayan",
+      "birth": 1065139200000,
+      "gender": "M",
+      "services": "Crossfit, HIIT",
+      "created_at": 1627091063699
     }
   ]
 }
