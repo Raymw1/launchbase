@@ -2,6 +2,10 @@ const fs = require("fs"); // File system
 const data = require("./data.json");
 const { parseAge, parseDate } = require("./utils");
 
+exports.index = function (req, res) {
+  return res.render("instructors/index", { instructors: data.instructors })
+}
+
 exports.show = function (req, res) {
   const { id } = req.params; // const id = req.params.id;
   const foundInstructor = data.instructors.find(
@@ -76,6 +80,7 @@ exports.put = function (req, res) {
   const instructor = {
     ...foundInstructor,
     ...req.body,
+    id: Number(id),
     birth: Date.parse(req.body.birth),
   };
   data.instructors[index] = instructor;

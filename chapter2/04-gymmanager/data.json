@@ -1,12 +1,21 @@
 {
   "instructors": [
     {
-      "id": "1",
+      "id": 1,
       "avatar_url": "https://github.com/Raymw1.png",
       "name": "Rayan Melino Wilbert",
       "birth": 1065139200000,
       "gender": "M",
-      "services": "Crossfit, HIIT, Corrida",
+      "services": "Crossfit, HIIT",
+      "created_at": 1627069046350
+    },
+    {
+      "id": 2,
+      "avatar_url": "https://github.com/maykbrito.png",
+      "name": "Mayk",
+      "birth": 1065139200000,
+      "gender": "M",
+      "services": "Natação",
       "created_at": 1627069046350
     }
   ]
