@@ -248,6 +248,7 @@ tbody tr td:first-child {
     display: grid;
     grid-template-columns: 64px 1fr;
     align-items: center;
+    padding: clamp(16px, 32px, 48px);
 }
 
 tbody tr td:first-child span {
@@ -260,7 +261,7 @@ tbody tr td:first-child span {
     border: 2px solid #1f1f1f;
 }
 
-tbody tr:last-child td {
+tbody tr:last-child {
     border: none;
 }
 
@@ -268,5 +269,10 @@ table .button {
     padding: 8px 16px;
     text-transform: uppercase;
     font-size: 12px;
+    margin-top: 0;
 }
 
+table td:nth-child(2) span {
+    margin-top: 0;
+    margin-bottom: 8px;
+}
