@@ -1,0 +1,24 @@
+{
+  "teachers": [
+    {
+      "id": 1,
+      "avatar_url": "https://github.com/Raymw1.png",
+      "name": "Rayan Melino Wilbert",
+      "birth": 1065139200000,
+      "degree": "highschool",
+      "classtype": "presential",
+      "services": "Química, Matemática, Física, HTML",
+      "created_at": 1627158278830
+    },
+    {
+      "id": 2,
+      "avatar_url": "https://github.com/maykbrito.png",
+      "name": "Maykão",
+      "birth": 1065139200000,
+      "degree": "college",
+      "classtype": "remote",
+      "services": "JavaScript",
+      "created_at": 1627158278830
+    }
+  ]
+}
