@@ -1,0 +1,97 @@
+header nav li:last-child {
+    font-weight: bold;
+}
+
+/* ================= MAIN ================= */
+main {
+    color: var(--third-color);
+}
+
+h1, h2, h3 {
+    color: var(--primary-color);
+}
+
+main img {
+    width: 100%;
+    border-radius: 15px;
+    margin-bottom: 50px;
+}
+
+main .recipe-head {
+    margin: 50px auto;
+    text-align: center;
+}
+
+main .recipe-head h1 {
+    margin-bottom: 4px;
+}
+
+
+/* ================= RECIPE CONTAINER ================= */
+.recipe-container-info {
+    display: grid;
+    gap: 40px;
+    margin-bottom: 50px;
+}
+
+.recipe-container-info.hidding {
+    margin-bottom: 70px;
+}
+
+.hide {
+    display: flex;
+    align-items: baseline;
+    margin-bottom: 20px;
+}
+
+.hide h2 {
+    font-size: 24px;
+    line-height: 28px;
+    margin-right: 8px;
+}
+
+.hide a {
+    color: #999999;
+    font-weight: bold;
+    font-size: 12px;
+    line-height: 14px;
+    cursor: pointer;
+}
+
+/* ================= INGREDIENTS and PREPARE ================= */
+.recipe-info {
+    display: flex;
+    flex-direction: column;
+    align-items: left;
+}
+
+ul {
+    transition: all 400ms;
+    margin-left: 20px;
+}
+
+ul li {
+    font-size: 18px;
+    line-height: 28px;
+}
+
+/* ================= ADDITIONAL INFO ================= */
+.additional-info p {
+    transition: all 400ms;
+    font-size: 18px;
+    line-height: 28px;
+}
+
+.hidden {
+    opacity: 0;
+    visibility: hidden;
+    height: 0;
+}
+
+.last-hidden.hidden {
+    margin-bottom: 54px;
+}
+
+.additional-info p.hidden {
+    margin-bottom: 50px;
+}

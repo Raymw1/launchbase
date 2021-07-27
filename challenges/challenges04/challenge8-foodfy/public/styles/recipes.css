@@ -1,0 +1,13 @@
+/* ================= MAIN ================= */
+
+header {
+    margin-bottom: 50px;
+}
+
+header nav li:last-child {
+    font-weight: bold;
+}
+
+footer {
+    margin-top: auto;
+}
