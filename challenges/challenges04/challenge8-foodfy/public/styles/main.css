@@ -12,7 +12,6 @@
 
 html {
     background-color: #fff;
-    color: var(--primary-color);
     font-family: "Roboto", sans-serif;
 }
 
@@ -24,6 +23,7 @@ body {
 
 .container {
     margin: 0 auto;
+    color: var(--primary-color);
     width: 90%;
     max-width: 940px;
 }

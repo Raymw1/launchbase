@@ -1,0 +1,56 @@
+.header {
+    background-color: #111;
+    padding: 26px;
+}
+
+header {
+    margin: 0 auto;
+    width: 90%;
+    max-width: 940px;
+}
+
+header a {
+    color: #fff;
+}
+
+/* ================= RECIPES GRID ================= */
+.recipe-cards {
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+.recipe-card {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    height: 80px;
+    cursor: initial;
+}
+
+.recipe-card:hover {
+    box-shadow: none;
+}
+
+.recipe-card img {
+    border-radius: 8px;
+    width: 172px;
+    height: 80px;
+    object-fit: cover;
+}
+
+.recipe-card-info p {
+    margin: 0;
+}
+
+.recipe-card-info small {
+    margin: 5px 0 10px;
+    display: block;
+}
+
+.recipe-card-info a {
+    font-size: 14px;
+    line-height: 16px;
+    font-weight: bold;
+    color: #6558C3;
+    display: inline-block;
+}
