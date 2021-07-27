@@ -1,0 +1,41 @@
+<div class="item">
+    <div>Avatar URL</div>
+    <div>
+        <input type="url" name="avatar_url" placeholder="http://" value="{{ student.avatar_url }}">
+    </div>
+</div>
+<div class="item">
+    <div>Estudante</div>
+    <div>
+        <input type="text" name="name" placeholder="Nome do estudante" value="{{ student.name }}">
+    </div>
+</div>
+<div class="item">
+    <div>Email</div>
+    <div>
+        <input type="email" name="email" placeholder="Email do estudante" value="{{ student.email }}">
+    </div>
+</div>
+<div class="item">
+    <div>Data de nascimento</div>
+    <div>
+        <input type="date" name="birth" value="{{ student.birth }}">
+    </div>
+</div>
+<div class="item">
+    <div>Grau de escolaridade</div>
+    <div>
+        <select name="degree" id="degree">
+            <option value="" selected disabled>Selecione o ano escolar</option>
+            {% for degree, dvalue in degrees %}
+            <option value="{{ degree }}" {% if degree == student.degree %}selected{% endif %} >{{ dvalue }}</option>
+            {% endfor %}
+        </select>
+    </div>
+</div>
+<div class="item">
+    <div>Carga horária semanal</div>
+    <div>
+        <input type="number" name="weektime" placeholder="X horas" value="{{ student.weektime }}">
+    </div>
+</div>
