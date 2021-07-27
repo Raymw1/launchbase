@@ -1,10 +1,14 @@
 const fs = require("fs"); // File system
-const data = require("./data.json");
-const { parseAge, parseDate } = require("./utils");
+const data = require("../data.json");
+const { parseAge, parseDate } = require("../utils");
 
 exports.index = function (req, res) {
-  return res.render("instructors/index", { instructors: data.instructors })
-}
+  return res.render("instructors/index", { instructors: data.instructors });
+};
+
+exports.create = function (req, res) {
+  return res.render("instructors/create");
+};
 
 exports.show = function (req, res) {
   const { id } = req.params; // const id = req.params.id;
@@ -33,7 +37,8 @@ exports.post = function (req, res) {
   // Get only these from req.body
   let { avatar_url, birth, name, services, gender } = req.body;
 
-  const id = Number(data.instructors.length + 1);
+  const lastId = data.instructors[data.instructors.length - 1]?.id;
+  const id = lastId + 1 || 1;
   birth = Date.parse(req.body.birth);
   const created_at = Date.now();
 
@@ -62,7 +67,7 @@ exports.edit = function (req, res) {
   if (!foundInstructor) return res.send("Instructor not found!");
   const instructor = {
     ...foundInstructor,
-    birth: parseDate(foundInstructor.birth),
+    birth: parseDate(foundInstructor.birth).iso,
   };
   return res.render("instructors/edit", { instructor });
 };
@@ -86,16 +91,18 @@ exports.put = function (req, res) {
   data.instructors[index] = instructor;
   fs.writeFile("data.json", JSON.stringify(data, null, 2), function (err) {
     if (err) return res.send("Wite error");
-    return res.redirect(`/instructors/${id}`)
+    return res.redirect(`/instructors/${id}`);
   });
 };
 
 exports.delete = function (req, res) {
   const { id } = req.body;
-  const instructors = data.instructors.filter(instructor => instructor.id != id)
+  const instructors = data.instructors.filter(
+    (instructor) => instructor.id != id
+  );
   data.instructors = instructors;
   fs.writeFile("data.json", JSON.stringify(data, null, 2), function (err) {
     if (err) return res.send("Write file error!");
-    return res.redirect(`/instructors`)
-  })
-}
+    return res.redirect(`/instructors`);
+  });
+};

@@ -2,7 +2,7 @@
 
 {% block content %}
     <div class="card">
-        <section class="avatar"></section>
+        <section class="avatar" style="background: url({{ instructor.avatar_url }}) no-repeat center center / cover;"></section>
         <section class="details">
             <form action="/instructors?_method=PUT" method="POST">
                 <h3>Editar instrutor</h3>
@@ -15,4 +15,5 @@
             </form>
         </section>
     </div>
+    <script src="/scripts/confirmDelete.js"></script>
 {% endblock content %}

@@ -1,4 +1,28 @@
 {
+  "members": [
+    {
+      "avatar_url": "https://github.com/Raymw1.png",
+      "name": "Rayan Melino Wilbert",
+      "email": "rm-wilbert@bol.com.br",
+      "birth": 1065139200000,
+      "gender": "M",
+      "blood": "AB1",
+      "weight": "82",
+      "height": "175",
+      "id": 1
+    },
+    {
+      "avatar_url": "https://github.com/maykbrito.png",
+      "name": "Mayk",
+      "email": "mayk@bol.com.br",
+      "birth": 1065139200000,
+      "gender": "M",
+      "blood": "A1",
+      "weight": "75",
+      "height": "180",
+      "id": 2
+    }
+  ],
   "instructors": [
     {
       "id": 1,

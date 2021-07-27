@@ -1,0 +1,19 @@
+{% extends "layout.njk" %}
+
+{% block content %}
+    <div class="card">
+        <section class="avatar" style="background: url({{ member.avatar_url }}) no-repeat center center / cover;"></section>
+        <section class="details">
+            <form action="/members?_method=PUT" method="POST">
+                <h3>Editar instrutor</h3>
+                <input type="hidden" name="id" value="{{ member.id }}">
+                {% include 'members/fields.njk' %}
+            </form>
+            <form id="form-delete" action="/members?_method=DELETE" method="POST">
+                <input type="hidden" name="id" value="{{ member.id }}">
+                <button type="submit">Deletar</button>
+            </form>
+        </section>
+    </div>
+    <script src="/scripts/confirmDelete.js"></script>
+{% endblock content %}

@@ -146,7 +146,7 @@ section.avatar {
 
 
 /* ============== FORM ============== */
-input {
+input, select {
     width: 100%;
     outline: none;
     color: #555;
@@ -215,6 +215,12 @@ button:hover, .button:hover {
 .card.table-container {
     display: block;
     padding: 40px;
+}
+
+.table-container .button.new-instructor, .table-container .button.new-member {
+    display: inline-block;
+    width: initial;
+    margin-bottom: 16px;
 }
 
 .table-container table {

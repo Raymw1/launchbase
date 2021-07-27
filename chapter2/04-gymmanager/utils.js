@@ -16,6 +16,25 @@ module.exports = {
     const year = date.getUTCFullYear();
     const month = `0${date.getUTCMonth() + 1}`.slice(-2);
     const day = `0${date.getUTCDate()}`.slice(-2);
-    return `${year}-${month}-${day}`;
-  }
+    return {
+      day,
+      month,
+      year,
+      birthday: `${day}/${month}`,
+      iso: `${year}-${month}-${day}`,
+    };
+  },
+  parseBlood(blood) {
+    const bloods = {
+      A1: "A+",
+      A0: "A+",
+      B1: "B+",
+      B0: "B-",
+      AB1: "AB+",
+      AB0: "AB-",
+      O1: "O+",
+      O0: "O-",
+    };
+    return bloods[blood];
+  },
 };

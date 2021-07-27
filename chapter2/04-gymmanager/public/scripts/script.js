@@ -1,17 +1,10 @@
-const modalOverlay = document.querySelector(".modal-overlay");
-const cards = document.querySelectorAll(".card");
+const currentPage = location.pathname;  // Get routes
+const menuItems = document.querySelectorAll("header .links a");
 
-cards.forEach((card) => {
-  card.addEventListener("click", () => {
-    const videoId = card.getAttribute("id");
-    // modalOverlay.querySelector("iframe").src = `https://www.youtube.com/embed/${videoId}`;
-    // modalOverlay.classList.add("active");
-    window.location.href = `/video?id=${videoId}`;
-  });
-});
-
-// document.querySelector(".modal-overlay a.close-modal").addEventListener("click", () => {
-//     modalOverlay.querySelector("iframe").src = '';
-//     modalOverlay.classList.remove("active");
-// });
-
+menuItems.forEach(menuItem => {
+  if (currentPage.includes(menuItem.getAttribute("href"))) {
+    menuItem.classList.add("active");
+  } else {
+    menuItem.classList.remove("active");
+  }
+})
