@@ -1,6 +1,6 @@
 const fs = require("fs");
 const data = require("../model/data.json");
-const { parseToArray, verifyForm } = require("./utils/utils");
+const { parseToArray, verifyForm } = require("../utils/utils");
 
 exports.index = function (req, res) {
   return res.render("admin/index", { recipes: data.recipes });
