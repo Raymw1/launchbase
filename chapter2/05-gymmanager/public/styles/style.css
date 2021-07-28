@@ -1,0 +1,278 @@
+:root {
+    --primary-color: #7159C1;
+    --secondary-color: #F7DF1E;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    border: none;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: var(--primary-color);
+    font-family: "Roboto", sans-serif;
+}
+
+
+/* ============== HEADER ============== */
+header {
+    background-color: #fff;
+    width: 100%;
+    padding: 32px;
+    text-align: center;
+}
+
+.links {
+    font-size: 22px;
+}
+
+.links a {
+    text-decoration: none;
+    color: #777;
+    position: relative;
+}
+
+.links a:hover {
+    color: var(--primary-color);
+}
+
+.links a::after {
+    content: '';
+    width: 0;
+    height: 2px;
+    background-color: var(--primary-color);
+    position: absolute;
+    left: 0;
+    bottom: -4px;
+}
+
+.links a:hover::after {
+    width: 100%;
+    transition: width 400ms cubic-bezier(0.97, 0.04, 0.58, 1);
+}
+
+.links a.active {
+    color: var(--primary-color);
+    font-weight: bold;
+}
+
+.links a + a {
+    margin-left: 32px;
+}
+
+
+/* ============== CARD ============== */
+.card {
+    background-color: #fff;
+    width: 800px;
+    min-height: 400px;
+    margin: 45px auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    box-shadow: 2px 2px 6px -2px rgba(0, 0, 0, 0.4);
+    animation: up 700ms ease-out;
+    /* animation-timing-function: ease-out;    SMOOTH Animation */
+    /* animation-fill-mode: forwards;  Use the properties of animation */
+    /* animation-delay: 1s; */
+    /* animation-play-state: running; */
+    /* animation-direction: reverse; */
+    /* animation-iteration-count: 3; */
+}
+
+section.avatar {
+    background: url("https://source.unsplash.com/collection/8172461/400x400") no-repeat center center / cover;
+}
+
+/* ============== ANIMATIONS ============== */
+@keyframes up {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ============== DETAILS ============== */
+.details {
+    padding: 32px;
+}
+
+
+.details .item {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    padding: 16px 0;
+}
+
+.details .item:last-child {
+    border-bottom: none;
+}
+
+.details h3, .details .item div:first-child {
+    font-size: 14px;
+    line-height: 24px;
+    color: #777;
+    letter-spacing: 0.7px;
+    font-weight: normal;
+}
+
+.details h3 {
+    text-transform: uppercase;
+    font-weight: bold;
+    color: var(--primary-color);
+}
+.details .item div:last-child {
+    color: #555;
+    font-weight: bold;
+    font-size: 18px;
+}
+
+.details .item div span {
+    padding: 8px 16px;
+    background-color: var(--secondary-color);
+    border-radius: 16px;
+    color: #777;
+    margin-right: 4px;
+    margin-top: 8px;
+    display: inline-block;
+    font-weight: bold;
+    text-transform: uppercase;
+    font-size: 12px;
+}
+
+
+/* ============== FORM ============== */
+input, select {
+    width: 100%;
+    outline: none;
+    color: #555;
+    font-weight: bold;
+    font-size: 18px;
+    margin-top: 0.5rem;
+    background-color: #f1f1f1;
+    padding: 8px 16px;
+    border-radius: 16px;
+}
+
+input[type="radio"] {
+    width: initial;
+    margin-right: 4px;
+    margin-top: 0;
+    vertical-align: middle;
+    cursor: pointer;
+}
+
+span label {
+    cursor: pointer;
+    vertical-align: middle;
+}
+
+input::placeholder {
+    font-size: 16px;
+    font-weight: normal;
+}
+
+button[type="submit"], a.button {
+    padding: 8px 32px;
+    color: #fff;
+    background-color: var(--primary-color);
+    border-radius: 4px;
+    margin-top: 32px;
+    width: 100%;
+    font-size: 16px;
+    font-weight: bold;
+    transition: filter 400ms;
+    cursor: pointer;
+}
+
+a.button {
+    display: block;
+    text-align: center;
+    text-decoration: none;
+}
+
+button:hover, .button:hover {
+    filter: brightness(90%);
+}
+
+#form-delete button {
+    margin-top: 8px;
+    background-color: lightcoral;
+    transition: 400ms;
+}
+
+#form-delete button:hover {
+    transition: 700ms;
+    background-color: red;
+}
+
+
+/* ============== INDEX INSTRUCTORS ============== */
+.card.table-container {
+    display: block;
+    padding: 40px;
+}
+
+.table-container .button.new-instructor, .table-container .button.new-member {
+    display: inline-block;
+    width: initial;
+    margin-bottom: 16px;
+}
+
+.table-container table {
+    border-spacing: 0;
+}
+
+.table-container thead tr th {
+    text-align: left;
+}
+
+td, th {
+    padding: 16px;
+    border-bottom: 1px solid #D9D9D9;
+}
+
+th {
+    text-transform: uppercase;
+    color: #777;
+    font-size: 14px;
+}
+
+tbody tr:last-child td {
+    border: none;
+}
+
+tbody tr td:first-child {
+    display: grid;
+    grid-template-columns: 64px 1fr;
+    align-items: center;
+}
+
+tbody tr td:first-child span {
+    width: 48px;
+    height: 48px;
+    background-position: center;
+    background-size: cover;
+    border-radius: 50%;
+    box-shadow: 3px 1px 6px -4px black;
+    border: 2px solid #fff;
+}
+
+tbody tr td:last-child a {
+    background-color: var(--primary-color);
+    color: #fff;
+    padding: 8px 16px;
+    text-decoration: none;
+    font-weight: bold;
+    text-transform: uppercase;
+    font-size: 12px;
+    border-radius: 4px;
+}
+
+.table-container thead th:last-child, tbody tr td:last-child {
+    text-align: center;
+}
