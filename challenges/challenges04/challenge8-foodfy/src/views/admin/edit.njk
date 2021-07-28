@@ -5,14 +5,21 @@
 {% endblock head %}
 
 {% block content %}
-        <form action="/admin/recipes" method="post">
-        <div class="recipe-create">
-            <div class="recipe-edit">
-                <h2>Editar receita</h2>
-                <button type="submit" class="button">Salvar receita</button>
+        <form action="/admin/recipes?_method=PUT" method="post">
+            <div class="recipe-create">
+                <div class="recipe-edit">
+                    <h2>Editar receita</h2>
+                    <div class="buttons">
+                        <button type="submit" class="delete-button button" form="delete-form">Deletar</button>
+                        <button type="submit" class="button">Salvar receita</button>
+                    </div>
+                </div>
             </div>
-        </div>
+            <input type="hidden" name="id" value="{{ recipe.id }}">
             {% include "admin/fields.njk" %}
+        </form>
+        <form id="delete-form" action="/admin/recipes?_method=DELETE" method="post">
+            <input type="hidden" name="id" value="{{ recipe.id }}">
         </form>
 {% endblock content %}
 

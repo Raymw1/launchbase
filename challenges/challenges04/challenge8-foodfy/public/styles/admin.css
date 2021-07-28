@@ -123,3 +123,7 @@ button {
     border: none;
     cursor: pointer;
 }
+
+.delete-button {
+    background-color: #DC4747;
+}
