@@ -6,11 +6,11 @@
             <div class="recipe-cards">
                 {% for recipe in recipes %}
                 <div class="recipe-card" id="{{ recipe.id }}">
-                    <img src="{{ recipe.image }}" alt="{{ recipe.title }}">
+                    <img src="{{ recipe.image_url }}" alt="{{ recipe.title }}">
                     <div class="recipe-card-info">
                         <p>{{ recipe.title }}</p>
                         <small>{{ recipe.author }}</small>
-                        <a href="">Visualizar</a>
+                        <a href="/admin/recipes/{{ recipe.id }}">Visualizar</a>
                     </div>
                 </div>
                 {% endfor %}
@@ -19,5 +19,4 @@
 {% endblock content %}
 
 {% block scripts %}
-    {# <script src="/scripts/script.js"></script> #}
 {% endblock scripts %}

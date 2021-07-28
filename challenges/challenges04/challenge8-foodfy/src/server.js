@@ -6,6 +6,7 @@ const server = express();
 const path = require("path");
 
 server.use(express.static("public"));
+server.use(express.urlencoded({ extended: true }));
 server.set("view engine", "njk");
 nunjucks.configure(path.join(__dirname, "views/"), {
   express: server,
