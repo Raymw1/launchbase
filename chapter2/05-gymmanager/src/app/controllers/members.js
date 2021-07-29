@@ -1,11 +1,20 @@
-const { parseAge, parseDate } = require("../../lib/utils");
+const Member = require("../models/Member");
+const { parseAge, parseDate, parseBlood } = require("../../lib/utils");
 
 module.exports = {
   index(req, res) {
-    return res.render("members/index");
+    Member.all(function (members) {
+      return res.render("members/index", { members });
+    });
   },
   show(req, res) {
-    return
+    const { id } = req.params
+    Member.find(id, function (member) {
+      if (!member) return res.send("Member not found!");
+      member.birth = parseDate(member.birth).birthday;
+      member.blood = parseBlood(member.blood);
+      return res.render(`members/show`, { member });
+    })
   },
   create(req, res) {
     return res.render("members/create");
@@ -17,10 +26,18 @@ module.exports = {
         return res.send(`Error, please insert value in ${key}`);
       }
     });
-    return
+
+    Member.create(req.body, function(id) {
+      return res.redirect(`/members/${id}`);
+    })
   },
   edit(req, res) {
-    return
+    const { id } = req.params
+    Member.find(id, function (member) {
+      if (!member) return res.send("Member not found!");
+      member.birth = parseDate(member.birth).iso;
+      return res.render(`members/edit`, { member });
+    })
   },
   put(req, res) {
     const keys = Object.keys(req.body);
@@ -29,9 +46,13 @@ module.exports = {
         return res.send(`Error, please insert value in ${key}`);
       }
     });
-    return
+    Member.update(req.body, function () {
+      return res.redirect(`/members/${req.body.id}`);
+    })
   },
   delete(req, res) {
-    return
-  }
+    Member.delete(req.body.id, function() {
+      return res.redirect("/members")
+    })
+  },
 };

@@ -1,17 +1,17 @@
 const db = require("../../config/db");
-const { parseAge, parseDate } = require("../../lib/utils");
+const { parseAge, parseDate, parseBlood } = require("../../lib/utils");
 
 module.exports = {
   all(callback) {
-    db.query("SELECT * FROM instructors ORDER BY name ASC;", function (err, results) {
+    db.query("SELECT * FROM members ORDER BY name ASC;", function (err, results) {
       if (err) throw `Database error! ${err}`;
       callback(results.rows);
     });
   },
   create(data, callback) {
     const query = `
-    INSERT INTO instructors ( name, avatar_url, gender, services, birth, created_at) VALUES (
-      $1, $2, $3, $4, $5, $6
+    INSERT INTO members ( name, avatar_url, gender, email, birth, blood, weight, height) VALUES (
+      $1, $2, $3, $4, $5, $6, $7, $8
     ) RETURNING id;
   `;
 
@@ -19,9 +19,11 @@ module.exports = {
       data.name,
       data.avatar_url,
       data.gender,
-      data.services,
+      data.email,
       parseDate(data.birth).iso,
-      parseDate(Date.now()).iso,
+      data.blood,
+      data.weight,
+      data.height
     ];
 
     db.query(query, values, function (err, results) {
@@ -31,7 +33,7 @@ module.exports = {
   },
   find(id, callback) {
     db.query(
-      `SELECT * FROM instructors WHERE id = ${id}`,
+      `SELECT * FROM members WHERE id = ${id}`,
       function (err, results) {
         if (err) throw `Database error! ${err}`;
         callback(results.rows[0]);
@@ -40,13 +42,16 @@ module.exports = {
   },
   update(data, callback) {
     const query = `
-    UPDATE instructors SET 
+    UPDATE members SET 
       avatar_url=($1),
       name=($2),
       birth=($3),
       gender=($4),
-      services=($5)
-    WHERE id = $6
+      email=($5),
+      blood=($6),
+      weight=($7),
+      height=($8)
+    WHERE id = $9
     `;
 
     const values = [
@@ -54,7 +59,10 @@ module.exports = {
       data.name,
       parseDate(data.birth).iso,
       data.gender,
-      data.services,
+      data.email,
+      data.blood,
+      data.weight,
+      data.height,
       data.id,
     ];
 
@@ -64,7 +72,7 @@ module.exports = {
     });
   },
   delete(id, callback) {
-    db.query(`DELETE FROM instructors WHERE id = ${id}`, function (err) {
+    db.query(`DELETE FROM members WHERE id = ${id}`, function (err) {
       if (err) throw `Database error! ${err}`;
       callback();
     })
