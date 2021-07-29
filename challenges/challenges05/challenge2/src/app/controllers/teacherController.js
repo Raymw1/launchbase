@@ -1,7 +1,7 @@
 const {
-  parseSubjects_taught,
-  parseEducation_level,
-  parseClass_type,
+  parseSubjectsTaught,
+  parseEducationLevel,
+  parseClassType,
   parseAge,
   parseDate,
 } = require("../../lib/utils");
@@ -18,9 +18,9 @@ module.exports = {
     const { id } = req.params;
     Teacher.find(id, function (teacher) {
       if (!teacher) return res.send("Teacher not found!");
-      teacher.subjects_taught= parseSubjects_taught(teacher.subjects_taught);
-      teacher.education_level= parseEducation_level(education_levels, teacher.education_level);
-      teacher.class_type = parseClass_type(teacher.class_type);
+      teacher.subjects_taught= parseSubjectsTaught(teacher.subjects_taught);
+      teacher.education_level= parseEducationLevel(education_levels, teacher.education_level);
+      teacher.class_type = parseClassType(teacher.class_type);
       teacher.age = parseAge(teacher.birth_date);
       teacher.created_at = Intl.DateTimeFormat("pt-BR").format(teacher.created_at)
       return res.render(`teachers/show`, { teacher })

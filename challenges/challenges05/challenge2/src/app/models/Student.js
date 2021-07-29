@@ -10,7 +10,7 @@ const {
 module.exports = {
   all(callback) {
     db.query(
-      "SELECT * FROM teachers ORDER BY name ASC;",
+      "SELECT * FROM students ORDER BY name ASC;",
       function (err, results) {
         if (err) throw `Database error! ${err}`;
         callback(results.rows);
@@ -19,18 +19,17 @@ module.exports = {
   },
   create(data, callback) {
     const query = `
-    INSERT INTO teachers ( avatar_url, name, birth_date, education_level, class_type, subjects_taught, created_at)
-    VALUES ( $1, $2, $3, $4, $5, $6, $7) RETURNING id;
+    INSERT INTO students ( avatar_url, name, email, birth_date, education_level, weektime)
+    VALUES ( $1, $2, $3, $4, $5, $6) RETURNING id;
     `;
 
     const values = [
       data.avatar_url,
       data.name,
+      data.email,
       parseDate(data.birth_date).iso,
       data.education_level,
-      data.class_type,
-      data.subjects_taught,
-      parseDate(Date.now()).iso,
+      data.weektime
     ];
 
     db.query(query, values, function (err, results) {
@@ -40,7 +39,7 @@ module.exports = {
   },
   find(id, callback) {
     db.query(
-      `SELECT * FROM teachers WHERE id = ${id}`,
+      `SELECT * FROM students WHERE id = ${id}`,
       function (err, results) {
         if (err) throw `Database error! ${err}`;
         callback(results.rows[0]);
@@ -49,24 +48,24 @@ module.exports = {
   },
   update(data, callback) {
     const query = `
-    UPDATE teachers SET
+    UPDATE students SET
       avatar_url=($1),
       name=($2),
-      birth_date=($3),
-      education_level=($4),
-      class_type=($5),
-      subjects_taught=($6)
+      email=($3),
+      birth_date=($4),
+      education_level=($5),
+      weektime=($6)
     WHERE id = $7;
     `;
 
     const values = [
       data.avatar_url,
       data.name,
+      data.email,
       parseDate(data.birth_date).iso,
       data.education_level,
-      data.class_type,
-      data.subjects_taught,
-      data.id,
+      data.weektime,
+      data.id
     ];
 
     db.query(query, values, function (err, results) {
@@ -75,7 +74,7 @@ module.exports = {
     });
   },
   delete(id, callback) {
-    db.query(`DELETE FROM teachers WHERE id = ${id}`, function (err, results) {
+    db.query(`DELETE FROM students WHERE id = ${id}`, function (err, results) {
       if (err) throw `Database error! ${err}`;
       callback();
     });

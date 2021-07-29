@@ -10,7 +10,7 @@ module.exports = {
     }
     return age;
   },
-  parseEducation_level(education_levels, education_level) {
+  parseEducationLevel(education_levels, education_level) {
     return education_levels[education_level] || "Informação não presente!";
 
     // if (education_level == "highschool") return `Ensino Médio Completo`;
@@ -18,11 +18,11 @@ module.exports = {
     // if (education_level == "master") return `Mestrado`;
     // if (education_level == "doctor") return `Doutorado`;
   },
-  parseClass_type(class_type) {
+  parseClassType(class_type) {
     if (class_type == "presential") return `Presencial`;
     if (class_type == "remote") return `À distância`;
   },
-  parseSubjects_taught(subjects_taught) {
+  parseSubjectsTaught(subjects_taught) {
     subjects_taught = subjects_taught.split(",");
     return subjects_taught;
   },

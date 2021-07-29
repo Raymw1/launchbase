@@ -1,34 +1,31 @@
 const {
-  parseSubjects_taught,
-  parseEducation_level,
-  parseClass_type,
+  parseSubjectsTaught,
+  parseEducationLevel,
+  parseClassType,
   parseAge,
   parseDate,
 } = require("../../lib/utils");
 const education_levels = require("../../lib/education_levels").student;
+const Student = require("../models/Student");
 
 module.exports = {
   index(req, res) {
-    const students = data.students.map((student) => {
-      return {
-        ...student,
-        education_level: education_levels[student.education_level],
-      };
-    });
-    return res.render("students/index", { students });
+    Student.all(function (students) {
+      students.forEach(student => {
+        student.education_level = parseEducationLevel(education_levels, student.education_level);
+      })
+      return res.render("students/index", { students });
+    })
   },
   show(req, res) {
     const { id } = req.params;
-    let foundStudent = data.students.find((student) => student.id == id);
-    if (!foundStudent) return res.send("Student not found!");
-
-    const student = {
-      ...foundStudent,
-      education_level: parseEducation_level(education_levels, foundStudent.education_level),
-      age: parseAge(foundStudent.birth_date),
-      birth_date: parseDate(foundStudent.birth_date).birthday,
-    };
-    return res.render("students/show", { student });
+    Student.find(id, function (student) {
+      if (!student) return res.send("Student not found!");
+      student.education_level= parseEducationLevel(education_levels, student.education_level);
+      student.age = parseAge(student.birth_date);
+      student.birth_date = parseDate(student.birth_date).birthday;
+      return res.render(`students/show`, { student })
+    })
   },
   create(req, res) {
     return res.render("students/create", { education_levels });
@@ -39,71 +36,31 @@ module.exports = {
       if (req.body[key].trim() === "")
         return res.send(`Error, please insert value in ${key}`);
     });
-
-    const lastId = data.students[data.students.length - 1]?.id;
-    const id = lastId + 1 || 1;
-
-    data.students.push({
-      id,
-      ...req.body,
-      birth_date: Date.parse(req.body.birth_date),
+    Student.create(req.body, function(id) {
+      return res.redirect(`/students/${id}`);
     });
-    fs.writeFile(
-      "src/model/data.json",
-      JSON.stringify(data, null, 2),
-      function (err) {
-        if (err) return res.send("Write file error!");
-      }
-    );
-    return res.redirect("/students");
   },
   edit(req, res) {
     const { id } = req.params;
-    let foundStudent = data.students.find((student) => student.id == id);
-    if (!foundStudent) return res.send("Student not found!");
-    const student = {
-      ...foundStudent,
-      birth_date: parseDate(foundStudent.birth_date).iso,
-    };
-    return res.render("students/edit", { student, education_levels });
+    Student.find(id, function (student) {
+      if (!student) return res.send("Student not found!");
+      student.birth_date = parseDate(student.birth_date).iso;
+      return res.render(`students/edit`, { student, education_levels })
+    })
   },
   put(req, res) {
-    const { id } = req.body;
-    let index = 0;
-    const foundStudent = data.students.find((student, foundIndex) => {
-      if (student.id == id) {
-        index = foundIndex;
-        return true;
-      }
+    const keys = Object.keys(req.body);
+    keys.forEach((key) => {
+      if (req.body[key].trim() === "")
+        return res.send(`Error, please insert value in ${key}`);
     });
-    if (!foundStudent) return res.send("Student not found!");
-    const student = {
-      ...foundStudent,
-      ...req.body,
-      id: Number(req.body.id),
-      birth_date: Date.parse(req.body.birth_date),
-    };
-    data.students[index] = student;
-    fs.writeFile(
-      "src/model/data.json",
-      JSON.stringify(data, null, 2),
-      function (err) {
-        if (err) return res.send("Write file error");
-        return res.redirect(`/students/${id}`);
-      }
-    );
+    Student.update(req.body, function () {
+      return res.redirect(`/students/${req.body.id}`);
+    })
   },
   delete(req, res) {
-    const { id } = req.body;
-    const students = data.students.filter((student) => student.id != id);
-    data.students = students;
-    fs.writeFile(
-      "src/model/data.json",
-      JSON.stringify(data, null, 2),
-      function (err) {
-        if (err) return res.send("Write file error");
-        return res.redirect(`/students`);
-      }
-    );
-  },
+    Student.delete(req.body.id, function () {
+      return res.redirect("/students");
+    })
+  }
 };
