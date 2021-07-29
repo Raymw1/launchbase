@@ -1,0 +1,27 @@
+{% extends 'layout.njk' %}
+{% block content %}
+    <div class="card table-container">
+        <a href="/teachers/create" class="button">Novo professor</a>
+        <table>
+            <thead>
+                <tr>
+                    <th>Teacher</th>
+                    <th>Acompanhamento</th>
+                    <th>Ação</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for teacher in teachers %}
+                <tr>
+                    <td><span style="background-image: url({{ teacher.avatar_url }});"></span>{{ teacher.name }}</td>
+                    {% set subjects_taught = teacher.subjects_taught.split(',') %}
+                    <td>{% for service in subjects_taught %}
+                        <span class="service">{{ service }}</span>
+                    {% endfor %}</td>
+                    <td><a href="/teachers/{{ teacher.id }}" class="button">Visualizar</a></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock content %}
