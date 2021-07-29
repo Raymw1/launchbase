@@ -84,12 +84,5 @@ ul li {
     opacity: 0;
     visibility: hidden;
     height: 0;
-}
-
-.last-hidden.hidden {
-    margin-bottom: 68px;
-}
-
-.additional-info p.hidden {
-    margin-bottom: 60px;
+    overflow: hidden;
 }
