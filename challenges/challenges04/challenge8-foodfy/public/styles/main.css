@@ -23,6 +23,7 @@ body {
 }
 
 .container {
+    flex: 1;
     margin: 0 auto;
     color: var(--primary-color);
     width: 90%;
