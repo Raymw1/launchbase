@@ -10,8 +10,8 @@ module.exports = {
   },
   create(data, callback) {
     const query = `
-    INSERT INTO members ( name, avatar_url, gender, email, birth, blood, weight, height) VALUES (
-      $1, $2, $3, $4, $5, $6, $7, $8
+    INSERT INTO members ( name, avatar_url, gender, email, birth, blood, weight, height, instructor_id) VALUES (
+      $1, $2, $3, $4, $5, $6, $7, $8, $9
     ) RETURNING id;
   `;
 
@@ -23,7 +23,8 @@ module.exports = {
       parseDate(data.birth).iso,
       data.blood,
       data.weight,
-      data.height
+      data.height,
+      data.instructor
     ];
 
     db.query(query, values, function (err, results) {
@@ -33,7 +34,9 @@ module.exports = {
   },
   find(id, callback) {
     db.query(
-      `SELECT * FROM members WHERE id = ${id}`,
+      `SELECT members.*, instructors.name AS instructor_name FROM members
+        LEFT JOIN instructors ON (members.instructor_id = instructors.id)
+        WHERE members.id = ${id}`,
       function (err, results) {
         if (err) throw `Database error! ${err}`;
         callback(results.rows[0]);
@@ -50,8 +53,9 @@ module.exports = {
       email=($5),
       blood=($6),
       weight=($7),
-      height=($8)
-    WHERE id = $9
+      height=($8),
+      instructor_id=($9)
+    WHERE id = $10
     `;
 
     const values = [
@@ -63,6 +67,7 @@ module.exports = {
       data.blood,
       data.weight,
       data.height,
+      data.instructor,
       data.id,
     ];
 
@@ -76,5 +81,11 @@ module.exports = {
       if (err) throw `Database error! ${err}`;
       callback();
     })
+  },
+  instructorsSelectOptions(callback) {
+    db.query(`SELECT id, name FROM instructors;`, function (err, results) {
+      if (err) throw `Read database error! ${err}`;
+      callback(results.rows);
+    });
   }
 };

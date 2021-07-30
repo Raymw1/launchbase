@@ -39,6 +39,7 @@
     <div>Tipo sanguíneo</div>
     <div>
         <select name="blood" id="blood">
+            <option value="" selected disabled>Selecione uma opção</option>
             <option value="A1" 
                 {% if member.blood == "A1" %}selected{% endif %}>A+
             </option>
@@ -76,6 +77,19 @@
     <div>Altura (cm)</div>
     <div>
         <input type="number" name="height" value="{{ member.height }}">
+    </div>
+</div>
+<div class="item">
+    <div>Instructor</div>
+    <div>
+        <select name="instructor" id="instructor">
+            <option value="" selected disabled>Selecione uma opção</option>
+            {% for instructor in instructors %}
+            <option value="{{ instructor.id }}"
+                {% if member.instructor_id == instructor.id %}selected{% endif %}>{{ instructor.name }}
+            </option>
+            {% endfor %}
+        </select>
     </div>
 </div>
 <button type="submit">Salvar</button>

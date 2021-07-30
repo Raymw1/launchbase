@@ -17,7 +17,9 @@ module.exports = {
     })
   },
   create(req, res) {
-    return res.render("members/create");
+    Member.instructorsSelectOptions(function (options) {
+      return res.render("members/create", { instructors: options });
+    })
   },
   post(req, res) {
     const keys = Object.keys(req.body);
@@ -36,7 +38,9 @@ module.exports = {
     Member.find(id, function (member) {
       if (!member) return res.send("Member not found!");
       member.birth = parseDate(member.birth).iso;
-      return res.render(`members/edit`, { member });
+      Member.instructorsSelectOptions(function (options) {
+        return res.render(`members/edit`, { member, instructors: options });
+      })
     })
   },
   put(req, res) {
