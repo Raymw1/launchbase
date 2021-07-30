@@ -3,9 +3,16 @@ const { parseAge, parseDate } = require("../../lib/utils");
 
 module.exports = {
   index(req, res) {
-    Instructor.all(function (instructors) {
-      return res.render("instructors/index", { instructors });
-    });
+    const { filter } = req.query;
+    if (filter) {
+      Instructor.findBy(filter, function (instructors) {
+        return res.render("instructors/index", { instructors, filter });
+      });
+    } else {
+      Instructor.all(function (instructors) {
+        return res.render("instructors/index", { instructors });
+      });
+    }
   },
   show(req, res) {
     const { id } = req.params
