@@ -1,0 +1,35 @@
+{% extends 'layout.njk' %}
+{% block content %}
+    <div class="card table-container">
+        <div class="card-head">
+            <a href="/teachers/create" class="button">Novo professor</a>
+            <form action="/teachers" method="GET">
+                <input type="text" name="filter" placeholder="Professor ou acompanhamento" value="{{ filter }}">
+                <button type="submit">Buscar</button>
+            </form>
+        </div>
+        <table>
+            <thead>
+                <tr>
+                    <th>Teacher</th>
+                    <th>Acompanhamento</th>
+                    <th>Alunos</th>
+                    <th>Ação</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for teacher in teachers %}
+                <tr>
+                    <td><span style="background-image: url({{ teacher.avatar_url }});"></span>{{ teacher.name }}</td>
+                    {% set subjects_taught = teacher.subjects_taught.split(',') %}
+                    <td>{% for service in subjects_taught %}
+                        <span class="service">{{ service }}</span>
+                    {% endfor %}</td>
+                    <td>{{ teacher.total_students }}</td>
+                    <td><a href="/teachers/{{ teacher.id }}" class="button">Visualizar</a></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock content %}
