@@ -216,7 +216,7 @@ button:hover, .button:hover {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    margin-bottom: 32px;
+    margin-bottom: 32px ;
 }
 
 .header form {
@@ -302,4 +302,36 @@ tbody tr td:last-child a {
 
 .table-container thead th:last-child, tbody tr td:last-child {
     text-align: center;
+}
+
+
+/* ============== PAGINATION ============== */
+.card.table-container {
+    display: grid;  /* ROWS      / COLUMNS */
+    grid-template: 64px 1fr 16px / 1fr;
+
+}
+
+.table-container header {
+    margin: 0;
+    align-self: center;
+}
+
+.table-container .pagination {
+    margin: 0;
+    align-self: end;
+    justify-self: center;
+}
+
+.pagination a, .pagination span {
+    color: var(--primary-color);
+    text-decoration: none;
+    font-weight: bold;
+    margin-right: 16px;
+    transition: filter 400ms;
+}
+
+.pagination a:hover {
+    filter: brightness(0.3);
+    border-bottom: 1px solid var(--primary-color);
 }
