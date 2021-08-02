@@ -274,7 +274,7 @@ tbody tr:last-child td {
 
 tbody tr td:first-child {
     display: grid;
-    grid-template-columns: 64px 1fr;
+    grid-template: 1fr / 64px 1fr;
     align-items: center;
     padding-top: 32px;
     padding-bottom: 32px;
