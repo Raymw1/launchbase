@@ -1,0 +1,13 @@
+/* ================= MAIN ================= */
+
+header {
+    margin-bottom: 50px;
+}
+
+main > h2 {
+    margin-bottom: 20px;
+}
+
+footer {
+    margin-top: auto;
+}

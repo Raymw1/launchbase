@@ -1,0 +1,50 @@
+<div class="input-group">
+    <h4>Imagem da receita</h4>
+    <input type="url" name="image_url" placeholder="http://" value="{{ recipe.image }}">
+</div>
+<div class="input-group">
+    <h4>Chef</h4>
+    <select name="chef_id" id="chef_id" required>
+        <option value="" disabled selected>Selecione um chef</option>
+        {% for chef in chefs %}
+        <option value="{{ chef.id }}" {% if recipe.chef_id == chef.id %}selected{% endif %}>
+            {{ chef.name }}
+        </option>
+        {% endfor %}
+    </select>
+</div>
+<div class="input-group">
+    <h4>Nome da receita</h4>
+    <input type="text" name="title" placeholder="" value="{{ recipe.title }}">
+</div>
+<div class="input-group">
+    <h4>Ingredientes</h4>
+    <div class="inputs">
+        {% if recipe.ingredients %}
+        {% for ingredient in recipe.ingredients %}
+        <input type="text" name="ingredients" placeholder="" value="{{ ingredient }}">
+        {% endfor %}
+        {% else %}
+        <input type="text" name="ingredients" placeholder="">
+        {% endif %}
+    </div>
+    <a class="button-text new-field">Adicionar novo ingrediente</a>
+</div>
+<div class="input-group">
+    <h4>Modo de preparo</h4>
+    <div class="inputs">
+        {% if recipe.preparation %}
+        {% for preparation in recipe.preparation %}
+        <input type="text" name="preparation" placeholder="" value="{{ preparation }}">
+        {% endfor %}
+        {% else %}
+        <input type="text" name="preparation" placeholder="">
+        {% endif %}
+    </div>
+    <a class="button-text new-field">Adicionar novo passo</a>
+</div>
+<div class="input-group">
+    <h4>Informações adicionais</h4>
+    <textarea name="information" cols="30" rows="10" >{{ recipe.information}}</textarea>
+</div>
+
