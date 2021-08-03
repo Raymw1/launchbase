@@ -83,6 +83,11 @@ header a, header h1 {
     background: #ff4444;
 }
 
+.button.delete-button.block-delete {
+    cursor: not-allowed;
+    filter: brightness(1.5);
+}
+
 /* ================= RECIPE CREATE ================= */
 form {
     margin-bottom: 50px;

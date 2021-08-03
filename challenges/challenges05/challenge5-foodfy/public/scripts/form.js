@@ -11,3 +11,7 @@ newFieldBtns.forEach(btn => {
         }
     })
 })
+
+document.querySelector("button[type=submit].block-delete").addEventListener("click", () => {
+    alert("Você não pode deletar este usuário. Ele possui receitas!");
+})
