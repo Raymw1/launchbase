@@ -17,6 +17,11 @@
                 </div>
             {% endfor %}
         </div>
+        <div class="pagination"
+        data-page="{{ pagination.page }}"
+        data-total="{{ pagination.total }}"
+        data-filter="{{ filter }}">
+        </div>
 {% endblock content %}
 
 {% block scripts %}
