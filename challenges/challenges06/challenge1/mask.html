@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Mask</title>
+    <link
+      href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <div class="container mx-auto grid w-screen h-screen">
+      <form
+        action="/action"
+        method="GET"
+        class="flex flex-col items-center justify-center"
+      >
+        <div class="input-group bg-gray-100 p-2 rounded-lg mt-4 shadow-lg">
+          <label for="percent" class="font-semibold mr-2 text-purple-700"
+            >Percent:</label
+          >
+          <input
+            type="text"
+            name="percent"
+            onkeydown="Mask.apply(this, 'formatPercent')"
+            class="rounded-lg shadow-sm px-2 py-1 focus:outline-none"
+            placeholder="0,00%"
+          />
+        </div>
+        <div class="input-group bg-gray-100 p-2 rounded-lg mt-4 shadow-lg">
+          <label for="cpf" class="font-semibold mr-2 text-purple-700"
+            >CPF:</label
+          >
+          <input
+            type="text"
+            name="cpf"
+            onkeydown="Mask.apply(this, 'formatCPF')"
+            class="rounded-lg shadow-sm px-2 py-1 focus:outline-none"
+            placeholder="XXX.XXX.XXX-XX"
+          />
+        </div>
+      </form>
+    </div>
+    <script>
+      const Mask = {
+        apply(input, func) {
+          setTimeout(() => {
+            input.value = Mask[func](input.value);
+          }, 1);
+        },
+        formatPercent(value) {
+          value = value.replace(/\D/g, "");
+          return new Intl.NumberFormat("pt-BR", {
+            style: "percent",
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 4,
+          }).format(value / 10000);
+        },
+        formatCPF(value) {
+          value = value.replace(/\D/g, "").slice(0, 11);
+          value = value.replace(/^(\d{3})(\d)/g, "$1.$2");
+          value = value.replace(/(.\d{3})(\d)/g, "$1.$2");
+          value = value.replace(/(.\d{3})(\d)/g, "$1-$2");
+          return value;
+        },
+      };
+    </script>
+  </body>
+</html>
