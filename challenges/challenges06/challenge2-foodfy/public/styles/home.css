@@ -1,0 +1,42 @@
+/* ================= CONTAINER CHEF ================= */
+.container-chef {
+    height: 366px;
+    width: 100%;
+    padding: 117px 60px;
+    background-color: #FBDFDB ;
+    border-radius: 30px;
+    display: flex;
+    align-items: center;
+    position: relative;
+}
+
+.best-recipes {
+    max-width: 320px;
+}
+
+.best-recipes h2 {
+    font-size: 32px;
+    margin-bottom: 10px;
+}
+
+.best-recipes p {
+    color: #000000;
+    opacity: 0.7;
+}
+
+.chef-image {
+    position: absolute;
+    right: 100px;
+    bottom: -3px;
+}
+
+
+/* ================= MOST VIEWED ================= */
+.most-viewed {
+    margin: 50px 0 40px;
+}
+
+.most-viewed h3 {
+    font-size: 24px;
+    margin-bottom: 20px;
+}
