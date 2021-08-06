@@ -25,7 +25,6 @@ const PhotosUpload = {
     const { uploadLimit, preview, getContainer, hasLimit } = PhotosUpload;
     if (hasLimit(uploadLimit, event)) return;
     Array.from(fileList).forEach((file) => {
-
       PhotosUpload.files.push(file);
 
       const reader = new FileReader();
@@ -43,11 +42,11 @@ const PhotosUpload = {
     const { input, preview } = PhotosUpload;
     const { files: fileList } = input;
     const photosDiv = [];
-    preview.childNodes.forEach(item => {
+    preview.childNodes.forEach((item) => {
       if (item.classList?.value == "photo") {
-        photosDiv.push(item)
+        photosDiv.push(item);
       }
-    })
+    });
     const totalPhotos = fileList.length + photosDiv.length;
     if (totalPhotos > uploadLimit) {
       alert(`Envie no máximo ${uploadLimit} fotos!`);
@@ -57,7 +56,8 @@ const PhotosUpload = {
     return 0;
   },
   getAllFiles() {
-    const dataTransfer = new ClipboardEvent("").clipboardData || new DataTransfer();
+    const dataTransfer =
+      new ClipboardEvent("").clipboardData || new DataTransfer();
     PhotosUpload.files.forEach((file) => dataTransfer.items.add(file));
     return dataTransfer.files;
   },
@@ -66,7 +66,7 @@ const PhotosUpload = {
     div.classList.add("photo");
     div.onclick = PhotosUpload.removePhoto;
     div.appendChild(image);
-    div.appendChild(PhotosUpload.getRemoveButton())
+    div.appendChild(PhotosUpload.getRemoveButton());
     return div;
   },
   getRemoveButton() {
@@ -81,7 +81,7 @@ const PhotosUpload = {
     const index = photosArray.indexOf(photoDiv);
     PhotosUpload.files.splice(index, 1);
     PhotosUpload.input.files = PhotosUpload.getAllFiles();
-    photoDiv.remove()
+    photoDiv.remove();
   },
   removeOldPhoto(event) {
     const photoDiv = event.target.parentNode;
@@ -92,5 +92,42 @@ const PhotosUpload = {
       }
     }
     photoDiv.remove();
+  },
+};
+
+const ImageGallery = {
+  highlight: document.querySelector(".highlight img"),
+  previews: document.querySelectorAll(".gallery-preview img"),
+  setImage(event) {
+    const { target } = event;
+    const { highlight, previews } = ImageGallery;
+    previews.forEach((image) => image.classList.remove("active"));
+    target.classList.add("active");
+
+    ImageGallery.changeAttributes(highlight, target);
+    ImageGallery.changeAttributes(Lightbox.target.querySelector("img"), target);
+  },
+  changeAttributes(target, wantedTarget) {
+    target.setAttribute("src", wantedTarget.src);
+    target.setAttribute("alt", wantedTarget.alt);
   }
 };
+
+const Lightbox = {
+  target: document.querySelector(".lightbox-target"),
+  image: document.querySelector(".highlight img"),
+  closeButton: document.querySelector(".lightbox-target a.lightbox-close"),
+  open() {
+    Lightbox.target.style.opacity = 1;
+    Lightbox.target.style.top = 0;
+    Lightbox.target.style.bottom = 0;
+    Lightbox.closeButton.style.top = 0;
+    preventDefault();
+  },
+  close() {
+    Lightbox.target.style.opacity = 0;
+    Lightbox.target.style.top = "-100%";
+    Lightbox.target.style.bottom = "initial";
+    Lightbox.closeButton.style.top = "-80px";
+  }
+}

@@ -10,8 +10,7 @@ module.exports = {
     if (!product) return res.send("Product not found!");
     // IMAGES
     results = await Product.files(product.id);
-    let files = results.rows;
-    files = files.map(file => ({
+    const files = results.rows.map(file => ({
       ...file,
       src: `${req.protocol}://${req.headers.host}${file.path.replace("public", "")}`
     }))
@@ -77,13 +76,12 @@ module.exports = {
         return res.send(`Error, please insert value in ${key}`);
       }
     });
-
-    if (req.files.length != 0) {
-      const newFilesPromise = req.files.map(file => {
-        File.create({...file, product_id: req.body.id, });
-      })
-      await Promise.all(newFilesPromise)
-    }
+    
+    // if (req.files.length == 0) return res.send("Please, send at least one image!");
+    const newFilesPromise = req.files.map(file => {
+      File.create({...file, product_id: req.body.id, });
+    })
+    await Promise.all(newFilesPromise)
 
     if (req.body.removed_files) {
       const removedFiles = req.body.removed_files.split(",");
