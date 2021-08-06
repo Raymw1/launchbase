@@ -31,7 +31,17 @@
             onchange="PhotosUpload.handleFileInput(event);">
             <p>Selecione até 6 fotos</p>
         </div>
-        <div id="photos-preview"></div>
+        <div id="photos-preview">
+            {% if files %}
+            {% for file in files %}
+            <div class="photo" id="{{ file.id }}">
+                <img src="{{ file.src }}" alt="{{ file.name }}">
+                <i class="material-icons"  onclick="PhotosUpload.removeOldPhoto(event);">close</i>
+            </div>
+            {% endfor %}
+            <input type="hidden" name="removed_files">
+            {% endif %}
+        </div>
     </div>
 </div>
 
