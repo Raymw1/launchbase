@@ -1,9 +1,28 @@
-const { formatPrice } = require("../../lib/utils");
+const { formatPrice, parseDate } = require("../../lib/utils");
 const Category = require("../models/Category");
 const Product = require("../models/Product");
 const File = require("../models/File");
 
 module.exports = {
+  async show(req, res) {
+    let results = await Product.find(req.params.id);
+    const product = results.rows[0];
+    if (!product) return res.send("Product not found!");
+    // IMAGES
+    results = await Product.files(product.id);
+    let files = results.rows;
+    files = files.map(file => ({
+      ...file,
+      src: `${req.protocol}://${req.headers.host}${file.path.replace("public", "")}`
+    }))
+
+
+    product.old_price = formatPrice(product.old_price);
+    product.price = formatPrice(product.price);
+    const { day, month, hour, minutes } = parseDate(product.updated_at);
+    product.published = { day: `${day}/${month}`, hour: `${hour}h${minutes}` };
+    return res.render("products/show", { product, files });
+  },
   create(req, res) {
     Category.all()
       .then(function (results) {
@@ -47,8 +66,6 @@ module.exports = {
       ...file,
       src: `${req.protocol}://${req.headers.host}${file.path.replace("public", "")}`
     }))
-
-
     product.old_price = formatPrice(product.old_price);
     product.price = formatPrice(product.price);
     return res.render("products/edit", { categories, product, files });
@@ -80,7 +97,11 @@ module.exports = {
       const oldProduct = await Product.find(req.body.id);
       req.body.old_price = oldProduct.rows[0].price;
     }
-    // await Product.update(req.body);
-    return res.redirect(`/products/${req.body.id}/edit`);
+    await Product.update(req.body);
+    return res.redirect(`/products/${req.body.id}`);
   },
+  async delete(req, res) {
+    await Product.delete(req.body.id);
+    return res.redirect("/products");
+  }
 };

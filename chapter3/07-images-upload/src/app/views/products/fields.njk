@@ -61,7 +61,7 @@
         <input type="number" name="quantity" placeholder="Estoque disponível" value="{{ product.quantity }}">
     </div>
 </div>
-{% if product.status or product.status == 0 %}
+{% if (product.status == '1') or (product.status == 0) %}
 <div class="item">
     <div>Disponibilidade</div>
     <div>
