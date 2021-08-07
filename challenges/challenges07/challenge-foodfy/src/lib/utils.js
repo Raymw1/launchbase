@@ -5,19 +5,21 @@ module.exports = {
     }
     return variable;
   },
-  verifyForm(data, callback) {
-    const keys = Object.keys(data);
+  verifyForm(req, callback) {
+    const keys = Object.keys(req.body);
     keys.forEach((key) => {
-      if (Array.isArray(data[key])) {
-        data[key].forEach((input) => {
+      if (Array.isArray(req.body[key])) {
+        req.body[key].forEach((input) => {
           if (input.trim() === "") {
             callback();
           }
         });
-      } else if (data[key].trim() === "") {
+      } else if (req.body[key].trim() === "" ) {
         callback();
       }
     });
+    if (req.files?.length == 0)
+      callback();
   },
   parseDate(timestamp) {
     const date = new Date(timestamp);
