@@ -1,5 +1,6 @@
 const db = require("../../config/db");
 const { parseToArray, verifyForm, parseDate } = require("../../lib/utils");
+const File = require("./File");
 
 module.exports = {
   all() {
@@ -62,15 +63,13 @@ module.exports = {
     const query = `
     UPDATE recipes SET 
       chef_id=($1), 
-      image=($2),
-      title=($3),
-      ingredients=($4),
-      preparation=($5),
-      information=($6) 
-    WHERE id = $7;`;
+      title=($2),
+      ingredients=($3),
+      preparation=($4),
+      information=($5) 
+    WHERE id = $6;`;
     const values = [
       data.chef_id,
-      data.image_url,
       data.title,
       parseToArray(data.ingredients),
       parseToArray(data.preparation),
@@ -79,7 +78,20 @@ module.exports = {
     ];
     return db.query(query, values);
   },
-  delete(id) {
+  async delete(id) {
+    const files = (await db.query(`SELECT file_id FROM recipe_files WHERE recipe_id = $1;`, [id])).rows;
+    await db.query(`DELETE FROM recipe_files WHERE recipe_id = $1`, [id]);
+    const filesPromise = files.map(async (file) => {
+      db.query(`DELETE FROM files WHERE id = $1`, [file.file_id])
+      File.delete(file.file_id);
+    });
+    await Promise.all(filesPromise);
     return db.query(`DELETE FROM recipes WHERE id = $1`, [id]);
-  }
+  },
+  files(recipe_id) {
+    const query = `SELECT files.* FROM files 
+    LEFT JOIN recipe_files ON (recipe_files.file_id = files.id)
+    WHERE recipe_files.recipe_id = $1 GROUP BY files.id`;
+    return db.query(query, [recipe_id]);
+  },
 };

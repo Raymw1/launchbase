@@ -8,18 +8,20 @@ module.exports = {
   verifyForm(req, callback) {
     const keys = Object.keys(req.body);
     keys.forEach((key) => {
-      if (Array.isArray(req.body[key])) {
-        req.body[key].forEach((input) => {
-          if (input.trim() === "") {
-            callback();
-          }
-        });
-      } else if (req.body[key].trim() === "" ) {
-        callback();
+      if (key != "removed_files" && key != "photos") {
+        if (Array.isArray(req.body[key])) {
+          req.body[key].forEach((input) => {
+            if (input.trim() === "") {
+              callback();
+            }
+          });
+        } else if (req.body[key].trim() === "") {
+          callback();
+        }
       }
     });
-    if (req.files?.length == 0)
-      callback();
+    // if (req.files?.length == 0)
+    //   callback();
   },
   parseDate(timestamp) {
     const date = new Date(timestamp);

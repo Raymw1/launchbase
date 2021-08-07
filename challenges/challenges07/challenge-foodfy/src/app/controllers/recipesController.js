@@ -38,17 +38,36 @@ module.exports = {
     if (!recipe) {
       return res.send("Recipe not found");
     }
+    await Recipe.files(req.params.id);
     const chefs = (await Recipe.chefSelectOptions()).rows;
-    return res.render("recipes/edit", { recipe, chefs });
+    let files = (await Recipe.files(req.params.id)).rows;
+    files = files.map(file => ({
+      ...file,
+      src: `${req.protocol}://${req.headers.host}${file.path.replace("public", "")}`
+    }))
+    return res.render("recipes/edit", { recipe, chefs, files });
   },
   async put(req, res) {
     let error = false;
-    verifyForm(req.body, () => {
+    verifyForm(req, () => {
       error = true;
     });
     if (error) {
       return res.send(`Erro, por favor insira todos os campos!`);
     }
+
+    const filesPromise = req.files.map((file) => {
+      File.create({ ...file, recipe_id: req.body.id });
+    });
+    await Promise.all(filesPromise);
+
+    if (req.body.removed_files) {
+      const removed_files = req.body.removed_files.split(",");
+      removed_files.pop();
+      const removedFilesPromise = removed_files.map(id => File.delete(id));
+      await Promise.all(removedFilesPromise);
+    }
+
     await Recipe.update(req.body);
     return res.redirect(`/admin/recipes/${req.body.id}`);
   },
