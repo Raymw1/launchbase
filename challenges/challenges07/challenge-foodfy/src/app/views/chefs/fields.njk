@@ -12,8 +12,8 @@
             </div>
             <div id="photos-preview">
                 {% if avatar %}
-                <div class="photo" id="{{ file.id }}">
-                    <img src="{{ file.src }}" alt="{{ file.name }}">
+                <div class="photo" id="{{ avatar.id }}">
+                    <img src="{{ avatar.src }}" alt="{{ avatar.name }}">
                     <i class="material-icons"  onclick="PhotosUpload.removeOldPhoto(event);">close</i>
                 </div>
                 <input type="hidden" name="removed_files">

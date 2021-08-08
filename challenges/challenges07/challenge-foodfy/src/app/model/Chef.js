@@ -1,5 +1,6 @@
 const db = require("../../config/db");
 const { parseDate } = require("../../lib/utils");
+const File = require("./File");
 
 module.exports = {
   all() {
@@ -21,14 +22,16 @@ module.exports = {
     const values = [data.name, file_id, parseDate(Date.now()).iso];
     return db.query(query, values);
   },
-  update(data) {
+  update(data, file_id) {
     const query = `
-    UPDATE chefs SET name=($1), avatar_url=($2) WHERE id = $3;`;
-    const values = [data.name, data.avatar_url, data.id];
+    UPDATE chefs SET name=($1), avatar=($2) WHERE id = $3;`;
+    const values = [data.name, file_id, data.id];
     return db.query(query, values);
   },
-  delete(id) {
-    return db.query(`DELETE FROM chefs WHERE id = $1`, [id]);
+  async delete(id) {
+    const avatar = (await db.query(`SELECT avatar FROM chefs WHERE id = $1;`, [id])).rows[0].avatar;
+    await db.query(`DELETE FROM chefs WHERE id = $1`, [id]);
+    return File.deleteChef(avatar);
   },
   getRecipes(id) {
     return db.query(

@@ -12,7 +12,10 @@ module.exports = {
     if (!chef) return res.send("Chef not found");
     const recipes = (await Chef.getRecipes(req.params.id)).rows;
     let image = (await Chef.getImage(chef.avatar)).rows[0];
-    image = `${req.protocol}://${req.headers.host}${image.path.replace("public", "")}`
+    image = `${req.protocol}://${req.headers.host}${image.path.replace(
+      "public",
+      ""
+    )}`;
     return res.render("chefs/show", { chef, recipes, image });
   },
   create(req, res) {
@@ -26,26 +29,52 @@ module.exports = {
     if (error) {
       return res.send(`Erro, por favor insira todos os campos!`);
     }
-    const avatar = {filename: req.files[0].filename, path: req.files[0].path};
+    const avatar = { filename: req.files[0].filename, path: req.files[0].path };
     const file_id = (await File.createChef({ ...avatar })).rows[0].id;
     const { id } = (await Chef.create(req.body, file_id)).rows[0];
-    return res.redirect(`chefs/${id}  `);
+    return res.redirect(`chefs/${id}`);
   },
   async edit(req, res) {
     let chef = (await Chef.find(req.params.id)).rows[0];
     if (!chef) return res.send("Chef not found");
     const blockDelete = chef.total_recipes > 0 ? true : false;
-    return res.render("chefs/edit", { chef, blockDelete });
+    let avatar = (await Chef.getImage(chef.avatar)).rows[0];
+    avatar = {
+      ...avatar,
+      src: `${req.protocol}://${req.headers.host}${avatar.path.replace(
+        "public",
+        ""
+      )}`,
+    };
+    return res.render("chefs/edit", { chef, blockDelete, avatar });
   },
   async put(req, res) {
     let error = false;
-    verifyForm(req.body, () => {
+    verifyForm(req, () => {
       error = true;
     });
     if (error) {
       return res.send(`Erro, por favor insira todos os campos!`);
     }
-    await Chef.update(req.body);
+
+    const avatar = {
+      filename: req.files[0]?.filename,
+      path: req.files[0]?.path,
+    };
+    file_id =
+      +(await File.createChef({ ...avatar, chef_id: req.body.id }))?.rows[0].id ||
+      +(await File.createChef({ ...avatar, chef_id: req.body.id })).rows[0].avatar;
+
+    if (req.body.removed_files) {
+      const removed_files = req.body.removed_files.split(",");
+      removed_files.pop();
+      const removedFilesPromise = removed_files.map((id) =>
+        File.deleteChef(id)
+      );
+      await Promise.all(removedFilesPromise);
+    }
+
+    await Chef.update(req.body, file_id);
     return res.redirect(`/admin/chefs/${req.body.id}`);
   },
   async delete(req, res) {
