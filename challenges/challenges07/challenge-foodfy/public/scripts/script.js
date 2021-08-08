@@ -63,7 +63,7 @@ if (pagination) {
 const PhotosUpload = {
   input: "",
   preview: document.querySelector("#photos-preview"),
-  uploadLimit: 5,
+  uploadLimit: document.querySelector(".avatar") ? 1 : 5,
   files: [],
   handleFileInput(event) {
     const { files: fileList } = event.target;

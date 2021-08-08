@@ -15,10 +15,10 @@ module.exports = {
       [id]
     );
   },
-  create(data) {
+  create(data, file_id) {
     const query = `
-    INSERT INTO chefs (name, avatar_url, created_at) VALUES ($1, $2, $3) RETURNING id;`;
-    const values = [data.name, data.avatar_url, parseDate(Date.now()).iso];
+    INSERT INTO chefs (name, avatar, created_at) VALUES ($1, $2, $3) RETURNING id;`;
+    const values = [data.name, file_id, parseDate(Date.now()).iso];
     return db.query(query, values);
   },
   update(data) {
@@ -32,8 +32,11 @@ module.exports = {
   },
   getRecipes(id) {
     return db.query(
-      `SELECT id, image, title FROM recipes WHERE chef_id = $1;`,
+      `SELECT id, title FROM recipes WHERE chef_id = $1;`,
       [id]
     );
   },
+  getImage(id) {
+    return db.query(`SELECT * FROM files WHERE id = $1`, [id]);
+  }
 };

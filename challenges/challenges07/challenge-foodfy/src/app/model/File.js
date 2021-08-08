@@ -8,6 +8,9 @@ module.exports = {
     const file_id = (await db.query(query, values)).rows[0].id;
     return db.query(`INSERT INTO recipe_files (recipe_id, file_id) VALUES ($1, $2);`, [recipe_id, file_id]);
   },
+  async createChef({filename, path}) {
+    return db.query(`INSERT INTO files (name, path) VALUES ($1, $2) RETURNING id;`, [filename, path]);
+  },
   async delete(id) {
     try {
       const pathFile = (await db.query("SELECT path FROM files WHERE id = $1", [id])).rows[0]?.path;

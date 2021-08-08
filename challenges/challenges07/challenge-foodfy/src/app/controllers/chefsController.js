@@ -1,5 +1,5 @@
-const Recipe = require("../model/Recipe");
 const Chef = require("../model/Chef");
+const File = require("../model/File");
 const { parseToArray, verifyForm } = require("../../lib/utils");
 
 module.exports = {
@@ -8,25 +8,28 @@ module.exports = {
     return res.render("chefs/index", { chefs });
   },
   async show(req, res) {
-    let chef = (await Chef.find(req.params.id)).rows[0];
+    const chef = (await Chef.find(req.params.id)).rows[0];
     if (!chef) return res.send("Chef not found");
-    let recipes = (await Chef.getRecipes(req.params.id)).rows;
-    return res.render("chefs/show", { chef, recipes });
+    const recipes = (await Chef.getRecipes(req.params.id)).rows;
+    let image = (await Chef.getImage(chef.avatar)).rows[0];
+    image = `${req.protocol}://${req.headers.host}${image.path.replace("public", "")}`
+    return res.render("chefs/show", { chef, recipes, image });
   },
   create(req, res) {
     return res.render("chefs/create");
   },
   async post(req, res) {
     let error = false;
-    verifyForm(req.body, () => {
+    verifyForm(req, () => {
       error = true;
     });
     if (error) {
       return res.send(`Erro, por favor insira todos os campos!`);
     }
-    await Chef.create(req.body);
-    const { id } = (await Chef.create(req.body)).rows[0];
-    return res.redirect(`chefs/${id}`);
+    const avatar = {filename: req.files[0].filename, path: req.files[0].path};
+    const file_id = (await File.createChef({ ...avatar })).rows[0].id;
+    const { id } = (await Chef.create(req.body, file_id)).rows[0];
+    return res.redirect(`chefs/${id}  `);
   },
   async edit(req, res) {
     let chef = (await Chef.find(req.params.id)).rows[0];

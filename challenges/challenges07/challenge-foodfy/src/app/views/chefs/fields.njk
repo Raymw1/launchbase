@@ -4,5 +4,21 @@
 </div>
 <div class="input-group">
     <h4>Avatar</h4>
-    <input type="url" name="avatar_url" placeholder="http://" value="{{ chef.avatar_url }}">
+    <div class="photos">
+        <div class="avatar">
+            <div class="avatar-upload">
+                <input type="file" name="avatar" id="avatar-input" accept="image/*" onchange="PhotosUpload.handleFileInput(event);">
+                <div class="button">Enviar avatar</div>
+            </div>
+            <div id="photos-preview">
+                {% if avatar %}
+                <div class="photo" id="{{ file.id }}">
+                    <img src="{{ file.src }}" alt="{{ file.name }}">
+                    <i class="material-icons"  onclick="PhotosUpload.removeOldPhoto(event);">close</i>
+                </div>
+                <input type="hidden" name="removed_files">
+                {% endif %}
+            </div>
+        </div>
+    </div>
 </div>
