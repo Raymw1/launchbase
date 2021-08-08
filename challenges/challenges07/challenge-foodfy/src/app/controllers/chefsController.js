@@ -27,10 +27,7 @@ module.exports = {
       "public",
       ""
     )}`;
-
-
     let allRecipes = (await Chef.getRecipes(req.params.id)).rows;
-    console.log(allRecipes);
     let ids = [];
     let canCreateId = true;
     let recipes = [];
@@ -54,7 +51,6 @@ module.exports = {
         });
       }
     });
-    // console.log(recipes, ids);
     return res.render("chefs/show", { chef, recipes, image });
   },
   create(req, res) {
