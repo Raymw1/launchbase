@@ -5,6 +5,15 @@ const { parseToArray, verifyForm } = require("../../lib/utils");
 module.exports = {
   async index(req, res) {
     let chefs = (await Chef.all()).rows;
+    async function getChefImage(chef) {
+      const path = (await Chef.getImage(chef.avatar)).rows[0].path.replace("public", "");
+      const image = `${req.protocol}://${req.headers.host}${path}`;
+      return {
+          ...chef,
+          image
+      }
+    }
+    chefs = await Promise.all(chefs.map(chef => getChefImage(chef)))
     return res.render("chefs/index", { chefs });
   },
   async show(req, res) {
