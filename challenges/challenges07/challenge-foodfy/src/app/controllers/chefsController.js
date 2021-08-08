@@ -6,25 +6,55 @@ module.exports = {
   async index(req, res) {
     let chefs = (await Chef.all()).rows;
     async function getChefImage(chef) {
-      const path = (await Chef.getImage(chef.avatar)).rows[0].path.replace("public", "");
+      const path = (await Chef.getImage(chef.avatar)).rows[0].path.replace(
+        "public",
+        ""
+      );
       const image = `${req.protocol}://${req.headers.host}${path}`;
       return {
-          ...chef,
-          image
-      }
+        ...chef,
+        image,
+      };
     }
-    chefs = await Promise.all(chefs.map(chef => getChefImage(chef)))
+    chefs = await Promise.all(chefs.map((chef) => getChefImage(chef)));
     return res.render("chefs/index", { chefs });
   },
   async show(req, res) {
     const chef = (await Chef.find(req.params.id)).rows[0];
     if (!chef) return res.send("Chef not found");
-    const recipes = (await Chef.getRecipes(req.params.id)).rows;
     let image = (await Chef.getImage(chef.avatar)).rows[0];
     image = `${req.protocol}://${req.headers.host}${image.path.replace(
       "public",
       ""
     )}`;
+
+
+    let allRecipes = (await Chef.getRecipes(req.params.id)).rows;
+    console.log(allRecipes);
+    let ids = [];
+    let canCreateId = true;
+    let recipes = [];
+    allRecipes.map((recipe) => {
+      for (let id of ids) {
+        if ((id == recipe.id)) {
+          canCreateId = false;
+          break;
+        } else {
+          canCreateId = true;
+        }
+      }
+      if (canCreateId) {
+        ids.push(recipe.id);
+        recipes.push({
+          ...recipe,
+          image: `${req.protocol}://${req.headers.host}${recipe.image.replace(
+            "public",
+            ""
+          )}`,
+        });
+      }
+    });
+    // console.log(recipes, ids);
     return res.render("chefs/show", { chef, recipes, image });
   },
   create(req, res) {
@@ -71,8 +101,10 @@ module.exports = {
       path: req.files[0]?.path,
     };
     file_id =
-      +(await File.createChef({ ...avatar, chef_id: req.body.id }))?.rows[0].id ||
-      +(await File.createChef({ ...avatar, chef_id: req.body.id })).rows[0].avatar;
+      +(await File.createChef({ ...avatar, chef_id: req.body.id }))?.rows[0]
+        .id ||
+      +(await File.createChef({ ...avatar, chef_id: req.body.id })).rows[0]
+        .avatar;
 
     if (req.body.removed_files) {
       const removed_files = req.body.removed_files.split(",");

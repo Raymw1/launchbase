@@ -10,9 +10,10 @@ module.exports = {
   },
   find(id) {
     return db.query(
-      `SELECT chefs.*, count(recipes) AS total_recipes FROM chefs
+      `SELECT chefs.*, count(recipes) AS total_recipes, files.path AS image FROM chefs
     LEFT JOIN recipes ON(recipes.chef_id = chefs.id)
-    WHERE chefs.id = $1 GROUP BY chefs.id;`,
+    RIGHT JOIN files ON(chefs.avatar = files.id)
+    WHERE chefs.id = $1 GROUP BY chefs.id, files.path;`,
       [id]
     );
   },
@@ -35,7 +36,11 @@ module.exports = {
   },
   getRecipes(id) {
     return db.query(
-      `SELECT id, title FROM recipes WHERE chef_id = $1;`,
+      `SELECT recipes.id, recipes.title, (SELECT path FROM files WHERE id = recipe_files.file_id) AS image
+      FROM recipes 
+      INNER JOIN recipe_files 
+      ON (recipes.id = recipe_files.recipe_id)
+      WHERE chef_id = $1 GROUP BY recipes.id, recipe_files.file_id`,
       [id]
     );
   },
