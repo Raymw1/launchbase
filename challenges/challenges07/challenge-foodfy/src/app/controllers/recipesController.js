@@ -4,7 +4,16 @@ const { parseToArray, verifyForm } = require("../../lib/utils");
 
 module.exports = {
   async index(req, res) {
-    let recipes = (await Recipe.all()).rows;
+    let recipeRows = (await Recipe.all()).rows;
+    async function getRecipeImage(recipe) {
+      const path = (await Recipe.getImage(recipe.id)).replace("public", "");
+      const image = `${req.protocol}://${req.headers.host}${path}`;
+      return {
+          ...recipe,
+          image
+      }
+    }
+    const recipes = await Promise.all(recipeRows.map(recipe => getRecipeImage(recipe)))
     return res.render("recipes/index", { recipes });
   },
   async show(req, res) {
@@ -12,7 +21,12 @@ module.exports = {
     if (!recipe) {
       return res.send("Recipe not found");
     }
-    return res.render("recipes/show", { recipe });
+    let images = (await Recipe.files(req.params.id)).rows;
+    images = images.map(image => ({
+      ...image,
+      src: `${req.protocol}://${req.headers.host}${image.path.replace("public", "")}`
+    }))
+    return res.render("recipes/show", { recipe, images });
   },
   async create(req, res) {
     let chefs = (await Recipe.chefSelectOptions()).rows;

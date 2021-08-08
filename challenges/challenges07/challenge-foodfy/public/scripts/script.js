@@ -138,3 +138,36 @@ const PhotosUpload = {
     photoDiv.remove();
   }
 };
+
+const Lightbox = {
+  target: document.querySelector(".lightbox-target"),
+  closeBtn: document.querySelector(".lightbox-close"),
+  open() {
+    Lightbox.target.style.top = 0;
+    Lightbox.target.style.opacity = 1;
+    Lightbox.closeBtn.style.top = 0;
+  },
+  close() {
+    Lightbox.target.style.top = "-100%";
+    Lightbox.target.style.opacity = 0;
+    Lightbox.closeBtn.style.top = "-80px";
+  }
+}
+
+const ImageGallery = {
+  highlight: document.querySelector(".highlight"),
+  imagesInGallery: document.querySelectorAll("#images-wrapper img"),
+  setImage(event) {
+    const wantedImage = event.target;
+    ImageGallery.changeAttributes(ImageGallery.highlight, wantedImage)
+    ImageGallery.changeAttributes(Lightbox.target.querySelector('img'), wantedImage)
+    ImageGallery.imagesInGallery.forEach(image => {
+      image.classList.remove("active");
+    })
+    wantedImage.classList.add("active")
+  },
+  changeAttributes(target, wantedTarget) {
+    target.src = wantedTarget.src;
+    target.alt = wantedTarget.alt;
+  }
+}

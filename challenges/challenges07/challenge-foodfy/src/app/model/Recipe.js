@@ -94,4 +94,9 @@ module.exports = {
     WHERE recipe_files.recipe_id = $1 GROUP BY files.id`;
     return db.query(query, [recipe_id]);
   },
+  async getImage(id) {
+    const image_id = (await db.query(`SELECT file_id FROM recipe_files WHERE recipe_id = $1;`, [id])).rows[0]?.file_id;
+    return (await db.query(`SELECT path FROM files WHERE id = $1`, [image_id])).rows[0]?.path;
+
+  }
 };

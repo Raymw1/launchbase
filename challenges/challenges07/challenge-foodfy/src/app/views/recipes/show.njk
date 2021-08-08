@@ -10,7 +10,24 @@
                 <h2>Receita: {{ recipe.title }}</h2>
                 <a href="/admin/recipes/{{ recipe.id }}/edit" class="button">Editar receita</a>
             </div>
-            <img src="{{ recipe.image }}" alt="{{ recipe.title }}">
+            <div id="images-container">
+                {% if images[0] %}
+                <img src="{{ images[0].src }}" alt="{{ images[0].name }}" class="highlight" onclick="Lightbox.open(event)">
+                {% else %}
+                <img src="http://placehold.it/940x280?text=PRODUTO SEM FOTO" alt="">
+                {% endif %}
+                <div class="lightbox-target">
+                    <img src="{{ images[0].src }}" alt="{{ images[0].name }}">
+                    <a href="#" class="lightbox-close" onclick="Lightbox.close();">
+                    <i class="material-icons">close</i>
+                    </a>
+                </div>
+                <div id="images-wrapper">
+                   {% for image in images %}
+                        <img src="{{ image.src }}" alt="{{ image.name }}" {% if loop.index0 == 0 %}class="active"{% endif %} onclick="ImageGallery.setImage(event)">
+                   {% endfor %} 
+                </div>
+            </div>
             <h1>{{ recipe.title }}</h1>
             <p>por {{ recipe.chef_name }}</p>
         </div>
