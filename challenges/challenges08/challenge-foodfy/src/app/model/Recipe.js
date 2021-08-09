@@ -5,7 +5,7 @@ const File = require("./File");
 module.exports = {
   all() {
     return db.query(`SELECT recipes.*, chefs.name as chef_name FROM recipes 
-    LEFT JOIN chefs ON (chefs.id = recipes.chef_id)`);
+    LEFT JOIN chefs ON (chefs.id = recipes.chef_id) ORDER BY recipes.created_at DESC`);
   },
   find(id) {
     return db.query(`SELECT recipes.*, chefs.name as chef_name FROM recipes 
@@ -33,7 +33,7 @@ module.exports = {
     SELECT recipes.*, chefs.name as chef_name, ${totalQuery} FROM recipes 
     LEFT JOIN chefs ON (chefs.id = recipes.chef_id)
     ${filterQuery}
-    GROUP BY recipes.id, chefs.name LIMIT $1 OFFSET $2
+    GROUP BY recipes.id, chefs.name ORDER BY recipes.updated_at DESC LIMIT $1 OFFSET $2
     ;`
     return db.query(query, [limit, offset])
   },
@@ -44,15 +44,13 @@ module.exports = {
         title, 
         ingredients, 
         preparation,
-        information,
-        created_at) VALUES ($1, $2, $3, $4, $5, $6) RETURNING id;`;
+        information) VALUES ($1, $2, $3, $4, $5) RETURNING id;`;
     const values = [
       data.chef_id,
       data.title,
       parseToArray(data.ingredients),
       parseToArray(data.preparation),
-      data.information,
-      parseDate(Date.now()).iso,
+      data.information
     ];
     return db.query(query, values)
   },
