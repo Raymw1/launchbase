@@ -538,10 +538,22 @@ form .item #photos-preview img {
     max-width: 500px;
 }
 
-.form input[name="email"],
+/* .form input[name="email"],
 .form input[name="password"],
 .form input[name="passwordRepeat"],
 .form input[name="cpf_cnpj"],
 .form input[name="cep"] {
     max-width: 60%;
+} */
+
+/* ============= VALIDATE ERRORS ============= */
+.input .error {
+    background-color: #E74C3C;
+    padding: 4px 8px;
+    margin-top: 4px;
+    border-radius: 4px;
+    color: white;
+    font-weight: bold;
+    box-shadow: 2px 2px 2px -2px rgba(0, 0, 0, 0.3);
+    display: inline-block;
 }

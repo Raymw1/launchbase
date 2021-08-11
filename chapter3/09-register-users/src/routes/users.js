@@ -1,7 +1,8 @@
 const express = require("express");
 const routes = express.Router();
-const SessionController = require("../app/controllers/SessionController")
-const UserController = require("../app/controllers/UserController")
+const SessionController = require("../app/controllers/SessionController");
+const UserController = require("../app/controllers/UserController");
+const userValidator = require("../app/validators/user");
 
 /* ============= LOGIN/LOGOUT ============= */
 // routes.get("/login", SessionController.loginForm);
@@ -10,7 +11,7 @@ const UserController = require("../app/controllers/UserController")
 
 /* ============= REGISTER ============= */
 routes.get("/register", UserController.registerForm);
-// routes.post("/register", UserController.post);
+routes.post("/register", userValidator.post, UserController.post);
 
 /* ============= RESET PASS ============= */
 // routes.get("/forgot-password", SessionController.forgotForm);
@@ -19,7 +20,7 @@ routes.get("/register", UserController.registerForm);
 // routes.post("/password-reset", SessionController.reset);
 
 // /* ============= USER ============= */
-// routes.get("/", UserController.show);
+routes.get("/", UserController.show);
 // routes.put("/", UserController.put);
 // routes.delete("/", UserController.delete);
 
