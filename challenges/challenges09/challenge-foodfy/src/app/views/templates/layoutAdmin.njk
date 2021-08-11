@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% include 'parts/styles.njk' %}
+    {% block head %}
+    <title>Foodfy</title>
+    <link rel="stylesheet" href="/styles/home.css">
+    <link rel="stylesheet" href="/styles/recipes-grid.css">
+    {% endblock head %}
+    <link rel="stylesheet" href="/styles/admin.css">
+</head>
+<body>
+    {% include 'parts/admin/header.njk' %}
+    <div class="container">
+        <main>
+            {% block content %}
+            {% endblock content %}
+        </main>
+    </div>
+    {% block scripts %}
+    {% endblock scripts %}
+    {% include 'parts/admin/scripts.njk' %}
+</body>
+</html>
