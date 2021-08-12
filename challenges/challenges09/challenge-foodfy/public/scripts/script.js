@@ -165,7 +165,7 @@ const ImageGallery = {
 
 // =========== VALIDATE ===========
 const Validate = {
-  errorBox: document.querySelector(".error-message"),
+  errorBox: document.querySelector(".message-box"),
   apply(input, func) {
     Validate.clearErrors();
     let results = Validate[func](input.value);
@@ -182,8 +182,10 @@ const Validate = {
   displayError(input, error) {
     Validate.errorBox.innerHTML = `${error}`;
     Validate.errorBox.classList.add("show");
+    Validate.errorBox.classList.add("error-message");
     setTimeout(() => {
       Validate.errorBox.classList.remove("show");
+      Validate.errorBox.classList.remove("error-message");
     }, 4000)
     input.focus();
   },

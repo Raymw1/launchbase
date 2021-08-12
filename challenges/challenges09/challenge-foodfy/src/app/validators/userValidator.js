@@ -1,6 +1,6 @@
 const { verifyForm } = require("../../lib/utils");
 module.exports = {
-  async post(req, res) {
+  async post(req, res, next) {
     let error = false;
     verifyForm(req, () => {
       error = true;
@@ -8,5 +8,6 @@ module.exports = {
     if (error) {
       return res.render("admin/users/register", { error: `Por favor, insira todos os campos!` });
     }
+    next();
   }
 }

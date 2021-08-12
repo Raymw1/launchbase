@@ -19,13 +19,3 @@
         </form>
 {% endblock content %}
 
-{% block scripts %}
-  {% if error %}
-  <script>
-    document.querySelector(".error-message").classList.add("show");
-    setInterval(() => {
-      document.querySelector(".error-message").classList.remove("show");
-    }, 4000)  
-  </script>
-  {% endif %}
-{% endblock scripts %}

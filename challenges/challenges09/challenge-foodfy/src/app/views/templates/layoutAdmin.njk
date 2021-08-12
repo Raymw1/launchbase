@@ -13,7 +13,7 @@
     <link rel="stylesheet" href="/styles/admin.css">
 </head>
 <body>
-    <div class="error-message">{{ error }}</div>
+    <div class="{{ 'error-' if error }}{{ 'success-' if success }}message message-box">{{ error or success }}</div>
     {% include 'parts/admin/header.njk' %}
     <div class="container">
         <main>
@@ -23,6 +23,14 @@
     </div>
     {% block scripts %}
     {% endblock scripts %}
+    {% if success or error %}
+        <script>
+            document.querySelector(".message-box").classList.add("show");
+            setTimeout(() => {
+            document.querySelector(".message-box").setAttribute("class", "message-box");
+            }, 4000);
+        </script>
+    {% endif %}
     {% include 'parts/admin/scripts.njk' %}
 </body>
 </html>
