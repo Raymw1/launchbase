@@ -20,8 +20,8 @@ routes.post("/register", userValidator.post, UserController.post);
 // routes.post("/password-reset", SessionController.reset);
 
 // /* ============= USER ============= */
-routes.get("/", UserController.show);
-// routes.put("/", UserController.put);
+routes.get("/", userValidator.show, UserController.show);
+routes.put("/", userValidator.update, UserController.update);
 // routes.delete("/", UserController.delete);
 
 module.exports = routes;
