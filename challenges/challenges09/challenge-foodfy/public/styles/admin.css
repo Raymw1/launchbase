@@ -199,7 +199,7 @@ form {
     margin-top: 30px;
 }
 
-input, textarea, select {
+input[type="text"], input[type="email"], textarea, select {
     width: 100%;
     border: 1px solid #DDD;
     background-color: #fff;

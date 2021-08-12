@@ -1,0 +1,31 @@
+{% extends 'templates/layoutAdmin.njk' %}
+{% block head %}
+    <title>Foodfy - Registrar</title>
+    <link rel="stylesheet" href="/styles/users.css">
+{% endblock head %}
+
+{% block content %}
+        <form action="/admin/users/register" method="post">
+        <div class="user-create">
+            <div class="user-edit">
+                <h2>Criar usuário</h2>
+                <div class="actions">
+                  <button type="submit" class="button">Salvar receita</button>
+                  <button onclick="history.back()" class="button abort">Cancelar</button>
+                </div>
+            </div>
+        </div>
+            {% include "admin/users/fields.njk" %}
+        </form>
+{% endblock content %}
+
+{% block scripts %}
+  {% if error %}
+  <script>
+    document.querySelector(".error-message").classList.add("show");
+    setInterval(() => {
+      document.querySelector(".error-message").classList.remove("show");
+    }, 4000)  
+  </script>
+  {% endif %}
+{% endblock scripts %}

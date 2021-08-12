@@ -1,0 +1,72 @@
+.grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 40px;
+  margin-bottom: 32px;
+}
+
+.grid .input-group + .input-group {
+  margin: 0;
+}
+
+.user-create {
+  margin: 55px 0 30px;
+}
+
+.user-edit {
+  text-align: initial;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 24px;
+}
+
+.user-edit .button {
+  padding: 10px 0;
+  width: 140px;
+  cursor: pointer;
+  font-size: 16px;
+  width: 140px;
+  line-height: 19px;
+  font-weight: bold;
+  text-align: center;
+  display: inline-block;
+  margin-left: 16px;
+  transition: filter 400ms;
+}
+
+.user-edit .abort {
+  background-color: #8A8A8A;
+}
+
+.user-edit .button:hover {
+  filter: brightness(1.1);
+}
+
+h4.admin {
+  display: inline-block;
+  margin-left: 8px;
+}
+
+.error-message {
+  position: fixed;
+  top: 20px;
+  right: -1000px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #DDD;
+  font-weight: bold;
+  box-shadow: 2px 2px 4px -2px #DC4747aa;
+  width: 356px;
+  height: 56px;
+  background-color: #DC4747;
+  transition: all 400ms;
+}
+
+.error-message.show {
+  right: 20px;
+}
+
+

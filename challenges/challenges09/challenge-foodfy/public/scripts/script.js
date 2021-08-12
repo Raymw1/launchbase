@@ -162,3 +162,40 @@ const ImageGallery = {
     target.alt = wantedTarget.alt;
   }
 }
+
+// =========== VALIDATE ===========
+const Validate = {
+  errorBox: document.querySelector(".error-message"),
+  apply(input, func) {
+    Validate.clearErrors();
+    let results = Validate[func](input.value);
+    input.value = results.value;
+    if (results.error) {
+      Validate.displayError(input, results.error);
+    }
+  },
+  clearErrors() {
+    if (Validate.errorBox.classList.contains("show")) {
+      Validate.errorBox.classList.remove("show");
+    }
+  },
+  displayError(input, error) {
+    Validate.errorBox.innerHTML = `${error}`;
+    Validate.errorBox.classList.add("show");
+    setTimeout(() => {
+      Validate.errorBox.classList.remove("show");
+    }, 4000)
+    input.focus();
+  },
+  isEmail(value) {
+    let error = null;
+    const mailFormat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+    if (!value.match(mailFormat)) {
+      error = "Email inválido!";
+    }
+    return {
+      error,
+      value,
+    };
+  }
+}

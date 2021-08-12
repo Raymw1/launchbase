@@ -72,7 +72,7 @@ header nav ul li a.active {
 }
 
 /* ================= FORM ================= */
-input {
+input[type="text"], input[type="email"] {
     width: 250px;
     border: 1px solid #DDD;
     background-color: #fff;

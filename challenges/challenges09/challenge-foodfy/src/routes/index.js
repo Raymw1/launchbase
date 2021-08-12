@@ -3,6 +3,7 @@ const routes = express.Router();
 const public = require("./public/index");
 const recipes = require("./admin/recipes");
 const chefs = require("./admin/chefs");
+const users = require("./admin/users");
 
 /* =================== PUBLIC =================== */
 routes.use(public);
@@ -13,6 +14,9 @@ routes.use("/admin/recipes", recipes);
 
 /* ============= CHEFS ============= */
 routes.use("/admin/chefs", chefs);
+
+/* ============= USERS ============= */
+routes.use("/admin/users", users);
 
 /* ============= ALIAS ============= */
 routes.get("/admin", function (req, res) {

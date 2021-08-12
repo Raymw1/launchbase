@@ -7,19 +7,19 @@ module.exports = {
   },
   verifyForm(req, callback) {
     const keys = Object.keys(req.body);
-    keys.forEach((key) => {
+    for (let key of keys) {
       if (key != "removed_files" && key != "photos") {
         if (Array.isArray(req.body[key])) {
-          req.body[key].forEach((input) => {
+          for (let input of req.body[key]) {
             if (input.trim() === "") {
               callback();
             }
-          });
+          }
         } else if (req.body[key].trim() === "") {
           callback();
         }
       }
-    });
+    }
     // if (req.files?.length == 0)
     //   callback();
   },

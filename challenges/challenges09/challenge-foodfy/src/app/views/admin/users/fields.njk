@@ -1,0 +1,15 @@
+<div class="grid">
+  <div class="input-group">
+      <h4>Nome</h4>
+      <input type="text" name="name" id="name" required placeholder="Digite o nome completo" value="{{ user.name }}">
+  </div>
+  <div class="input-group">
+      <h4>Email</h4>
+      <input type="email" name="email" required onblur="Validate.apply(this, 'isEmail')" placeholder="Digite o email" value="{{ user.email }}">
+  </div>
+</div>
+<div class="input-group">
+  <input type="checkbox" name="admin" id="admin">
+  <h4 class="admin"><label for="admin">Administrador</label></h4>
+</div>
+
