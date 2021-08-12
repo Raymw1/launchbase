@@ -13,7 +13,8 @@
 <div class="item">
     <div>Senha</div>
     <div class="input">
-        <input type="password" name="password" required placeholder="Escolha uma senha segura">
+        <input type="password" name="password" required 
+        placeholder="{{ 'Escolha uma senha segura' if not user.id else 'Digite sua senha para atualizar seu cadastro' }}">
     </div>
 </div>
 {% if not user.id %}

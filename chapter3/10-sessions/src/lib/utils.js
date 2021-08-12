@@ -24,4 +24,31 @@ module.exports = {
       currency: "BRL",
     }).format(price / 100);
   },
+  formatCpfCnpj(value) {
+    value = value.replace(/\D/g, "");
+
+    if (value.length > 14) {
+      value = value.slice(0, -1);
+    }
+    if (value.length > 11) {
+      value = value.replace(/(\d{2})(\d)/, "$1.$2"); // '11.222333444455'
+      value = value.replace(/(\d{3})(\d)/, "$1.$2"); // '11.222.333444455'
+      value = value.replace(/(\d{3})(\d)/, "$1/$2"); // '11.222.333/444455'
+      value = value.replace(/(\d{4})(\d)/, "$1-$2"); // '11.222.333/4444-55'
+    } else {
+      value = value.replace(/(\d{3})(\d)/, "$1.$2"); // '112.22333444'
+      value = value.replace(/(\d{3})(\d)/, "$1.$2"); // '112.223.33444'
+      value = value.replace(/(\d{3})(\d)/, "$1-$2"); // '112.223.334-44'
+    }
+    return value;
+  },
+  formatCep(value) {
+    value = value.replace(/\D/g, "");
+
+    if (value.length > 8) {
+      value = value.slice(0, -1);
+    }
+    value = value.replace(/(\d{5})(\d)/, "$1-$2"); // '11222-333'
+    return value;
+  },
 };
