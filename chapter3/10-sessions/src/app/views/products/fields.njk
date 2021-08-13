@@ -35,7 +35,7 @@
             {% if files %}
             {% for file in files %}
             <div class="photo" id="{{ file.id }}">
-                <img src="{{ file.path }}" alt="{{ file.name }}">
+                <img src="{{ file.src }}" alt="{{ file.name }}">
                 <i class="material-icons"  onclick="PhotosUpload.removeOldPhoto(event);">close</i>
             </div>
             {% endfor %}
