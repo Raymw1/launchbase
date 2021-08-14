@@ -11,6 +11,13 @@ module.exports = {
   },
   logout(req, res) {
     req.session.destroy();
+    res.clearCookie("sid");
     return res.redirect("/");
+  },
+  forgotForm(req, res) {
+    return res.render("session/forgot-password");
+  },
+  forgot(req, res) {
+    
   }
 }
