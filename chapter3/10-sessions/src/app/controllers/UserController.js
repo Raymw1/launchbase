@@ -16,7 +16,10 @@ module.exports = {
   async post(req, res) {
     const userId = await User.create(req.body);
     req.session.userId = userId;
-    return res.redirect("/users");
+    req.session.save(err => {
+      if (err) throw err;
+      return res.redirect("/users");
+    });
   },
   async update(req, res) {
     try {
