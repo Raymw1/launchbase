@@ -2,6 +2,13 @@ const { verifyForm } = require("../../lib/utils");
 const User = require("../model/User");
 
 module.exports = {
+  async show(req, res, next) {
+    const { userId: id } = req.session;
+    const user = await User.findOne({ where: { id } });
+    if (!user) return res.render("admin/users/create", { error: "Usuário não encontrado!" });
+    req.user = user;
+    next();
+  },
   async post(req, res, next) {
     const emptyFields = verifyForm(req.body);
     if (emptyFields) return res.render("admin/users/create", emptyFields);

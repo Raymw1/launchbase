@@ -4,6 +4,7 @@ const public = require("./public/index");
 const recipes = require("./admin/recipes");
 const chefs = require("./admin/chefs");
 const users = require("./admin/users");
+const profile = require("./admin/profile");
 
 /* =================== PUBLIC =================== */
 routes.use(public);
@@ -14,6 +15,9 @@ routes.use("/admin/recipes", recipes);
 
 /* ============= CHEFS ============= */
 routes.use("/admin/chefs", chefs);
+
+/* ============= PROFILE ============= */
+routes.use("/admin/profile", profile);
 
 /* ============= USERS ============= */
 routes.use("/admin/users", users);

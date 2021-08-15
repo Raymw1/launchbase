@@ -1,6 +1,6 @@
 {% extends 'templates/layoutAdmin.njk' %}
 {% block head %}
-    <title>Foodfy - Registrar</title>
+    <title>Foodfy - {{ user.name }}</title>
     <link rel="stylesheet" href="/styles/users.css">
 {% endblock head %}
 
@@ -8,14 +8,13 @@
         <form action="/admin/users/create" method="post">
         <div class="user-create">
             <div class="user-edit">
-                <h2>Criar usuário</h2>
+                <h2>Bem vindo {{ user.name }}</h2>
                 <div class="actions">
-                  <button type="submit" class="button">Salvar</button>
-                  <button onclick="history.back()" class="button abort">Cancelar</button>
+                  <button type="submit" class="button">Salvar receita</button>
                 </div>
             </div>
         </div>
-            {% include "admin/users/fields.njk" %}
+            {% include "admin/profile/fields.njk" %}
         </form>
 {% endblock content %}
 

@@ -1,8 +1,11 @@
 const express = require("express");
 const routes = express.Router();
+const { onlyUsers } = require("../../app/middlewares/session");
+const userValidator = require("../../app/validators/userValidator");
+const UserController = require("../../app/controllers/admin/UserController");
 // const chefs = require("../../app/controllers/admin/chefsController");
 
-// routes.get("/", UserController.registerForm);
+routes.get("/", onlyUsers, userValidator.show, UserController.show);
 // routes.put("/", userValidator.post, UserController.post);
 
 module.exports = routes;
