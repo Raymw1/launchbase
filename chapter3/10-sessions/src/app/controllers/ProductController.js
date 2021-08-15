@@ -41,7 +41,8 @@ module.exports = {
     });
     if (req.files.length == 0)
       return res.send("Please, send at least one image!");
-    let results = await Product.create(req.session.userId, req.body);
+    req.body.user_id = req.session.userId;
+    let results = await Product.create(req.body);
     const productId = results.rows[0].id;
 
     const filesPromise = req.files.map((file) =>
@@ -95,7 +96,8 @@ module.exports = {
       const oldProduct = await Product.find(req.body.id);
       req.body.old_price = oldProduct.rows[0].price;
     }
-    await Product.update(req.session.userId, req.body);
+    req.body.user_id = req.session.userId
+    await Product.update(req.body);
     return res.redirect(`/products/${req.body.id}`);
   },
   async delete(req, res) {

@@ -25,6 +25,6 @@ routes.post("/register", userValidator.post, UserController.post);
 // /* ============= USER ============= */
 routes.get("/", onlyUsers, userValidator.show, UserController.show);
 routes.put("/", userValidator.update, UserController.update);
-// routes.delete("/", UserController.delete);
+routes.delete("/", UserController.delete);
 
 module.exports = routes;
