@@ -15,5 +15,16 @@ module.exports = {
       if (err) throw err;
       return res.redirect("/admin/profile");
     });
+  },
+  async update(req, res) {
+    const { user } = req;
+    try {
+      const { name, email } = req.body;
+      await User.update(req.user.id, { name, email });
+      return res.render("admin/profile/index", { user: req.body, success: "Usuário atualizado com sucesso!"});
+    } catch (err) {
+      console.error(err)
+      return res.render("admin/profile/index", { user: user, success: "Erro inesperado, tente novamente!"});
+    }
   }
 }

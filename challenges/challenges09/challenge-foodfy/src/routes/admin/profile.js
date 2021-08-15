@@ -6,6 +6,6 @@ const UserController = require("../../app/controllers/admin/UserController");
 // const chefs = require("../../app/controllers/admin/chefsController");
 
 routes.get("/", onlyUsers, userValidator.show, UserController.show);
-// routes.put("/", userValidator.post, UserController.post);
+routes.put("/", onlyUsers, userValidator.update, UserController.update);
 
 module.exports = routes;
