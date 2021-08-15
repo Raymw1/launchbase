@@ -4,8 +4,8 @@ const UserController = require("../../app/controllers/admin/UserController");
 const userValidator = require("../../app/validators/userValidator");
 
 /* ============= REGISTER ============= */
-routes.get("/register", UserController.registerForm);
-routes.post("/register", userValidator.post, UserController.post);
+routes.get("/create", UserController.registerForm);
+routes.post("/create", userValidator.post, UserController.post);
 
 /* ============= LOGIN ============= */
 // routes.get("/login", SessionController.loginForm);

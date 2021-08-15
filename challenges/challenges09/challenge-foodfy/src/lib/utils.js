@@ -5,19 +5,11 @@ module.exports = {
     }
     return variable;
   },
-  verifyForm(req, callback) {
-    const keys = Object.keys(req.body);
-    for (let key of keys) {
-      if (key != "removed_files" && key != "photos") {
-        if (Array.isArray(req.body[key])) {
-          for (let input of req.body[key]) {
-            if (input.trim() === "") {
-              callback();
-            }
-          }
-        } else if (req.body[key].trim() === "") {
-          callback();
-        }
+  verifyForm(body) {
+    const keys = Object.keys(body);
+    for (key of keys) {
+      if (body[key].trim() == "") {
+        return { user: body, error: "Insira todos os valores!" };
       }
     }
     // if (req.files?.length == 0)
