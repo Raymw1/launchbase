@@ -24,7 +24,7 @@ routes.post("/logout", SessionController.logout);
 
 
 /* ============= USER ============= */
-routes.get("/", onlyAdmins, UserController.index);
+routes.get("/", onlyAdmins, UserController.list);
 // routes.put("/", UserController.put);
 // routes.delete("/", UserController.delete);
 
