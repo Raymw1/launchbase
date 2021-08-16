@@ -73,5 +73,11 @@ h4.admin {
   color: #969696;
   font-size: 16px;
   line-height: 19px;
+  transition: all 100ms;
+}
+
+.actions-form .small:hover {
+  color: #000;
+  font-weight: bold;
 }
 
