@@ -1,16 +1,20 @@
 const express = require("express");
 const routes = express.Router();
 const UserController = require("../../app/controllers/admin/UserController");
+const SessionController = require("../../app/controllers/admin/SessionController");
 const userValidator = require("../../app/validators/userValidator");
+const sessionValidator = require("../../app/validators/sessionValidator");
+const { onlyUsers, isLoggedRedirectToProfile } = require("../../app/middlewares/session");
+
 
 /* ============= REGISTER ============= */
 routes.get("/create", UserController.registerForm);
 routes.post("/create", userValidator.post, UserController.post);
 
 /* ============= LOGIN ============= */
-// routes.get("/login", SessionController.loginForm);
-// routes.post("/login", SessionController.login);
-// routes.post("/logout", SessionController.logout);
+routes.get("/login", isLoggedRedirectToProfile, SessionController.loginForm);
+routes.post("/login", sessionValidator.login, SessionController.login);
+routes.post("/logout", SessionController.logout);
 
 /* ============= RESET PASS ============= */
 // routes.get("/forgot-password", SessionController.forgotForm);
@@ -20,7 +24,7 @@ routes.post("/create", userValidator.post, UserController.post);
 
 
 /* ============= USER ============= */
-// routes.get("/", UserController.show);
+routes.get("/", UserController.show);
 // routes.put("/", UserController.put);
 // routes.delete("/", UserController.delete);
 

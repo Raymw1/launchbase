@@ -4,8 +4,15 @@
             <a href="/admin"><h1>Foodfy</h1></a>
             <nav>
                 <ul>
-                    <li><a href="/admin/recipes">Receitas</a></li>
-                    <li><a href="/admin/chefs">Chefs</a></li>
+                    <div class="links">
+                        <li><a href="/admin/recipes">Receitas</a></li>
+                        <li><a href="/admin/chefs">Chefs</a></li>
+                    </div>
+                    {% if user %}
+                    <form action="/admin/users/logout" method="POST">
+                        <button type="submit" class="logout">Sair</button>
+                    </form>
+                    {% endif %}
                 </ul>
             </nav>
         </div>

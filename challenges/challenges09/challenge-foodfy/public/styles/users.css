@@ -1,3 +1,4 @@
+/* ================= CREATE USER ================= */
 .grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
@@ -48,31 +49,29 @@ h4.admin {
   margin-left: 8px;
 }
 
-.message-box {
-  position: fixed;
-  top: 20px;
-  right: -1000px;
-  border-radius: 8px;
+/* ================= LOGIN USER ================= */
+.user-login {
+  width: 90%;
+  max-width: 500px;
+  margin: auto;
+}
+
+.actions-form {
+  margin-top: 35px;
   display: flex;
   align-items: center;
-  justify-content: center;
-  color: #DDD;
-  font-weight: bold;
-  width: 356px;
-  height: 56px;
-  transition: all 400ms;
+  justify-content: space-between;
 }
 
-.message-box.show {
-  right: 20px;
+.actions-form .other-actions {
+  display: flex;
+  align-items: center;
+  gap: 20px;
 }
 
-.error-message {
-  background-color: #DC4747;
-  box-shadow: 2px 2px 4px -2px #DC4747aa;
+.actions-form .small {
+  color: #969696;
+  font-size: 16px;
+  line-height: 19px;
 }
 
-.success-message {
-  background-color: #01B12A;
-  box-shadow: 2px 2px 4px -2px #01B12Aaa;
-}

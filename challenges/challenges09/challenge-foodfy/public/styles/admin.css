@@ -2,6 +2,7 @@ body {
     justify-content: initial;
 }
 
+/* ================= HEADER ================= */
 .header {
     background-color: #111;
     padding: 26px;
@@ -13,14 +14,40 @@ header {
     max-width: 940px;
 }
 
-header nav {
-    text-transform: uppercase;
-}
-
 header a, header h1 {
     color: #fff;
     font-weight: initial;
 }
+
+header form {
+    margin: 0;
+}
+
+header form button.logout {
+    font-size: 16px;
+    border: none;
+    background-color: transparent;
+    color: #fff;
+    text-transform: uppercase;
+}
+  
+.links {
+display: flex;
+justify-content: space-between;
+
+}
+
+.navbar {
+    width: 100%;
+    display: flex;
+    align-items: center;
+}
+
+header nav {
+    text-transform: uppercase;
+    width: 100%;
+}
+
 
 /* ================= RECIPES GRID ================= */
 .recipe-cards {
