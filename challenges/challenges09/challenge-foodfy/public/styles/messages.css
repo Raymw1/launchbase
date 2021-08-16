@@ -9,8 +9,8 @@
   justify-content: center;
   color: #DDD;
   font-weight: bold;
-  width: 356px;
-  height: 56px;
+  max-width: 500px;
+  padding: 20px 32px;
   transition: all 400ms;
 }
 

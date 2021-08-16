@@ -1,7 +1,10 @@
 const User = require("../../model/User");
 
 module.exports = {
-  async show(req, res) {
+  async index (req, res) {
+    return res.send("Ok");
+  },
+  show(req, res) {
     const { user } = req;
     return res.render("admin/profile/index", { user });
   },

@@ -4,7 +4,7 @@ const UserController = require("../../app/controllers/admin/UserController");
 const SessionController = require("../../app/controllers/admin/SessionController");
 const userValidator = require("../../app/validators/userValidator");
 const sessionValidator = require("../../app/validators/sessionValidator");
-const { onlyUsers, isLoggedRedirectToProfile } = require("../../app/middlewares/session");
+const { onlyUsers, onlyAdmins, isLoggedRedirectToProfile } = require("../../app/middlewares/session");
 
 
 /* ============= REGISTER ============= */
@@ -24,7 +24,7 @@ routes.post("/logout", SessionController.logout);
 
 
 /* ============= USER ============= */
-routes.get("/", UserController.show);
+routes.get("/", onlyAdmins, UserController.index);
 // routes.put("/", UserController.put);
 // routes.delete("/", UserController.delete);
 
