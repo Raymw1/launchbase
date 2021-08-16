@@ -21,7 +21,7 @@ module.exports = {
     try {
       const { name, email } = req.body;
       await User.update(req.user.id, { name, email });
-      return res.redirect("admin/profile/", { user: req.body, success: "Usuário atualizado com sucesso!"});
+      return res.render("admin/profile", { user: req.body, success: "Usuário atualizado com sucesso!"});
     } catch (err) {
       console.error(err)
       return res.render("admin/profile/index", { user: user, success: "Erro inesperado, tente novamente!"});

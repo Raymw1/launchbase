@@ -7,7 +7,7 @@ module.exports = {
   async index(req, res) {
     const { rows } = await Chef.all();
     const chefs = await chefServices.getChefs(rows, req)
-    return res.render("admin/chefs/index", { chefs });
+    return res.render("admin/chefs/index", { user: req.user, chefs });
   },
   async show(req, res) {
     const chef = (await Chef.find(req.params.id)).rows[0];
@@ -41,10 +41,10 @@ module.exports = {
         });
       }
     });
-    return res.render("admin/chefs/show", { chef, recipes, image });
+    return res.render("admin/chefs/show", { user: req.user, chef, recipes, image });
   },
   create(req, res) {
-    return res.render("admin/chefs/create");
+    return res.render("admin/chefs/create", { user: req.user });
   },
   async post(req, res) {
     let error = false;
@@ -71,7 +71,7 @@ module.exports = {
         ""
       )}`,
     };
-    return res.render("admin/chefs/edit", { chef, blockDelete, avatar });
+    return res.render("admin/chefs/edit", { user: req.user, chef, blockDelete, avatar });
   },
   async put(req, res) {
     let error = false;

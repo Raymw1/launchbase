@@ -4,6 +4,7 @@ module.exports = {
   },
   async login(req, res) {
     req.session.userId = req.user.id;
+    req.session.is_admin = req.user.is_admin;
     req.session.save(err => {
       if (err) throw err;
       return res.redirect("/admin/profile");

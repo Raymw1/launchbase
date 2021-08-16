@@ -7,15 +7,15 @@ module.exports = {
   async index(req, res) {
     const { rows } = await Recipe.all();
     const recipes = await recipeServices.recipesWithImages(rows, req);
-    return res.render("admin/recipes/index", { recipes });
+    return res.render("admin/recipes/index", { user: req.user, recipes });
   },
   async show(req, res) {
     const { recipe, images } = await recipeServices.getRecipe(req);
-    return res.render("admin/recipes/show", { recipe, images });
+    return res.render("admin/recipes/show", { user: req.user, recipe, images });
   },
   async create(req, res) {
     let chefs = (await Recipe.chefSelectOptions()).rows;
-    return res.render("admin/recipes/create", { chefs });
+    return res.render("admin/recipes/create", { user: req.user, chefs });
   },
   async post(req, res) {
     let error = false;
@@ -47,7 +47,7 @@ module.exports = {
         ""
       )}`,
     }));
-    return res.render("admin/recipes/edit", { recipe, chefs, files });
+    return res.render("admin/recipes/edit", { user: req.user, recipe, chefs, files });
   },
   async put(req, res) {
     let error = false;
