@@ -10,10 +10,10 @@ module.exports = {
   },
   async post(req, res) {
     const userId = await User.create(req.body);
-    req.session.userId = userId;
+    req.session.userId = req.user?.is_admin ? req.session.userId : userId;
     req.session.save(err => {
       if (err) throw err;
-      if (req.user.is_admin) {
+      if (req.user?.is_admin) {
         return res.send("Ok!");
       }
       return res.redirect("/admin/profile");

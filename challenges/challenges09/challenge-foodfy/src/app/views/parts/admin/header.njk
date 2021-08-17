@@ -10,7 +10,7 @@
                         {% if user %}
                         <li><a href="/admin/profile">Perfil</a></li>
                         {% endif %}
-                        {% if user.is_admin or is_admin %}
+                        {% if user.is_admin or is_admin or data.is_admin %}
                         <li><a href="/admin/users">Users</a></li>
                         {% endif %}
                     </div>
