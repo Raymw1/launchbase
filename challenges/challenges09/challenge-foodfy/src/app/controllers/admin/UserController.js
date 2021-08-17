@@ -6,13 +6,16 @@ module.exports = {
     return res.render("admin/users/index", { user: req.user, users });
   },
   registerForm(req, res) {
-    return res.render("admin/users/create")
+    return res.render("admin/users/create", { user: req.user })
   },
   async post(req, res) {
     const userId = await User.create(req.body);
     req.session.userId = userId;
     req.session.save(err => {
       if (err) throw err;
+      if (req.user.is_admin) {
+        return res.send("Ok!");
+      }
       return res.redirect("/admin/profile");
     });
   },

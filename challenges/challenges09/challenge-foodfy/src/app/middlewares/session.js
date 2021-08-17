@@ -24,8 +24,18 @@ function isLoggedRedirectToProfile(req, res, next) {
   next();
 }
 
+async function checkIfIsAdminToCreate(req, res, next) {
+  const id = req.session.userId
+  if (id) {
+    const user = await User.findOne({ where: { id } });
+    req.user = user.is_admin ? user : null;
+  };
+  next();
+}
+
 module.exports = {
   onlyUsers,
   isLoggedRedirectToProfile,
-  onlyAdmins
+  onlyAdmins,
+  checkIfIsAdminToCreate
 }

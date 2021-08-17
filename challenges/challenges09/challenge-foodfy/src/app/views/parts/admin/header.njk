@@ -7,8 +7,10 @@
                     <div class="links">
                         <li><a href="/admin/recipes">Receitas</a></li>
                         <li><a href="/admin/chefs">Chefs</a></li>
+                        {% if user %}
                         <li><a href="/admin/profile">Perfil</a></li>
-                        {% if user.is_admin %}
+                        {% endif %}
+                        {% if user.is_admin or is_admin %}
                         <li><a href="/admin/users">Users</a></li>
                         {% endif %}
                     </div>

@@ -1,6 +1,7 @@
 const { verifyForm } = require("../../lib/utils");
 const { compare } = require("bcryptjs");
 const User = require("../model/User");
+const { checkIfIsAdminToCreate } = require("../middlewares/session");
 
 module.exports = {
   async show(req, res, next) {
@@ -12,11 +13,15 @@ module.exports = {
   },
   async post(req, res, next) {
     const emptyFields = verifyForm(req.body);
-    if (emptyFields) return res.render("admin/users/create", emptyFields);
+    await checkIfIsAdminToCreate(req, res, () => {});
+    const { is_admin } = req.user;
+    let user = {...emptyFields, is_admin}
+    if (emptyFields) return res.render("admin/users/create", user);
     const { email, password, passwordRepeat } = req.body;
-    const user = await User.findOne({ where: { email } });
-    if (user) return res.render("admin/users/create", { user: req.body, error: "Email já cadastrado!" });
-    if (password != passwordRepeat) return res.render("admin/users/create", { user: req.body, error: "Senhas diferentes, tente novamente!" });
+    user = await User.findOne({ where: { email } });
+    const data = {...req.body, is_admin}
+    if (user) return res.render("admin/users/create", { user: data, error: "Email já cadastrado!" });
+    if (password != passwordRepeat) return res.render("admin/users/create", { user: data, error: "Senhas diferentes, tente novamente!" });
     next();
   },
   async update(req, res, next) {
