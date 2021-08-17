@@ -110,11 +110,11 @@ header nav {
     background-color: var(--purple);
 }
 
-.button.delete-button {
+button.button.delete-button, .button.delete-button {
     background: #ff4444;
 }
 
-.button.delete-button.block-delete {
+button.button.delete-button.block-delete {
     cursor: not-allowed;
     filter: brightness(1.5);
 }

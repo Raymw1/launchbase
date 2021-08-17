@@ -10,8 +10,10 @@
             <div class="user-edit">
                 <h2>Editar usuário</h2>
                 <div class="actions">
+                  <button type="submit" 
+                    class="delete-button button {% if blockDelete %}block-delete{% endif %}" 
+                    form="delete-form">Deletar</button>
                   <button type="submit" class="button">Salvar</button>
-                  <button type="reset" onclick="history.back()" class="button abort">Cancelar</button>
                 </div>
             </div>
         </div>
@@ -30,5 +32,10 @@
             <h4 class="admin"><label for="is_admin">Administrador</label></h4>
             </div>
         </form>
+        {% if not blockDelete %}
+        <form id="delete-form" action="/admin/users/{{ userData.id }}?_method=DELETE" method="post">
+            <input type="hidden" name="id" value="{{ userData.id }}">
+        </form>
+        {% endif %}
 {% endblock content %}
 

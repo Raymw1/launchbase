@@ -54,5 +54,20 @@ module.exports = {
     } catch (err) {
       console.error(err);
     }
-  }
+  },
+  async delete(fields) {
+    try {
+      let query = "DELETE FROM users";
+      Object.keys(fields).map(key => {
+        query = `${query} ${key}`;
+        Object.keys(fields[key]).map(field => {
+          query = `${query} ${field} = '${fields[key][field]}'`;
+        });
+      });
+      await db.query(query);
+      return
+    } catch (err) {
+      console.error(err)
+    }
+  },
 }

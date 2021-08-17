@@ -20,16 +20,12 @@
                 </div>
                 <div class="user-actions">
                   <a href="/admin/users/{{ actualUser.id }}/edit" class="edit-user">Editar</a>
-                  <form action="/admin/users?_method=DELETE" method="POST">
+                  {% if not actualUser.is_admin %}
+                  <form action="/admin/users/{{ actualUser.id }}?_method=DELETE" method="POST">
                     <input type="hidden" name="id" value="{{ actualUser.id }}">
                     <button type="submit">Remover</button>
                   </form>
-                  {# {% if not actualUser.is_admin %}
-                  <form action="/admin/users?_method=DELETE" method="POST">
-                    <input type="hidden" name="id" value="{{ actualUser.id }}">
-                    <button type="submit">Remover</button>
-                  </form>
-                  {% endif %} #}
+                  {% endif %}
                 </div>
             </div>
             {% endfor %}
