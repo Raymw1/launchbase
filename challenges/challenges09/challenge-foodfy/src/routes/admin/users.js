@@ -25,8 +25,8 @@ routes.post("/logout", SessionController.logout);
 
 /* ============= USER ============= */
 routes.get("/", onlyAdmins, UserController.list);
-// routes.get('/admin/users/:id/edit', UserController.edit);
-// routes.put('/admin/users/:id', UserController.put) // Editar um usuário
+routes.get('/:id/edit', checkIfIsAdminToCreate, UserController.editForm);
+routes.put('/:id', checkIfIsAdminToCreate, userValidator.update) // Editar um usuário
 // routes.delete('/admin/users/:id', UserController.delete) // Deletar um usuário
 // routes.put("/", UserController.put);
 // routes.delete("/", UserController.delete);

@@ -27,15 +27,11 @@ module.exports = {
   },
   async update(req, res, next) {
     const emptyFields = verifyForm(req.body);
-    if (emptyFields) return res.render("admin/profile/index", emptyFields);
-    const { email, password } = req.body;
-    const { userId: id } = req.session;
-    let user = await User.findOne({ where: { email }, "and not": { id } });
-    if (user) return res.render("admin/profile/index", { user: req.body, error: "Email já cadastrado!" });
-    user = await User.findOne({ where: { id } });
-    const passed = await compare(password, user.password);
-    if (!passed) return res.render("admin/profile/index", { user: req.body, error: "Por favor, insira corretamente sua senha!" });
-    req.user = user;
+    const data = { userData: emptyFields?.user, error: emptyFields?.error}
+    if (emptyFields) return res.render("admin/users/edit", { user: req.user, ...data});
+    const { email } = req.body;
+    let user = await User.findOne({ where: { email } });
+    if (user) return res.render("admin/users/edit", { userData: req.body, user: req.user, error: "Email já cadastrado!" });
     next();
   }
 }

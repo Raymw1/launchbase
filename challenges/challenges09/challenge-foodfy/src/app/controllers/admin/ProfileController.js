@@ -6,14 +6,15 @@ module.exports = {
     return res.render("admin/profile/index", { user });
   },
   async update(req, res) {
-    const { user } = req;
+    let { user } = req;
     try {
       const { name, email } = req.body;
-      await User.update(req.user.id, { name, email });
-      return res.render("admin/profile", { user: req.body, success: "Usuário atualizado com sucesso!"});
+      const id = await User.update(req.user.id, { name, email });
+      req.user = await User.findOne({ where: { id }});
+      return res.render("admin/profile/index", { user: req.user, success: "Usuário atualizado com sucesso!"});
     } catch (err) {
       console.error(err)
-      return res.render("admin/profile/index", { user: user, success: "Erro inesperado, tente novamente!"});
+      return res.render("admin/profile/index", { user: user, error: "Erro inesperado, tente novamente!"});
     }
   }
 }

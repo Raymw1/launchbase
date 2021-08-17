@@ -19,6 +19,10 @@ module.exports = {
       return res.redirect("/admin/profile");
     });
   },
+  async editForm (req, res) {
+    const userData = await User.findOne({ where: { id: req.params.id }})
+    return res.render("admin/users/edit", { userData, user: req.user })
+  }
   // async update(req, res) {
   //   const { user } = req;
   //   try {

@@ -46,11 +46,11 @@ module.exports = {
         if (index + 1 < array.length) {
           query = `${query} ${key} = '${fields[key]}',`
         } else {
-          query = `${query} ${key} = '${fields[key]}' WHERE id = ${id}`
+          query = `${query} ${key} = '${fields[key]}' WHERE id = ${id} RETURNING id`
         }
       });
-      await db.query(query);
-      return;
+      const user = await db.query(query);
+      return user.rows[0].id;
     } catch (err) {
       console.error(err);
     }
