@@ -14,7 +14,8 @@ module.exports = {
     req.session.save(err => {
       if (err) throw err;
       if (req.user?.is_admin) {
-        return res.send("Ok!");
+
+        return res.redirect(`/admin/users/${userId}/edit`);
       }
       return res.redirect("/admin/profile");
     });
@@ -22,16 +23,16 @@ module.exports = {
   async editForm (req, res) {
     const userData = await User.findOne({ where: { id: req.params.id }})
     return res.render("admin/users/edit", { userData, user: req.user })
+  },
+  async update(req, res) {
+    try {
+      let { name, email, is_admin } = req.body;
+      is_admin = is_admin ? true : false
+      await User.update(req.params.id, { name, email, is_admin });
+      return res.render(`admin/users/edit`, { user: req.user, userData: {...req.body, id: req.params.id}, success: "Usuário atualizado com sucesso!"});
+    } catch (err) {
+      console.error(err)
+      return res.render("admin/profile/index", { user: req.user, userData: {...req.body, id: req.params.id}, success: "Erro inesperado, tente novamente!"});
+    }
   }
-  // async update(req, res) {
-  //   const { user } = req;
-  //   try {
-  //     const { name, email } = req.body;
-  //     await User.update(req.user.id, { name, email });
-  //     return res.render("admin/profile", { user: req.body, success: "Usuário atualizado com sucesso!"});
-  //   } catch (err) {
-  //     console.error(err)
-  //     return res.render("admin/profile/index", { user: user, success: "Erro inesperado, tente novamente!"});
-  //   }
-  // }
 }

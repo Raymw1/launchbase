@@ -27,11 +27,12 @@ module.exports = {
   },
   async update(req, res, next) {
     const emptyFields = verifyForm(req.body);
-    const data = { userData: emptyFields?.user, error: emptyFields?.error}
+    let data = { userData: {...emptyFields?.user, id: req.params.id}, error: emptyFields?.error}
     if (emptyFields) return res.render("admin/users/edit", { user: req.user, ...data});
     const { email } = req.body;
-    let user = await User.findOne({ where: { email } });
-    if (user) return res.render("admin/users/edit", { userData: req.body, user: req.user, error: "Email já cadastrado!" });
+    let user = await User.findOne({ where: { email }, "and not": { id: req.params.id } });
+    data = {...req.body, id: req.params.id}
+    if (user) return res.render("admin/users/edit", { userData: data, user: req.user, error: "Email já cadastrado!" });
     next();
   }
 }
