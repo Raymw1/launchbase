@@ -63,6 +63,6 @@ module.exports = {
   },
   async delete(req, res) {
     await Recipe.delete(req.body.id);
-    return res.redirect(`/admin/recipes/`);
+    return res.render(`admin/profile/index`, { success: "Receita deletada com sucesso!", user: req.user});
   },
 };

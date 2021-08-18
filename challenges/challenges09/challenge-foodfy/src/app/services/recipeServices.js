@@ -12,7 +12,7 @@ module.exports = {
   async getRecipe(req, res, id) {
     const recipe = (await Recipe.find(req.params.id || id)).rows[0];
     if (!recipe) {
-      return res.render("admin/recipes/index", {user: req.user, error: "Receita não encontrada"});
+      return res.render("admin/profile/index", {user: req.user, error: "Receita não encontrada"});
     }
     let images = (await Recipe.files(req.params.id)).rows;
     images = images.map((image) => ({

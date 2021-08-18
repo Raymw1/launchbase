@@ -12,6 +12,6 @@ routes.get("/:id", onlyUsers, checkIfIsAllowedToChange, recipes.show); // Exibir
 routes.get("/:id/edit", onlyUsers, checkIfIsOfOwnUserOrAdmin, recipes.edit); // Mostrar formulário de edição de receita
 routes.post("/", onlyUsers, multer.array("photos", 5), recipeValidator.post, recipes.post); // Cadastrar nova receita
 routes.put("/", onlyUsers, multer.array("photos", 5), checkIfIsOfOwnUserOrAdmin, recipeValidator.put, recipes.put); // Editar uma receita
-routes.delete("/", onlyUsers, recipes.delete); // Deletar uma receita
+routes.delete("/", onlyUsers, checkIfIsOfOwnUserOrAdmin, recipes.delete); // Deletar uma receita
 
 module.exports = routes;
