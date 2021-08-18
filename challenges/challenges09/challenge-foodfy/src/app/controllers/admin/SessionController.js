@@ -14,5 +14,8 @@ module.exports = {
     req.session.destroy();
     res.clearCookie("sid");
     return res.redirect("/");
+  },
+  forgotForm(req, res) {
+    
   }
 }

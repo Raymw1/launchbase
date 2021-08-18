@@ -14,7 +14,7 @@ module.exports = {
     if (!recipe) {
       return res.render("admin/profile/index", {user: req.user, error: "Receita não encontrada"});
     }
-    let images = (await Recipe.files(req.params.id)).rows;
+    let images = (await Recipe.files(req.params.id || id)).rows;
     images = images.map((image) => ({
       ...image,
       src: `${req.protocol}://${req.headers.host}${image.path.replace(
