@@ -107,6 +107,13 @@ main {
     font-size: 18px;
 }
 
+.head-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 30px;
+}
+
 /* ================= FOOTER ================= */
 footer {
     background-color: #EEEEEE;

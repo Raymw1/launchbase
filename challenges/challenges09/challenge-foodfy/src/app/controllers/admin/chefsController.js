@@ -47,13 +47,6 @@ module.exports = {
     return res.render("admin/chefs/create", { user: req.user });
   },
   async post(req, res) {
-    let error = false;
-    verifyForm(req, () => {
-      error = true;
-    });
-    if (error) {
-      return res.send(`Erro, por favor insira todos os campos!`);
-    }
     const avatar = { filename: req.files[0].filename, path: req.files[0].path };
     const file_id = (await File.createChef({ ...avatar })).rows[0].id;
     const { id } = (await Chef.create(req.body, file_id)).rows[0];
