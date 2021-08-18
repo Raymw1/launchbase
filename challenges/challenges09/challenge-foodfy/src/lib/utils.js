@@ -9,13 +9,13 @@ module.exports = {
     const keys = Object.keys(body);
     for (key of keys) {
       if (Array.isArray(body[key])) {
-        for (let subkey of key) {
-          if (body[key][subkey].trim() == "") {
+        for (let subkey in key) {
+          if ((body[key][subkey])?.trim() == "") {
             return { user: body, error: "Insira todos os valores!" };
-          }    
+          }
         }
       } else {
-        if (key != "photos" && (body[key]).trim() == "") {
+        if (key != "removed_files" && (body[key]).trim() == "") {
           return { user: body, error: "Insira todos os valores!" };
         }
       }

@@ -46,14 +46,6 @@ module.exports = {
     return res.render("admin/recipes/edit", { user: req.user, recipe, chefs, files });
   },
   async put(req, res) {
-    let error = false;
-    verifyForm(req, () => {
-      error = true;
-    });
-    if (error) {
-      return res.send(`Erro, por favor insira todos os campos!`);
-    }
-
     const filesPromise = req.files.map((file) => {
       File.create({ ...file, recipe_id: req.body.id });
     });

@@ -8,7 +8,9 @@
         <div class="recipe-head">
             <div class="recipe-edit">
                 <h2>Receita: {{ recipe.title }}</h2>
+                {% if user.isAllowed %}
                 <a href="/admin/recipes/{{ recipe.id }}/edit" class="button">Editar receita</a>
+                {% endif %}
             </div>
             <div id="images-container">
                 {% if images[0] %}
