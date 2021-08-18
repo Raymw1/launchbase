@@ -3,9 +3,10 @@ const { parseToArray, verifyForm, parseDate } = require("../../lib/utils");
 const File = require("./File");
 
 module.exports = {
-  all() {
+  all(userId) {
     return db.query(`SELECT recipes.*, chefs.name as chef_name FROM recipes 
-    LEFT JOIN chefs ON (chefs.id = recipes.chef_id) ORDER BY recipes.created_at DESC`);
+    LEFT JOIN chefs ON (chefs.id = recipes.chef_id) WHERE user_id = $1 
+    ORDER BY recipes.created_at DESC`, [userId]);
   },
   find(id) {
     return db.query(`SELECT recipes.*, chefs.name as chef_name FROM recipes 
@@ -37,22 +38,24 @@ module.exports = {
     ;`
     return db.query(query, [limit, offset])
   },
-  create(data) {
+  async create(data, userId) {
     const query = `
     INSERT INTO recipes (
         chef_id, 
         title, 
         ingredients, 
         preparation,
-        information) VALUES ($1, $2, $3, $4, $5) RETURNING id;`;
+        information,
+        user_id) VALUES ($1, $2, $3, $4, $5, $6) RETURNING id;`;
     const values = [
       data.chef_id,
       data.title,
       parseToArray(data.ingredients),
       parseToArray(data.preparation),
-      data.information
+      data.information,
+      userId
     ];
-    return db.query(query, values)
+    return await db.query(query, values)
   },
   chefSelectOptions() {
     return db.query(`SELECT id, name FROM chefs;`);

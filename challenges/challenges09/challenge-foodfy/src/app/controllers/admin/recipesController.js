@@ -5,7 +5,7 @@ const recipeServices = require("../../services/recipeServices");
 
 module.exports = {
   async index(req, res) {
-    const { rows } = await Recipe.all();
+    const { rows } = await Recipe.all(req.session.userId);
     const recipes = await recipeServices.recipesWithImages(rows, req);
     return res.render("admin/recipes/index", { user: req.user, recipes });
   },
@@ -18,19 +18,15 @@ module.exports = {
     return res.render("admin/recipes/create", { user: req.user, chefs });
   },
   async post(req, res) {
-    let error = false;
-    verifyForm(req, () => {
-      error = true;
-    });
-    if (error) {
-      return res.send(`Erro, por favor insira todos os campos!`);
-    }
-    const id = (await Recipe.create(req.body)).rows[0].id;
+    // console.log("a");
+    const { userId }= req.session
+    const id = (await Recipe.create(req.body, userId)).rows[0].id;
     const filesPromise = req.files.map((file) => {
       File.create({ ...file, recipe_id: id });
     });
     await Promise.all(filesPromise);
-    return res.redirect(`/admin/recipes/${id}`);
+    const { recipe, images } = await recipeServices.getRecipe(req, res, id);
+    return res.render(`admin/recipes/show`, {recipe, images, user: req.user, success: "Receita criada com sucesso!" });
   },
   async edit(req, res) {
     const recipe = (await Recipe.find(req.params.id)).rows[0];

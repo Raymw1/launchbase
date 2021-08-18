@@ -8,8 +8,16 @@ module.exports = {
   verifyForm(body) {
     const keys = Object.keys(body);
     for (key of keys) {
-      if (body[key].trim() == "") {
-        return { user: body, error: "Insira todos os valores!" };
+      if (Array.isArray(key)) {
+        for (let subkey of key) {
+          if (body[key][subkey].trim() == "") {
+            return { user: body, error: "Insira todos os valores!" };
+          }    
+        }
+      } else {
+        if (key != "photos" && (body[key]) == "") {
+          return { user: body, error: "Insira todos os valores!" };
+        }
       }
     }
     // if (req.files?.length == 0)
