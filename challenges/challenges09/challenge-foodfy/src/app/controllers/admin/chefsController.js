@@ -11,7 +11,7 @@ module.exports = {
   },
   async show(req, res) {
     const chef = (await Chef.find(req.params.id)).rows[0];
-    if (!chef) return res.send("Chef not found");
+    if (!chef) return res.render("admin/chefs/index", { user: req.user, error: "Chef não encontrado!" });
     let image = (await Chef.getImage(chef.avatar)).rows[0];
     image = `${req.protocol}://${req.headers.host}${image.path.replace(
       "public",
@@ -54,7 +54,7 @@ module.exports = {
   },
   async edit(req, res) {
     let chef = (await Chef.find(req.params.id)).rows[0];
-    if (!chef) return res.send("Chef not found");
+    if (!chef) return res.render("admin/chefs/index", { user: req.user, error: "Chef não encontrado!" });
     const blockDelete = chef.total_recipes > 0 ? true : false;
     let avatar = (await Chef.getImage(chef.avatar)).rows[0];
     avatar = {
@@ -67,14 +67,6 @@ module.exports = {
     return res.render("admin/chefs/edit", { user: req.user, chef, blockDelete, avatar });
   },
   async put(req, res) {
-    let error = false;
-    verifyForm(req, () => {
-      error = true;
-    });
-    if (error) {
-      return res.send(`Erro, por favor insira todos os campos!`);
-    }
-
     const avatar = {
       filename: req.files[0]?.filename,
       path: req.files[0]?.path,
@@ -99,14 +91,14 @@ module.exports = {
   },
   async delete(req, res) {
     let chef = (await Chef.find(req.body.id)).rows[0];
-    if (!chef) return res.send("Chef not found");
+    if (!chef) return res.render("admin/chefs/index", { user: req.user, error: "Chef não encontrado"});
     let errorDelete = chef.total_recipes > 0 ? true : false,
       blockDelete = errorDelete;
     if (errorDelete) {
       return res.render("admin/chefs/edit", { chef, blockDelete, errorDelete });
     } else {
       await Chef.delete(req.body.id);
-      return res.redirect(`/admin/chefs/`);
+      return res.render(`admin/chefs/index`, { user: req.user, success: "Chef deletado com sucesso!" });
     }
   },
 };

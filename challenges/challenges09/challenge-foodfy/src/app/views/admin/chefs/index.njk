@@ -10,7 +10,9 @@
         <div class="most-viewed">
             <div class="head-container">
                 <h3>Gerenciar chefs</h3>
+                {% if user.is_admin %}
                 <a href="/admin/chefs/create" class="button">Criar chef</a>
+                {% endif %}
             </div>
             <div class="chef-cards">
                 {% for chef in chefs %}
