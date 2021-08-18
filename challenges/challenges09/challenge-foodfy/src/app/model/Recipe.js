@@ -3,7 +3,12 @@ const { parseToArray, verifyForm, parseDate } = require("../../lib/utils");
 const File = require("./File");
 
 module.exports = {
-  all(userId) {
+  all() {
+    return db.query(`SELECT recipes.*, chefs.name as chef_name FROM recipes 
+    LEFT JOIN chefs ON (chefs.id = recipes.chef_id)
+    ORDER BY recipes.created_at DESC`);
+  },
+  allOfUser(userId) {
     return db.query(`SELECT recipes.*, chefs.name as chef_name FROM recipes 
     LEFT JOIN chefs ON (chefs.id = recipes.chef_id) WHERE user_id = $1 
     ORDER BY recipes.created_at DESC`, [userId]);

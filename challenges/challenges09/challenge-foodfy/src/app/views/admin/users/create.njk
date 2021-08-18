@@ -1,6 +1,13 @@
+{% if user.is_admin %}
 {% extends 'templates/layoutAdmin.njk' %}
+{% else %}
+{% extends 'templates/layout.njk' %}
+{% endif %}
 {% block head %}
     <title>Foodfy - Registrar</title>
+    {% if not user.is_admin %}
+    <link rel="stylesheet" href="/styles/login.css">
+    {% endif %}
     <link rel="stylesheet" href="/styles/users.css">
 {% endblock head %}
 

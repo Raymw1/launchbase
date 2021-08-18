@@ -5,7 +5,7 @@ const recipeServices = require("../../services/recipeServices");
 
 module.exports = {
   async index(req, res) {
-    const { rows } = await Recipe.all(req.session.userId);
+    const { rows } = req.user.is_admin ? await Recipe.all() : await Recipe.allOfUser(req.session.userId);
     const recipes = await recipeServices.recipesWithImages(rows, req);
     return res.render("admin/recipes/index", { user: req.user, recipes });
   },
