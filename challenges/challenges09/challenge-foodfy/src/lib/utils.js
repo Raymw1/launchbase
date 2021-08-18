@@ -8,14 +8,14 @@ module.exports = {
   verifyForm(body) {
     const keys = Object.keys(body);
     for (key of keys) {
-      if (Array.isArray(key)) {
+      if (Array.isArray(body[key])) {
         for (let subkey of key) {
           if (body[key][subkey].trim() == "") {
             return { user: body, error: "Insira todos os valores!" };
           }    
         }
       } else {
-        if (key != "photos" && (body[key]) == "") {
+        if (key != "photos" && (body[key]).trim() == "") {
           return { user: body, error: "Insira todos os valores!" };
         }
       }
