@@ -37,7 +37,7 @@ const Base = {
         values = [];
       Object.keys(fields).map((key) => {
         keys.push(key);
-        values.push(fields[key]);
+        values.push(`'${fields[key]}'`);
       });
       keys = keys.join(",");
       values = values.join(",");
