@@ -89,3 +89,13 @@
   border-radius: 4px;
   color: #fff;
 }
+
+.forgot h2 {
+  text-align: center;
+}
+
+.forgot .actions {
+  margin-top: 24px;
+  display: flex;
+  justify-content: flex-end;
+}
