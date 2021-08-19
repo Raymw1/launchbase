@@ -1,7 +1,10 @@
 const db = require("../../config/db");
 
+const Base = require("./Base");
+
+Base.init({ table: "categories" });
+
 module.exports = {
-  all() {
-    return db.query(`SELECT * FROM categories;`);
-  },
+  ...Base,
 };
+

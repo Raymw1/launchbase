@@ -1,23 +1,31 @@
+const User = require("../models/User");
 const crypto = require("crypto"); // CREATE TOKEN OF FORGOT
 const mailer = require("../../lib/mailer");
 const { hash } = require("bcryptjs");
-const User = require("../models/User");
 
 module.exports = {
   loginForm(req, res) {
     return res.render("session/login");
   },
   login(req, res) {
-    req.session.userId = req.user.id;
-    req.session.save(err => {
-      if (err) throw err;
-      return res.redirect("/users");
-    });
+    try {
+      req.session.userId = req.user.id;
+      req.session.save(err => {
+        if (err) throw err;
+        return res.redirect("/users");
+      });
+    } catch (err) {
+      console.error(err);
+    }
   },
   logout(req, res) {
-    req.session.destroy();
-    res.clearCookie("sid");
-    return res.redirect("/");
+    try {
+      req.session.destroy();
+      res.clearCookie("sid");
+      return res.redirect("/");
+    } catch (err) {
+      console.error(err);
+    }
   },
   forgotForm(req, res) {
     return res.render("session/forgot-password");
