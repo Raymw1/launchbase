@@ -38,7 +38,7 @@ module.exports = {
         from: "no-reply@foodfy.com.br",
         subject: "Recuperação de senha",
         html: `<h2>Recupere sua senha</h2>
-        <p>Não se preocupe, clicque no link abaixo para recuperar sua senha</p>
+        <p>Não se preocupe, clique no link abaixo para recuperar sua senha</p>
         <p><a href="http://127.0.0.1:3000/admin/users/password-reset?token=${token}" target="_blank">RECUPERAR SENHA</a></p>`
       })
       return res.render("admin/users/forgot-password", {

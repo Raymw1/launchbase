@@ -15,14 +15,12 @@ module.exports = {
     const emptyFields = verifyForm(req.body);
     await checkIfIsAdminToCreate(req, res, () => {});
     const is_admin = req.user?.is_admin;
-    let data = {...emptyFields, is_admin}
-    if (emptyFields) return res.render("admin/users/create", data);
+    if (emptyFields) return res.render("admin/users/create", { data: emptyFields.user, error: emptyFields.error, is_admin});
     const { name, email, password, passwordRepeat } = req.body;
     const user = await User.findOne({ where: { email } });
-    data = {...req.body, is_admin}
     const reqBody = { name, email}
-    if (user) return res.render("admin/users/create", { user: reqBody, data, error: "Email já cadastrado!" });
-    if (password != passwordRepeat) return res.render("admin/users/create", { user: reqBody, data, error: "Senhas diferentes, tente novamente!" });
+    if (user) return res.render("admin/users/create", { data: reqBody, is_admin, error: "Email já cadastrado!" });
+    if (password != passwordRepeat) return res.render("admin/users/create", { data: reqBody, is_admin, error: "Senhas diferentes, tente novamente!" });
     next();
   },
   async update(req, res, next) {
