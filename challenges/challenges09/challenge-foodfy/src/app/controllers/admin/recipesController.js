@@ -18,7 +18,6 @@ module.exports = {
     return res.render("admin/recipes/create", { user: req.user, chefs });
   },
   async post(req, res) {
-    // console.log("a");
     const { userId }= req.session
     const id = (await Recipe.create(req.body, userId)).rows[0].id;
     const filesPromise = req.files.map((file) => {

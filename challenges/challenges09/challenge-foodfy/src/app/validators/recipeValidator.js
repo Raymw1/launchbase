@@ -19,7 +19,6 @@ module.exports = {
     const emptyFields = verifyForm(req.body);
     const { recipe, images} = await getRecipe(req, res, req.body.id)
     const data = { recipe: {...emptyFields?.user, ingredients: parseToArray(emptyFields?.user.ingredients), preparation: parseToArray(emptyFields?.user.preparation) }, files: images, error: emptyFields?.error};
-    console.log(data.files)
     if (emptyFields) return res.render("admin/recipes/edit", { user: req.user, ...data, chefs});
     next()
   }
