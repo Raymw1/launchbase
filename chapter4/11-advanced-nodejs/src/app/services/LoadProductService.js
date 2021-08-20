@@ -33,7 +33,7 @@ const LoadService = {
   },
   async product() {
     try {
-      let product = await Product.findOne(this.filter);
+      let product = await Product.findOne(this.filters);
       return format(product);
     } catch (err) {
       console.error(err);

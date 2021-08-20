@@ -75,6 +75,7 @@ module.exports = {
   async edit(req, res) {
     try {
       let product = await LoadProductService.load("product", { where: { id: req.params.id } });
+      if (!product) return res.render("home/index", { error: "Produto não encontrado!" })
       // CATEGORIES
       const categories = await Category.findAll();
       return res.render("products/edit", { categories, product });

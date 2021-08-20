@@ -6,21 +6,16 @@ const { formatPrice } = require("../../lib/utils");
 module.exports = {
   async index(req, res) {
     try {
-      let params = {};
-      const { filter, category } = req.query;
+      let { filter, category } = req.query;
 
-      if (!filter) return res.redirect("/");
-      params.filter = filter;
-      if (category) {
-        params.category = category;
-      }
+      if (!filter.trim() || filter.toLowerCase() == 'toda a loja') filter = null;
 
-      let products = await Product.search(params);
+      let products = await Product.search({ filter, category});
       const productsPromise = products.map(LoadProductService.format)
       products = await Promise.all(productsPromise);
       
       const search = {
-        term: filter,
+        term: filter || "Toda a loja",
         total: products.length
       }
 
