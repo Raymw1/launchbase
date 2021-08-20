@@ -34,14 +34,6 @@ module.exports = {
   },
   async post(req, res) {
     try {
-      const keys = Object.keys(req.body);
-      keys.forEach((key) => {
-        if (req.body[key] == "") {
-          return res.send(`Error, please insert value in ${key}`);
-        }
-      });
-      if (req.files.length == 0)
-        return res.send("Please, send at least one image!");
       let {
         category_id,
         name,
@@ -85,14 +77,6 @@ module.exports = {
   },
   async put(req, res) {
     try {
-      const keys = Object.keys(req.body);
-      keys.forEach((key) => {
-        if (req.body[key] == "" && key != "removed_files") {
-          return res.send(`Error, please insert value in ${key}`);
-        }
-      });
-
-      // if (req.files.length == 0) return res.send("Please, send at least one image!");
       const newFilesPromise = req.files.map((file) => {
         File.create({ ...file, product_id: req.body.id });
       });

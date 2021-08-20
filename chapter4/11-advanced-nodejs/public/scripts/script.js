@@ -215,5 +215,18 @@ const Validate = {
       error,
       value,
     };
+  },
+  allFields(event) {
+    const items = document.querySelectorAll(".item input, .item select, .item textarea");
+    for (let item of items) {
+      if (item.value == "" && item.name != "removed_files" && item.name != "photos") {
+        event.preventDefault()
+        const message = document.createElement("div");
+        message.classList.add("messages");
+        message.classList.add("error");
+        message.innerHTML = "Por favor, preencha todos os campos";
+        document.querySelector("body").append(message);
+      }
+    }
   }
 };

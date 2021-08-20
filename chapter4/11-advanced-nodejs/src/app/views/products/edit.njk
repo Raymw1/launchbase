@@ -10,7 +10,7 @@
                 {% include 'products/fields.njk' %}
                 <input type="hidden" name="id" value="{{ product.id }}">
             </div>
-            <button class="button edit" type="submit" class="button">Atualizar</button>
+            <button class="button edit" type="submit" class="button" onclick="Validate.allFields(event);">Atualizar</button>
         </form>
         <form id="form-delete" action="/products?_method=DELETE" method="POST">
             <input type="hidden" name="id" value="{{ product.id }}">
