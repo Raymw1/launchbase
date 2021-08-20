@@ -19,8 +19,8 @@ const User = {
 
     await db.query("DELETE FROM users WHERE id = $1", [id]);
 
-    promiseResults.map((results) => {
-      results.rows.map((file) => {
+    promiseResults.map((files) => {
+      files.map((file) => {
         try {
           fs.unlinkSync(file.path);
         } catch (err) {

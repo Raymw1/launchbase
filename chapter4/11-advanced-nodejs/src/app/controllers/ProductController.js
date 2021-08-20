@@ -1,3 +1,5 @@
+const { unlinkSync } = require("fs");
+
 const Category = require("../models/Category");
 const Product = require("../models/Product");
 const File = require("../models/File");
@@ -18,11 +20,14 @@ module.exports = {
           ""
         )}`,
       }));
-  
+
       product.old_price = formatPrice(product.old_price);
       product.price = formatPrice(product.price);
       const { day, month, hour, minutes } = parseDate(product.updated_at);
-      product.published = { day: `${day}/${month}`, hour: `${hour}h${minutes}` };
+      product.published = {
+        day: `${day}/${month}`,
+        hour: `${hour}h${minutes}`,
+      };
       return res.render("products/show", { product, files });
     } catch (err) {
       console.error(err);
@@ -75,7 +80,7 @@ module.exports = {
         status: status || 1,
       });
       const filesPromise = req.files.map((file) =>
-        File.create({ ...file, product_id })
+        File.create({ name: file.filename, path: file.path, product_id })
       );
       await Promise.all(filesPromise);
 
@@ -114,26 +119,26 @@ module.exports = {
           return res.send(`Error, please insert value in ${key}`);
         }
       });
-  
+
       // if (req.files.length == 0) return res.send("Please, send at least one image!");
       const newFilesPromise = req.files.map((file) => {
         File.create({ ...file, product_id: req.body.id });
       });
       await Promise.all(newFilesPromise);
-  
+
       if (req.body.removed_files) {
         const removedFiles = req.body.removed_files.split(",");
         removedFiles.pop();
         const removedFilesPromise = removedFiles.map((id) => File.delete(id));
         await Promise.all(removedFilesPromise);
       }
-  
+
       req.body.price = req.body.price.replace(/\D/g, ""); // Get only digits/numbers
       if (req.body.old_price != req.body.price) {
         const oldProduct = await Product.find(req.body.id);
         req.body.old_price = oldProduct.rows[0].price;
       }
-      await Product.update( req.body.id,{
+      await Product.update(req.body.id, {
         category_id: req.body.category_id,
         name: req.body.name,
         description: req.body.description,
@@ -148,7 +153,16 @@ module.exports = {
     }
   },
   async delete(req, res) {
+    const files = await Product.files(req.body.id);
     await Product.delete(req.body.id);
+    files.map((file) => {
+      try {
+        unlinkSync(file.path);
+      } catch (err) {
+        console.error(err);
+      }
+    });
+
     return res.redirect("/products");
   },
 };

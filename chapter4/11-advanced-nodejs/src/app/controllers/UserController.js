@@ -61,8 +61,8 @@ module.exports = {
       await User.delete(req.body.id);
       req.session.destroy();
   
-      promiseResults.map((results) => {
-        results.rows.map((file) => {
+      promiseResults.map((files) => {
+        files.rows.map((file) => {
           try {
             unlinkSync(file.path);
           } catch (err) {
