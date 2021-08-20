@@ -4,31 +4,14 @@ const Category = require("../models/Category");
 const Product = require("../models/Product");
 const File = require("../models/File");
 
-const { formatPrice, parseDate } = require("../../lib/utils");
+const LoadProductService = require("../services/LoadProductService");
 
 module.exports = {
   async show(req, res) {
     try {
-      let product = await Product.find(req.params.id);
-      if (!product) return res.send("Product not found!");
-      // IMAGES
-      let files = await Product.files(product.id);
-      files = files.map((file) => ({
-        ...file,
-        src: `${req.protocol}://${req.headers.host}${file.path.replace(
-          "public",
-          ""
-        )}`,
-      }));
+      let product = await LoadProductService.load("product", { where: { id: req.params.id } });
 
-      product.old_price = formatPrice(product.old_price);
-      product.price = formatPrice(product.price);
-      const { day, month, hour, minutes } = parseDate(product.updated_at);
-      product.published = {
-        day: `${day}/${month}`,
-        hour: `${hour}h${minutes}`,
-      };
-      return res.render("products/show", { product, files });
+      return res.render("products/show", { product });
     } catch (err) {
       console.error(err);
     }
@@ -91,22 +74,10 @@ module.exports = {
   },
   async edit(req, res) {
     try {
-      let product = await Product.find(req.params.id);
-      if (!product) return res.send("Product not found!");
+      let product = await LoadProductService.load("product", { where: { id: req.params.id } });
       // CATEGORIES
       const categories = await Category.findAll();
-      // IMAGES
-      let files = await Product.files(product.id);
-      files = files.map((file) => ({
-        ...file,
-        src: `${req.protocol}://${req.headers.host}${file.path.replace(
-          "public",
-          ""
-        )}`,
-      }));
-      product.old_price = formatPrice(product.old_price);
-      product.price = formatPrice(product.price);
-      return res.render("products/edit", { categories, product, files });
+      return res.render("products/edit", { categories, product });
     } catch (err) {
       console.error(err);
     }
@@ -136,7 +107,7 @@ module.exports = {
       req.body.price = req.body.price.replace(/\D/g, ""); // Get only digits/numbers
       if (req.body.old_price != req.body.price) {
         const oldProduct = await Product.find(req.body.id);
-        req.body.old_price = oldProduct.rows[0].price;
+        req.body.old_price = oldProduct.price;
       }
       await Product.update(req.body.id, {
         category_id: req.body.category_id,
