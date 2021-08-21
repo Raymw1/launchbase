@@ -1,0 +1,22 @@
+{% extends 'templates/layoutAdmin.njk' %}
+
+{% block content %}
+        <div class="most-viewed">
+            <div class="head-container">
+                <h3>Gerenciar receitas</h3>
+                <a href="/admin/recipes/create" class="button">Criar receita</a>
+            </div>
+            <div class="recipe-cards">
+                {% for recipe in recipes %}
+                <div class="recipe-card" id="{{ recipe.id }}">
+                    <img src="{{ recipe.image }}" alt="{{ recipe.title }}">
+                    <div class="recipe-card-info">
+                        <p>{{ recipe.title }}</p>
+                        <small>por {{ recipe.chef_name }}</small>
+                        <a href="/admin/recipes/{{ recipe.id }}">Visualizar</a>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+{% endblock content %}

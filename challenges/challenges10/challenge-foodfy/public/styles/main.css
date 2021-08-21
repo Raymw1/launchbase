@@ -1,0 +1,130 @@
+:root {
+    --primary-color: #111111;
+    --secondary-color: #777777;
+    --third-color: #444444;
+    --purple: #6558C3;
+    --red: #F55A5A;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    background-color: #fff;
+    font-family: "Roboto", sans-serif;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    justify-content: space-between;
+}
+
+.container {
+    margin: 0 auto;
+    color: var(--primary-color);
+    width: 90%;
+    max-width: 940px;
+}
+
+a {
+    text-decoration: none;
+    color: var(--primary-color);
+}
+
+/* ================= HEADER ================= */
+header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: 30px 0;
+}
+
+header nav ul li a.active {
+    font-weight: bold;
+}
+
+.navbar {
+    display: flex;
+    align-items: center;
+}
+
+.navbar > a {
+    margin-right: 120px;
+}
+
+.navbar h1 {
+    font-family: 'Dancing Script', cursive;
+}
+
+.navbar ul {
+    display: flex;
+    justify-content: space-between;
+    list-style: none;
+}
+
+.navbar ul li {
+    margin-right: 30px;
+    font-size: 16px;
+}
+
+/* ================= FORM ================= */
+input[type="text"], input[type="email"], input[type="password"] {
+    width: 250px;
+    border: 1px solid #DDD;
+    background-color: #fff;
+    padding: 10px 15px;
+    font-size: 14px;
+    line-height: 16px;
+    outline: none;
+    border-radius: 4px;
+}
+
+button[type="submit"].button {
+    padding: 10px 16px;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    line-height: 19px;
+    font-weight: bold;
+    color: #fff;
+    border-radius: 4px;
+    background-color: var(--purple);
+    margin-left: 8px;
+}
+
+header form {
+    display: flex;
+    align-items: center;
+}
+
+/* ================= MAIN ================= */
+main {
+    font-size: 18px;
+}
+
+.head-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 30px;
+}
+
+/* ================= FOOTER ================= */
+footer {
+    background-color: #EEEEEE;
+    padding: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+footer p {
+    color: #999999;
+    font-size: 14px;
+    line-height: 16px;
+}
