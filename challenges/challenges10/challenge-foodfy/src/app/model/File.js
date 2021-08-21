@@ -9,8 +9,8 @@ module.exports = {
     return db.query(`INSERT INTO recipe_files (recipe_id, file_id) VALUES ($1, $2);`, [recipe_id, file_id]);
   },
   async createChef({filename, path, chef_id}) {
-    if (path) return await db.query(`INSERT INTO files (name, path) VALUES ($1, $2) RETURNING id;`, [filename, path]);
-    return await db.query(`SELECT avatar FROM chefs WHERE id = $1`, [chef_id])
+    if (path) return db.query(`INSERT INTO files (name, path) VALUES ($1, $2) RETURNING id;`, [filename, path]);
+    return db.query(`SELECT avatar FROM chefs WHERE id = $1`, [chef_id])
   },
   async deleteChef(id) {
     try {
