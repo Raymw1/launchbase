@@ -1,5 +1,5 @@
 /* =================== USER REGISTER =================== */
-.users-register {
+.users-register, .users-dashboard.container {
   max-width: 500px;
 }
 

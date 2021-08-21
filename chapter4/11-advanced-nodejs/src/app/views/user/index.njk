@@ -1,11 +1,9 @@
 {% extends "layout.njk" %}
+{% import 'parts/card.njk' as card %}
 
 {% block content %}
-    <section class="container form user-dashboard">
+    {% call card.render("Detalhes", "container form users-dashboard") %}
         <form action="/users?_method=PUT" method="POST">
-            <div class="header">
-                <h3>Detalhes</h3>
-            </div>
             <div class="fields">
                 {% include 'user/fields.njk' %}
                 <input type="hidden" name="id" value="{{ user.id }}">
@@ -16,7 +14,5 @@
             <input type="hidden" name="id" value="{{ user.id }}">
             <button class="button delete" type="submit" class="button">Deletar</button>
         </form>
-    </section>
-    </section>
-    <script src="/scripts/confirmDelete.js"></script>
+    {% endcall %}
 {% endblock content %}
