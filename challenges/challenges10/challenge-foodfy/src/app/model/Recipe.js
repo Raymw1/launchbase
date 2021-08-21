@@ -1,22 +1,21 @@
 const db = require("../../config/db");
 const { parseToArray, verifyForm, parseDate } = require("../../lib/utils");
 const File = require("./File");
+const Base = require("./Base");
+
+Base.init({ table: "recipes" });
+
 
 module.exports = {
-  all() {
-    return db.query(`SELECT recipes.*, chefs.name as chef_name FROM recipes 
-    LEFT JOIN chefs ON (chefs.id = recipes.chef_id)
-    ORDER BY recipes.created_at DESC`);
+  ...Base,
+  async all() {
+    // ORDER BY recipes.created_at DESC
+    return;
   },
   allOfUser(userId) {
     return db.query(`SELECT recipes.*, chefs.name as chef_name FROM recipes 
     LEFT JOIN chefs ON (chefs.id = recipes.chef_id) WHERE user_id = $1 
     ORDER BY recipes.created_at DESC`, [userId]);
-  },
-  find(id) {
-    return db.query(`SELECT recipes.*, chefs.name as chef_name FROM recipes 
-    LEFT JOIN chefs ON (chefs.id = recipes.chef_id)
-    WHERE recipes.id = $1`, [id]);
   },
   findBy(filter, callback) {
     db.query(`SELECT recipes.*, chefs.name as chef_name FROM recipes 
@@ -26,8 +25,8 @@ module.exports = {
       callback(results.rows);      
     })
   },
-  paginate(params) {
-    const { filter, limit, offset, callback } = params;
+  async paginate(params) {
+    const { filter, limit, offset } = params;
     let query = "",
       filterQuery="",
       totalQuery="(SELECT count(*) FROM recipes) AS total";
@@ -36,12 +35,12 @@ module.exports = {
       totalQuery = `(SELECT count(*) FROM recipes ${filterQuery}) AS total`;
     }
     query = `
-    SELECT recipes.*, chefs.name as chef_name, ${totalQuery} FROM recipes 
-    LEFT JOIN chefs ON (chefs.id = recipes.chef_id)
+    SELECT recipes.*, ${totalQuery} FROM recipes 
     ${filterQuery}
-    GROUP BY recipes.id, chefs.name ORDER BY recipes.updated_at DESC LIMIT $1 OFFSET $2
+    ORDER BY recipes.updated_at DESC LIMIT $1 OFFSET $2
     ;`
-    return db.query(query, [limit, offset])
+    const results = await db.query(query, [limit, offset]);
+    return results.rows;
   },
   async create(data, userId) {
     const query = `

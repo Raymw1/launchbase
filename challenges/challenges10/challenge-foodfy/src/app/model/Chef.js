@@ -8,7 +8,8 @@ Base.init({ table: "chefs" });
 
 
 module.exports = {
-  all() {
+  ...Base,
+  findAll() {
     return db.query(`SELECT chefs.*, count(recipes) AS total_recipes FROM chefs
     LEFT JOIN recipes ON(recipes.chef_id = chefs.id)
     GROUP BY chefs.id;`);
@@ -48,8 +49,5 @@ module.exports = {
       WHERE chef_id = $1 GROUP BY recipes.id, recipe_files.file_id`,
       [id]
     );
-  },
-  getImage(id) {
-    return db.query(`SELECT * FROM files WHERE id = $1`, [id]);
   }
 };

@@ -1,18 +1,14 @@
 const Chef = require("../model/Chef");
+const File = require("../model/File");
 
 module.exports = {
-  async getChefs(rows, req) {
-    const chefs = rows.map(async (chef) => {
-      const path = (await Chef.getImage(chef.avatar)).rows[0].path.replace(
-        "public",
-        ""
-      );
-      const image = `${req.protocol}://${req.headers.host}${path}`;
+  async getChefs(chefs) {
+    const chefsPromise = chefs.map(async (chef) => {
       return {
         ...chef,
-        image,
+        image: (await File.find(chef.avatar)).path.replace("public", ""),
       };
     });
-    return await Promise.all(chefs);
+    return await Promise.all(chefsPromise);
   },
 };
