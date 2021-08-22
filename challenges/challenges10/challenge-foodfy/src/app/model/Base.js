@@ -37,7 +37,7 @@ const Base = {
         values = [];
       Object.keys(fields).map(key => {
         keys.push(key);
-        values.push(fields[key]);
+        values.push(`'${fields[key]}'`);
       })
       keys = keys.join(",");
       values = values.join(",");
@@ -48,7 +48,7 @@ const Base = {
       console.log(err);
     }
   },
-  async updete(id, fields) {
+  async update(id, fields) {
     try {
       let values = [];
       Object.keys(fields).map(key => {
