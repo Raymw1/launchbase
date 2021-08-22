@@ -17,6 +17,13 @@ CREATE TABLE "users" (
   "updated_at" timestamp DEFAULT (now())
 );
 
+CREATE TABLE "chefs" (
+  "id" SERIAL PRIMARY KEY,
+  "name" text NOT NULL,
+  "created_at" timestamp DEFAULT (now()),
+  "avatar" text
+);
+
 ------------- FOREIGN KEYS -------------
 
 ALTER TABLE "recipes" ADD FOREIGN KEY ("user_id") REFERENCES "users" ("id");
