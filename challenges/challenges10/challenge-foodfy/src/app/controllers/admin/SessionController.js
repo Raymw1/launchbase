@@ -8,17 +8,26 @@ module.exports = {
     return res.render("admin/users/login");
   },
   async login(req, res) {
-    req.session.userId = req.user.id;
-    req.session.is_admin = req.user.is_admin;
-    req.session.save(err => {
-      if (err) throw err;
-      return res.redirect("/admin/profile");
-    });
+    try {
+      req.session.userId = req.user.id;
+      req.session.is_admin = req.user.is_admin;
+      req.session.save(err => {
+        if (err) throw err;
+        return res.redirect("/admin/profile");
+      });
+    } catch (err) {
+      console.error(err);
+      return res.render("admin/users/login", { error: "Algo deu errado!" });
+    }
   },
   logout(req, res) {
-    req.session.destroy();
-    res.clearCookie("sid");
-    return res.redirect("/");
+    try {
+      req.session.destroy();
+      res.clearCookie("sid");
+      return res.redirect("/");
+    } catch (err) {
+      console.error(err);
+    }
   },
   forgotForm(req, res) {
     return res.render("admin/users/forgot-password");

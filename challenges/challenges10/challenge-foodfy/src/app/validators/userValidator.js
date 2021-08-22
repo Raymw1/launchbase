@@ -6,7 +6,7 @@ const { checkIfIsAdminToCreate } = require("../middlewares/session");
 module.exports = {
   async show(req, res, next) {
     const { userId: id } = req.session;
-    const user = await User.findOne({ where: { id } });
+    const user = await User.find(id);
     if (!user) return res.render("admin/users/create", { error: "Usuário não encontrado!" });
     req.user = user;
     next();

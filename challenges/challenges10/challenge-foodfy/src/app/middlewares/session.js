@@ -1,11 +1,12 @@
 const Recipe = require("../model/Recipe");
 const User = require("../model/User");
+const recipeServices = require("../services/recipeServices");
 const { getRecipe } = require("../services/recipeServices");
 
 async function onlyUsers(req, res, next) {
   const id = req.session.userId;
   if (!req.session.userId) return res.redirect("/admin/users/login");
-  const user = await User.findOne({ where: { id } });
+  const user = await User.find(id);
   if (!user)
     return res.render("admin/users/login", {
       error: "Usuário não cadastrado!",
@@ -17,7 +18,7 @@ async function onlyUsers(req, res, next) {
 async function onlyAdmins(req, res, next) {
   const id = req.session.userId;
   if (!req.session.userId) return res.redirect("/admin/users/login");
-  const user = await User.findOne({ where: { id } });
+  const user = await User.find(id);
   if (!user)
     return res.render("admin/users/login", {
       error: "Usuário não cadastrado!",
@@ -39,7 +40,7 @@ function isLoggedRedirectToProfile(req, res, next) {
 async function checkIfIsAdminToCreate(req, res, next) {
   const id = req.session.userId;
   if (id) {
-    const user = await User.findOne({ where: { id } });
+    const user = await User.find(id);
     req.user = user.is_admin ? user : null;
   }
   next();
@@ -58,7 +59,7 @@ async function checkIfIsOfOwnUserOrAdmin(req, res, next) {
 }
 
 async function checkIfIsAllowedToChange(req, res, next) {
-  const { recipe, images } = await getRecipe(req, res);
+  const { recipe, images } = await recipeServices.load("getRecipe", { id: req.params.id });
   if (recipe.user_id == req.session.userId || req.user.is_admin) req.user.isAllowed = true;
   req.recipe = recipe;
   next()
