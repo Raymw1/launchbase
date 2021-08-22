@@ -1,3 +1,5 @@
+const { unlinkSync } = require("fs");
+
 const Chef = require("../model/Chef");
 const File = require("../model/File");
 const Recipe = require("../model/Recipe");
@@ -32,7 +34,7 @@ module.exports = {
       } else if (this.filters?.chef_id) {
         recipes = await Recipe.findAll({ where: { chef_id: this.filters.chef_id } });
       } else {
-        await Recipe.findAll({ where: { user_id: this.filters.id } });
+        recipes = await Recipe.findAll({ where: { user_id: this.filters.id } });
       }
       const recipesPromise = recipes.map(getChefAndImage);
       return Promise.all(recipesPromise);
@@ -78,4 +80,17 @@ module.exports = {
     recipe.chef_name = (await Chef.findOne({ where: { id: recipe.chef_id } })).name;
     return recipe;
   },
+  async deleteRecipe() {
+    const { recipe_id } = this.filters;
+    const files = (await RecipeFiles.findAll({ where: { recipe_id } }));
+
+    await Recipe.delete(recipe_id);
+    await RecipeFiles.deleteIf({ where: { recipe_id } });
+    const filesPromise = files.map(async file => {
+      const pathFile = (await File.find(file.file_id))?.path;
+      unlinkSync(pathFile);
+      File.delete(file.file_id);
+    });
+    await Promise.all(filesPromise);
+  }
 };

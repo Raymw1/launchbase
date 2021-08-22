@@ -2,9 +2,10 @@ const { unlinkSync } = require("fs");
 
 const Chef = require("../../model/Chef");
 const File = require("../../model/File");
-const { parseDate } = require("../../../lib/utils");
+
 const chefServices = require("../../services/chefServices");
 const recipeServices = require("../../services/recipeServices");
+const { parseDate } = require("../../../lib/utils");
 
 module.exports = {
   async index(req, res) {
@@ -93,16 +94,19 @@ module.exports = {
         });
       }
   
+      await Chef.update(req.body.id, { name: req.body.name, avatar: file_id });
+      
       if (req.body.removed_files) {
         const removed_files = req.body.removed_files.split(",");
         removed_files.pop();
-        const removedFilesPromise = removed_files.map((id) =>
-          File.deleteChef(id)
-        );
+        const removedFilesPromise = removed_files.map(async (id) => {
+          const pathFile = (await File.find(id))?.path;
+          unlinkSync(pathFile);
+          await File.delete(id)
+        });
         await Promise.all(removedFilesPromise);
       }
   
-      await Chef.update(req.body.id, { name: req.body.name, avatar: file_id });
       return res.redirect(`/admin/chefs/${req.body.id}`);
     } catch (err) {
       console.error(err);

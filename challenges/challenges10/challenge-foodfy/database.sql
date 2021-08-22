@@ -63,3 +63,7 @@ ON DELETE CASCADE;
 ALTER TABLE "recipe_files" DROP CONSTRAINT recipe_files_recipe_id_fkey, 
 ADD CONSTRAINT recipe_files_recipe_id_fkey FOREIGN KEY ("recipe_id") REFERENCES "recipes" ("id")
 ON DELETE CASCADE;
+
+ALTER TABLE "recipe_files" DROP CONSTRAINT recipe_files_file_id_fkey, 
+ADD CONSTRAINT recipe_files_file_id_fkey FOREIGN KEY ("file_id") REFERENCES "files" ("id")
+ON DELETE CASCADE;

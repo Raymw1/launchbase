@@ -4,7 +4,7 @@ const UserController = require("../../app/controllers/admin/UserController");
 const SessionController = require("../../app/controllers/admin/SessionController");
 const userValidator = require("../../app/validators/userValidator");
 const sessionValidator = require("../../app/validators/sessionValidator");
-const { onlyUsers, onlyAdmins, isLoggedRedirectToProfile, checkIfIsAdminToCreate } = require("../../app/middlewares/session");
+const { onlyAdmins, isLoggedRedirectToProfile, checkIfIsAdminToCreate } = require("../../app/middlewares/session");
 
 
 /* ============= REGISTER ============= */

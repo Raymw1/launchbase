@@ -1,7 +1,9 @@
-const { verifyForm } = require("../../lib/utils");
 const { compare } = require("bcryptjs");
-const User = require("../model/User");
+
 const { checkIfIsAdminToCreate } = require("../middlewares/session");
+
+const User = require("../model/User");
+const { verifyForm } = require("../../lib/utils");
 
 module.exports = {
   async update(req, res, next) {

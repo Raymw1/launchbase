@@ -1,6 +1,9 @@
-const User = require("../../model/User");
-const mailer = require("../../../lib/mailer");
 const { hash } = require("bcryptjs");
+const mailer = require("../../../lib/mailer");
+
+const User = require("../../model/User");
+const Recipe = require("../../model/Recipe");
+const recipeServices = require("../../services/recipeServices");
 
 module.exports = {
   async list(req, res) {
@@ -46,7 +49,7 @@ module.exports = {
   },
   async editForm(req, res) {
     try {
-      const userData = await User.findOne({ where: { id: req.params.id } });
+      const userData = await User.find(req.params.id);
       return res.render("admin/users/edit", { userData, user: req.user });
     } catch (err) {
       console.error(err);
@@ -78,10 +81,18 @@ module.exports = {
       let user = await User.find(id);
       if (!user) return res.render("admin/profile", { user: req.user, error: "Usuário não encontrado!" });
       if (user.is_admin) return res.render("admin/users/edit", { user: req.user, userData: user, error: "Este usuário não pode ser deletado!" });
+      
+      const recipes = await Recipe.findAll({ where: { user_id: id }});
+      const recipesPromise = recipes.map(async recipe => {
+        await recipeServices.load("deleteRecipe", { recipe_id: recipe.id })
+      })
+      await Promise.all(recipesPromise);
+
       await User.delete(id);
-      return res.redirect(`/admin/users`);
+      return res.render(`admin/profile/index`, { user: req.user, success: "Usuário deletado com sucesso!" });
     } catch (err) {
       console.error(err);
+      return res.render("admin/profile/index", { user: req.user, error: "Erro inesperado, tente novamente!"});
     }
   },
 };

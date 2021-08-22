@@ -1,8 +1,6 @@
 const { verifyForm, parseToArray } = require("../../lib/utils");
 const Chef = require("../model/Chef");
-const Recipe = require("../model/Recipe");
 const recipeServices = require("../services/recipeServices");
-const { getRecipe } = require("../services/recipeServices");
 
 module.exports = {
   async post(req, res, next) {

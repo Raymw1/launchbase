@@ -1,6 +1,4 @@
 const db = require("../../config/db");
-const { parseDate } = require("../../lib/utils");
-const File = require("./File");
 const Base = require("./Base");
 
 Base.init({ table: "chefs" });
