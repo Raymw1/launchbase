@@ -8,7 +8,7 @@ const recipeServices = require("../services/recipeServices");
 module.exports = {
   async index(req, res) {
     try {
-      const recipes = await recipeServices.load("getRecipes");
+      const recipes = await recipeServices.load("getRecipes", { all: true });
       while (recipes.length > 6) {
         recipes.pop();
       }
@@ -33,11 +33,11 @@ module.exports = {
   },
   async recipe(req, res) {
     try {
-      const { recipe, images } = await recipeServices.load("getRecipe", { id: req.params.id });
+      const recipe = await recipeServices.load("getRecipe", { id: req.params.id });
       if (!recipe) {
         return res.send("Recipe not found");
       }
-      return res.render("public/recipe", { recipe, images });
+      return res.render("public/recipe", { recipe });
     } catch (err) {
       console.error(err);
       return res.render("public/index", { error: "Algo deu errado!" });
@@ -45,7 +45,7 @@ module.exports = {
   },
   async chefs(req, res) {
     try {
-      let chefs = (await Chef.findAll()).rows;
+      let chefs = await Chef.findAll();
       chefs = await chefServices.getChefs(chefs);
       return res.render("public/chefs", { chefs });
     } catch (err) {

@@ -5,7 +5,11 @@ const RecipeFiles = require("../model/RecipeFiles");
 
 async function getImages(file_id) {
   image = await File.find(file_id);
-  return image.path.replace("public", "");
+  return {
+    id: image.id,
+    name: image.name,
+    src: image.path.replace("public", ""),
+  }
 }
 
 async function getChefAndImage(recipe) {
@@ -22,7 +26,7 @@ module.exports = {
   },
   async getRecipes() {
     try {
-      let recipes = await Recipe.findAll();
+      let recipes = (this.filters?.is_admin || this.filters?.all) ? await Recipe.findAll() : await Recipe.allOfUser(this.filters?.userId);
       const recipesPromise = recipes.map(getChefAndImage);
       return Promise.all(recipesPromise);
     } catch (err) {
@@ -63,8 +67,8 @@ module.exports = {
       });
     let images = await RecipeFiles.findAll({ where: { recipe_id: this.filters.id } });
     const imagesPromise = images.map(image => getImages(image.file_id));
-    images = await Promise.all(imagesPromise);
+    recipe.images = await Promise.all(imagesPromise);;
     recipe.chef_name = (await Chef.findOne({ where: { id: recipe.chef_id } })).name;
-    return { recipe, images };
+    return recipe;
   },
 };

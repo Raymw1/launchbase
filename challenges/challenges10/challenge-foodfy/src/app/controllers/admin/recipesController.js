@@ -1,64 +1,96 @@
 const Recipe = require("../../model/Recipe");
 const File = require("../../model/File");
-const { parseToArray, verifyForm } = require("../../../lib/utils");
+const Chef = require("../../model/Chef");
+const RecipeFiles = require("../../model/RecipeFiles");
+
 const recipeServices = require("../../services/recipeServices");
+
+const { parseToArray } = require("../../../lib/utils");
+
 
 module.exports = {
   async index(req, res) {
-    let recipes = req.user.is_admin ? await Recipe.all() : await Recipe.allOfUser(req.session.userId);
-    recipes = await recipeServices.load("getRecipes");
-    return res.render("admin/recipes/index", { user: req.user, recipes });
+    try {
+      recipes = await recipeServices.load("getRecipes", { is_admin: req.user.is_admin, id: req.session.userId });
+      return res.render("admin/recipes/index", { user: req.user, recipes });
+    } catch (err) {
+      console.error(err);
+      return res.render("admin/profile/index", { user: req.user, error: "Algo deu errado!" });
+    }
   },
   async show(req, res) {
-    const { recipe, images } = await recipeServices.getRecipe(req);
-    return res.render("admin/recipes/show", { user: req.user, recipe, images });
+    try {
+      const recipe = await recipeServices.load("getRecipe", { id: req.params.id });
+      return res.render("admin/recipes/show", { user: req.user, recipe });
+    } catch (err) {
+      console.error(err);
+      return res.render("admin/profile/index", { user: req.user, error: "Algo deu errado!" });
+    }
   },
   async create(req, res) {
-    let chefs = (await Recipe.chefSelectOptions()).rows;
-    return res.render("admin/recipes/create", { user: req.user, chefs });
+    try {
+      let chefs = await Chef.findAll();
+      return res.render("admin/recipes/create", { user: req.user, chefs });
+    } catch (err) {
+      console.error(err);
+      return res.render("admin/recipes/create", { user: req.user, error: "Algo deu errado!" });
+    }
   },
   async post(req, res) {
-    const { userId }= req.session
-    const id = (await Recipe.create(req.body, userId)).rows[0].id;
-    const filesPromise = req.files.map((file) => {
-      File.create({ ...file, recipe_id: id });
-    });
-    await Promise.all(filesPromise);
-    const { recipe, images } = await recipeServices.getRecipe(req, res, id);
-    return res.render(`admin/recipes/show`, {recipe, images, user: req.user, success: "Receita criada com sucesso!" });
+    try {
+      const { userId }= req.session
+      let { chef_id, title, ingredients, preparation, information } = req.body;
+      ingredients = parseToArray(ingredients);
+      preparation = parseToArray(preparation);
+      const recipe_id = await Recipe.create({ chef_id, title, ingredients, preparation, information, user_id: userId });
+      const filesPromise = req.files.map(async (file) => {
+        const file_id = await File.create({ name: file.name, path: file.path });
+        await RecipeFiles.create({ recipe_id, file_id });
+      });
+      await Promise.all(filesPromise);
+      const recipe = await recipeServices.load("getRecipe", { id: recipe_id });
+      return res.render(`admin/recipes/show`, {recipe, user: req.user, success: "Receita criada com sucesso!" });
+    } catch (err) {
+      console.error(err);
+      return res.render("admin/recipes/create", { user: req.user, error: "Algo deu errado!" });
+    }
   },
   async edit(req, res) {
-    const recipe = (await Recipe.find(req.params.id)).rows[0];
-    if (!recipe) {
-      return res.send("Recipe not found");
+    try {
+      const recipe = await recipeServices.load("getRecipe", { id: req.params.id});
+      if (!recipe) {
+        return res.send("Recipe not found");
+      }
+      const chefs = await Chef.findAll();
+      return res.render("admin/recipes/edit", { user: req.user, recipe, chefs });
+    } catch (err) {
+      console.error(err);
+      return res.render("admin/profile/index", { user: req.user, error: "Algo deu errado!" })
     }
-    await Recipe.files(req.params.id);
-    const chefs = (await Recipe.chefSelectOptions()).rows;
-    let files = (await Recipe.files(req.params.id)).rows;
-    files = files.map((file) => ({
-      ...file,
-      src: `${req.protocol}://${req.headers.host}${file.path.replace(
-        "public",
-        ""
-      )}`,
-    }));
-    return res.render("admin/recipes/edit", { user: req.user, recipe, chefs, files });
   },
   async put(req, res) {
-    const filesPromise = req.files.map((file) => {
-      File.create({ ...file, recipe_id: req.body.id });
-    });
-    await Promise.all(filesPromise);
-
-    if (req.body.removed_files) {
-      const removed_files = req.body.removed_files.split(",");
-      removed_files.pop();
-      const removedFilesPromise = removed_files.map((id) => File.delete(id));
-      await Promise.all(removedFilesPromise);
+    try {
+      const filesPromise = req.files.map(async (file) => {
+        const file_id = await File.create({ name: file.name, path: file.path });
+        await RecipeFiles.create({ recipe_id, file_id });
+      });
+      await Promise.all(filesPromise);
+  
+      if (req.body.removed_files) {
+        const removed_files = req.body.removed_files.split(",");
+        removed_files.pop();
+        const removedFilesPromise = removed_files.map((id) => File.delete(id));
+        await Promise.all(removedFilesPromise);
+      }
+      let { id, chef_id, title, ingredients, preparation, information } = req.body;
+      ingredients = parseToArray(ingredients);
+      preparation = parseToArray(preparation);
+      await Recipe.update(id, { chef_id, title, ingredients, preparation, information });
+      return res.redirect(`/admin/recipes/${req.body.id}`);
+    } catch (err) {
+      console.error(err);
+      return res.render("admin/profile/index", { user: req.user})
     }
-
-    await Recipe.update(req.body);
-    return res.redirect(`/admin/recipes/${req.body.id}`);
   },
   async delete(req, res) {
     await Recipe.delete(req.body.id);

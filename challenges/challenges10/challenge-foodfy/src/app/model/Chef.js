@@ -9,10 +9,11 @@ Base.init({ table: "chefs" });
 
 module.exports = {
   ...Base,
-  findAll() {
-    return db.query(`SELECT chefs.*, count(recipes) AS total_recipes FROM chefs
+  async findAll() {
+    const results = await db.query(`SELECT chefs.*, count(recipes) AS total_recipes FROM chefs
     LEFT JOIN recipes ON(recipes.chef_id = chefs.id)
     GROUP BY chefs.id;`);
+    return results.rows;
   },
   find(id) {
     return db.query(

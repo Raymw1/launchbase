@@ -6,8 +6,8 @@
             <i class="material-icons">add</i>
         </div>
         <div id="photos-preview">
-            {% if files %}
-            {% for file in files %}
+            {% if recipe.images %}
+            {% for file in recipe.images %}
             <div class="photo" id="{{ file.id }}">
                 <img src="{{ file.src }}" alt="{{ file.name }}">
                 <i class="material-icons"  onclick="PhotosUpload.removeOldPhoto(event);">close</i>

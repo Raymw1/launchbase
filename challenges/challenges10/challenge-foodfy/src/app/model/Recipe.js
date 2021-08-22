@@ -8,14 +8,10 @@ Base.init({ table: "recipes" });
 
 module.exports = {
   ...Base,
-  async all() {
-    // ORDER BY recipes.created_at DESC
-    return;
-  },
-  allOfUser(userId) {
-    return db.query(`SELECT recipes.*, chefs.name as chef_name FROM recipes 
-    LEFT JOIN chefs ON (chefs.id = recipes.chef_id) WHERE user_id = $1 
+  async allOfUser(userId) {
+    const results = await db.query(`SELECT * FROM recipes WHERE user_id = $1 
     ORDER BY recipes.created_at DESC`, [userId]);
+    return results.rows;
   },
   findBy(filter, callback) {
     db.query(`SELECT recipes.*, chefs.name as chef_name FROM recipes 
@@ -42,47 +38,6 @@ module.exports = {
     const results = await db.query(query, [limit, offset]);
     return results.rows;
   },
-  async create(data, userId) {
-    const query = `
-    INSERT INTO recipes (
-        chef_id, 
-        title, 
-        ingredients, 
-        preparation,
-        information,
-        user_id) VALUES ($1, $2, $3, $4, $5, $6) RETURNING id;`;
-    const values = [
-      data.chef_id,
-      data.title,
-      parseToArray(data.ingredients),
-      parseToArray(data.preparation),
-      data.information,
-      userId
-    ];
-    return await db.query(query, values)
-  },
-  chefSelectOptions() {
-    return db.query(`SELECT id, name FROM chefs;`);
-  },
-  update(data) {
-    const query = `
-    UPDATE recipes SET 
-      chef_id=($1), 
-      title=($2),
-      ingredients=($3),
-      preparation=($4),
-      information=($5) 
-    WHERE id = $6;`;
-    const values = [
-      data.chef_id,
-      data.title,
-      parseToArray(data.ingredients),
-      parseToArray(data.preparation),
-      data.information,
-      data.id,
-    ];
-    return db.query(query, values);
-  },
   async delete(id) {
     const files = (await db.query(`SELECT file_id FROM recipe_files WHERE recipe_id = $1;`, [id])).rows;
     await db.query(`DELETE FROM recipe_files WHERE recipe_id = $1`, [id]);
@@ -92,12 +47,6 @@ module.exports = {
     });
     await Promise.all(filesPromise);
     return db.query(`DELETE FROM recipes WHERE id = $1`, [id]);
-  },
-  files(recipe_id) {
-    const query = `SELECT files.* FROM files 
-    LEFT JOIN recipe_files ON (recipe_files.file_id = files.id)
-    WHERE recipe_files.recipe_id = $1 GROUP BY files.id`;
-    return db.query(query, [recipe_id]);
   },
   async getImage(id) {
     const image_id = (await db.query(`SELECT file_id FROM recipe_files WHERE recipe_id = $1;`, [id])).rows[0]?.file_id;

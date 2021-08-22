@@ -47,7 +47,7 @@ async function checkIfIsAdminToCreate(req, res, next) {
 }
 
 async function checkIfIsOfOwnUserOrAdmin(req, res, next) {
-  const recipe = (await Recipe.find(req.body.id || req.params.id)).rows[0];
+  const recipe = await Recipe.find(req.body.id || req.params.id);
   if (recipe.user_id != req.session.userId && !req.user.is_admin)
     return res.render("admin/profile/index", {
       user: req.user,
@@ -59,7 +59,7 @@ async function checkIfIsOfOwnUserOrAdmin(req, res, next) {
 }
 
 async function checkIfIsAllowedToChange(req, res, next) {
-  const { recipe, images } = await recipeServices.load("getRecipe", { id: req.params.id });
+  const recipe = await recipeServices.load("getRecipe", { id: req.params.id });
   if (recipe.user_id == req.session.userId || req.user.is_admin) req.user.isAllowed = true;
   req.recipe = recipe;
   next()

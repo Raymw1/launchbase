@@ -10,6 +10,7 @@ function find(filters, table) {
       });
     });
   }
+  query += table == "recipes" ? " ORDER BY recipes.created_at DESC" : '';
   return db.query(query);
 }
 
@@ -37,7 +38,15 @@ const Base = {
         values = [];
       Object.keys(fields).map(key => {
         keys.push(key);
-        values.push(`'${fields[key]}'`);
+        if (key == "ingredients" || key ==  "preparation") {
+          let subkeys = []
+          fields[key].forEach(subkey => {
+            subkeys.push(`"${subkey}"`)
+          })
+          values.push(`'{${subkeys}}'`);
+        } else {
+          values.push(`'${fields[key]}'`);
+        }
       })
       keys = keys.join(",");
       values = values.join(",");
@@ -52,7 +61,16 @@ const Base = {
     try {
       let values = [];
       Object.keys(fields).map(key => {
-        values.push(`${key} = '${fields[key]}'`);
+        if (key == "ingredients" || key ==  "preparation") {
+          let subkeys = []
+          fields[key].forEach(subkey => {
+            subkeys.push(`"${subkey}"`)
+          })
+          values.push(`${key} = '{${subkeys}}'`);
+
+        } else {
+          values.push(`${key} = '${fields[key]}'`);
+        }
       })
       values = values.join(",");
       const query = `UPDATE ${this.table} SET ${values} WHERE id = ${id} RETURNING id`;
