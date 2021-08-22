@@ -83,6 +83,17 @@ const Base = {
   async delete(id) {
     return db.query(`DELETE FROM ${this.table} WHERE id = $1;`, [id]);
   },
+  async deleteIf(filters) {
+    let query = `DELETE FROM ${this.table}`;
+    if (filters) {
+      Object.keys(filters).map((key) => {
+        query += ` ${key}`;
+        Object.keys(filters[key]).map((field) => {
+          query += ` ${field} = '${filters[key][field]}'`;
+        });
+      });
+    }
+  },
 };
 
 module.exports = Base;

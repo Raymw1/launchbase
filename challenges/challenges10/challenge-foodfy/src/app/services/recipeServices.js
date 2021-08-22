@@ -13,8 +13,8 @@ async function getImages(file_id) {
 }
 
 async function getChefAndImage(recipe) {
-  let file_id = (await RecipeFiles.findOne({ where: { recipe_id: recipe.id } })).file_id;
-  recipe.image = await getImages(file_id);
+  let file_id = (await RecipeFiles.findOne({ where: { recipe_id: recipe.id } }))?.file_id;
+  recipe.image = file_id ? await getImages(file_id) : null;
   recipe.chef_name = (await Chef.findOne({ where: { id: recipe.chef_id } })).name;
   return recipe;
 }
@@ -26,7 +26,14 @@ module.exports = {
   },
   async getRecipes() {
     try {
-      let recipes = (this.filters?.is_admin || this.filters?.all) ? await Recipe.findAll() : await Recipe.allOfUser(this.filters?.userId);
+      let recipes = [];
+      if (this.filters?.is_admin || this.filters?.all) {
+        recipes = await Recipe.findAll();
+      } else if (this.filters?.chef_id) {
+        recipes = await Recipe.findAll({ where: { chef_id: this.filters.chef_id } });
+      } else {
+        await Recipe.findAll({ where: { user_id: this.filters.id } });
+      }
       const recipesPromise = recipes.map(getChefAndImage);
       return Promise.all(recipesPromise);
     } catch (err) {
@@ -46,7 +53,7 @@ module.exports = {
         offset,
       };
       let recipes = await Recipe.paginate(params);
-      let total = recipes[0].total || 0;
+      let total = recipes[0]?.total || 0;
       const pagination = {
         total: Math.ceil(total / limit),
         page,

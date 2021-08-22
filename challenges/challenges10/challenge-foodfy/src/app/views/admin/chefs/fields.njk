@@ -11,9 +11,9 @@
                 <div class="button">Enviar avatar</div>
             </div>
             <div id="photos-preview">
-                {% if avatar %}
-                <div class="photo" id="{{ avatar.id }}">
-                    <img src="{{ avatar.src }}" alt="{{ avatar.name }}">
+                {% if chef.image %}
+                <div class="photo" id="{{ chef.image.id }}">
+                    <img src="{{ chef.image.src }}" alt="{{ chef.image.name }}">
                     <i class="material-icons"  onclick="PhotosUpload.removeOldPhoto(event);">close</i>
                 </div>
                 <input type="hidden" name="removed_files">

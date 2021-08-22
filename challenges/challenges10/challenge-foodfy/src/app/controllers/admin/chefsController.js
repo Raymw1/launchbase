@@ -1,7 +1,10 @@
+const { unlinkSync } = require("fs");
+
 const Chef = require("../../model/Chef");
 const File = require("../../model/File");
-const { parseToArray, verifyForm } = require("../../../lib/utils");
+const { parseDate } = require("../../../lib/utils");
 const chefServices = require("../../services/chefServices");
+const recipeServices = require("../../services/recipeServices");
 
 module.exports = {
   async index(req, res) {
@@ -18,35 +21,22 @@ module.exports = {
     }
   },
   async show(req, res) {
-    let chef = (await Chef.find(req.params.id)).rows[0];
-    if (!chef)
-      return res.render("admin/chefs/index", {
-        user: req.user,
-        error: "Chef não encontrado!",
-      });
-    chef = await chefServices.getChef(chef);
-    let allRecipes = (await Chef.getRecipes(req.params.id)).rows;
-    let ids = [];
-    let canCreateId = true;
-    let recipes = [];
-    allRecipes.map((recipe) => {
-      for (let id of ids) {
-        if (id == recipe.id) {
-          canCreateId = false;
-          break;
-        } else {
-          canCreateId = true;
-        }
-      }
-      if (canCreateId) {
-        ids.push(recipe.id);
-        recipes.push({
-          ...recipe,
-          image: recipe.image.replace("public", ""),
+    try {
+      let chef = await Chef.find(req.params.id);
+      if (!chef)
+        return res.render("admin/chefs/index", {
+          user: req.user,
+          error: "Chef não encontrado!",
         });
-      }
-    });
-    return res.render("admin/chefs/show", { user: req.user, chef, recipes });
+      chef = await chefServices.getChef(chef);
+      let recipes = await recipeServices.load("getRecipes", {
+        chef_id: chef.id,
+      });
+      return res.render("admin/chefs/show", { user: req.user, chef, recipes });
+    } catch (err) {
+      console.error(err);
+      return res.render("admin/profile/index", { user: req.user });
+    }
   },
   create(req, res) {
     return res.render("admin/chefs/create", { user: req.user });
@@ -58,7 +48,11 @@ module.exports = {
         name: avatar.name,
         path: avatar.path,
       });
-      const { id } = (await Chef.create(req.body, file_id)).rows[0];
+      const id = await Chef.create({
+        name: req.body.name,
+        avatar: file_id,
+        created_at: parseDate(Date.now()).iso,
+      });
       return res.redirect(`chefs/${id}`);
     } catch (err) {
       console.error(err);
@@ -69,68 +63,67 @@ module.exports = {
     }
   },
   async edit(req, res) {
-    let chef = (await Chef.find(req.params.id)).rows[0];
-    if (!chef)
-      return res.render("admin/chefs/index", {
+    try {
+      let chef = await Chef.find(req.params.id);
+      if (!chef)
+        return res.render("admin/chefs/index", {
+          user: req.user,
+          error: "Chef não encontrado!",
+        });
+      chef = await chefServices.getChef(chef);
+      const blockDelete = chef.total_recipes > 0 ? true : false;
+      return res.render("admin/chefs/edit", {
         user: req.user,
-        error: "Chef não encontrado!",
+        chef,
+        blockDelete,
       });
-    const blockDelete = chef.total_recipes > 0 ? true : false;
-    let avatar = (await Chef.getImage(chef.avatar)).rows[0];
-    avatar = {
-      ...avatar,
-      src: `${req.protocol}://${req.headers.host}${avatar.path.replace(
-        "public",
-        ""
-      )}`,
-    };
-    return res.render("admin/chefs/edit", {
-      user: req.user,
-      chef,
-      blockDelete,
-      avatar,
-    });
+    } catch (err) {
+      console.error(err);
+      return res.render("admin/profile/index", { user: req.user });
+    }
   },
   async put(req, res) {
-    const avatar = {
-      filename: req.files[0]?.filename,
-      path: req.files[0]?.path,
-    };
-    file_id =
-      +(await File.createChef({ ...avatar, chef_id: req.body.id }))?.rows[0]
-        .id ||
-      +(await File.createChef({ ...avatar, chef_id: req.body.id })).rows[0]
-        .avatar;
-
-    if (req.body.removed_files) {
-      const removed_files = req.body.removed_files.split(",");
-      removed_files.pop();
-      const removedFilesPromise = removed_files.map((id) =>
-        File.deleteChef(id)
-      );
-      await Promise.all(removedFilesPromise);
+    try {
+      const avatar = { name: req.files[0]?.filename, path: req.files[0]?.path };
+      let file_id = (await Chef.find(req.body.id)).avatar
+      if (avatar.name && avatar.path ) {
+        file_id = await File.create({
+          name: avatar.name,
+          path: avatar.path,
+        });
+      }
+  
+      if (req.body.removed_files) {
+        const removed_files = req.body.removed_files.split(",");
+        removed_files.pop();
+        const removedFilesPromise = removed_files.map((id) =>
+          File.deleteChef(id)
+        );
+        await Promise.all(removedFilesPromise);
+      }
+  
+      await Chef.update(req.body.id, { name: req.body.name, avatar: file_id });
+      return res.redirect(`/admin/chefs/${req.body.id}`);
+    } catch (err) {
+      console.error(err);
+      return res.render("admin/profile/index", { user: req.user });
     }
-
-    await Chef.update(req.body, file_id);
-    return res.redirect(`/admin/chefs/${req.body.id}`);
   },
   async delete(req, res) {
-    let chef = (await Chef.find(req.body.id)).rows[0];
-    if (!chef)
-      return res.render("admin/chefs/index", {
-        user: req.user,
-        error: "Chef não encontrado",
-      });
-    let errorDelete = chef.total_recipes > 0 ? true : false,
-      blockDelete = errorDelete;
-    if (errorDelete) {
-      return res.render("admin/chefs/edit", { chef, blockDelete, errorDelete });
-    } else {
+    try {
+      const avatar = (await Chef.find(req.body.id)).avatar;
+      const pathFile = (await File.find(avatar)).path;
+      unlinkSync(pathFile);
       await Chef.delete(req.body.id);
-      return res.render(`admin/chefs/index`, {
+      await File.delete(avatar);
+  
+      return res.render(`admin/profile/index`, {
         user: req.user,
         success: "Chef deletado com sucesso!",
       });
+    } catch (err) {
+      console.error(err);
+      return res.render("admin/profile/index", { user: req.user });
     }
   },
 };

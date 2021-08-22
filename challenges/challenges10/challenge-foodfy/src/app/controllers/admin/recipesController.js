@@ -72,7 +72,8 @@ module.exports = {
     try {
       const filesPromise = req.files.map(async (file) => {
         const file_id = await File.create({ name: file.name, path: file.path });
-        await RecipeFiles.create({ recipe_id, file_id });
+        console.log(file_id, req.params.recipe_id)
+        await RecipeFiles.create({ recipe_id: req.body.id, file_id });
       });
       await Promise.all(filesPromise);
   
@@ -93,7 +94,18 @@ module.exports = {
     }
   },
   async delete(req, res) {
-    await Recipe.delete(req.body.id);
-    return res.render(`admin/profile/index`, { success: "Receita deletada com sucesso!", user: req.user});
+    try {
+      const recipe_id = req.body.id;
+      const files = (await RecipeFiles.findAll({ where: { recipe_id } }));
+  
+      await Recipe.delete(recipe_id);
+      await RecipeFiles.deleteIf({ where: { recipe_id } });
+      const filesPromise = files.map(file => File.delete(file.file_id));
+      await Promise.all(filesPromise);
+      return res.render(`admin/profile/index`, { success: "Receita deletada com sucesso!", user: req.user});
+    } catch (err) {
+      console.error(err);
+      return res.render("admin/profile/index", { user: req.user})
+    }
   },
 };

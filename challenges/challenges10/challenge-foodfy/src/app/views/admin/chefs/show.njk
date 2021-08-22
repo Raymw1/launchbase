@@ -14,7 +14,7 @@
                 <a href="/admin/chefs/{{ chef.id }}/edit" class="button">Editar chef</a>
                 {% endif %}
             </div>
-            <img src="{{ chef.image }}" class="chef-avatar" alt="{{ chef.name }}">
+            <img src="{{ chef.image.src }}" class="chef-avatar" alt="{{ chef.name }}">
             <h1>{{ chef.name }}</h1>
             {% if chef.total_recipes == 0 %}
             <p>Este chef não possui receitas</p>
@@ -29,7 +29,7 @@
             <div class="recipe-cards">
                 {% for recipe in recipes %}
                 <div class="recipe-card" id="{{ recipe.id }}">
-                    <img src="{{ recipe.image }}" alt="{{ recipe.title }}">
+                    <img src="{{ recipe.image.src }}" alt="{{ recipe.title }}">
                     <div class="recipe-card-info">
                         <p>{{ recipe.title }}</p>
                         <small>por {{ chef.name }}</small>

@@ -17,7 +17,7 @@ module.exports = {
     next()
   },
   async put(req, res, next) {
-    const chefs = (await Recipe.chefSelectOptions()).rows;
+    const chefs = await Chef.findAll();
     const emptyFields = verifyForm(req.body);
     const recipe = await recipeServices.load("getRecipe", { id: req.body.id })
     const data = { recipe: {...emptyFields?.user, ingredients: parseToArray(emptyFields?.user.ingredients), images: recipe.images, preparation: parseToArray(emptyFields?.user.preparation) }, error: emptyFields?.error};
