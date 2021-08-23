@@ -199,5 +199,20 @@ const Validate = {
       error,
       value,
     };
+  },
+  allFields(event) {
+    const fields = document.querySelectorAll(".input-group input, .input-group select, .input-group textarea");
+    for (let field of fields) {
+      if (field.value.trim() == "" && field.name != "removed_files" && field.name != "avatar" && field.name != "photos") {
+        event.preventDefault()
+        Validate.errorBox.innerHTML = `Por favor, preencha todos os campos!`;
+        Validate.errorBox.classList.add("show");
+        Validate.errorBox.classList.add("error-message");
+        setTimeout(() => {
+        Validate.errorBox.classList.remove("show");
+        Validate.errorBox.classList.remove("error-message");
+        }, 4000)
+      }
+    }
   }
 }
