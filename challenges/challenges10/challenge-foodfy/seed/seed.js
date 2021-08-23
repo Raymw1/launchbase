@@ -1,14 +1,15 @@
 const { hash } = require("bcryptjs");
 const faker = require("faker");
 
-const User = require("./src/app/model/User");
-const File = require("./src/app/model/File");
-const Chef = require("./src/app/model/Chef");
-const Recipe = require("./src/app/model/Recipe");
-const RecipeFiles = require("./src/app/model/RecipeFiles");
+const User = require("../src/app/model/User");
+const File = require("../src/app/model/File");
+const Chef = require("../src/app/model/Chef");
+const Recipe = require("../src/app/model/Recipe");
+const RecipeFiles = require("../src/app/model/RecipeFiles");
+const getImages = require("./getImages");
 
 let userIds = [],
-  totalRecipeFiles = 30,
+  totalRecipeFiles = 20,
   totalRecipes = 10,
   totalChefs = 5,
   totalUsers = 3;
@@ -34,9 +35,10 @@ async function createChefs() {
   const files = [];
 
   while (files.length < totalChefs) {
+    const photoName = await getImages(['cChD4mWaulQ', "5055749", "4065524"], true)
     files.push({
-      name: "avatar",
-      path: `https://source.unsplash.com/collection/10858240/250x250`,
+      name: photoName,
+      path: `public/assets/images/${photoName}`,
     });
     chefs.push({
       name: faker.name.findName(),
@@ -73,9 +75,10 @@ async function createRecipes() {
   }
 
   while (files.length < totalRecipeFiles) {
+    const photoName = await getImages(['3775871'])
     files.push({
-      name: `recipe${files.length}`,
-      path: `https://source.unsplash.com/collection/35749100/250x250`,
+      name: photoName,
+      path: `public/assets/images/${photoName}`,
     });
     recipeFiles.push({
       recipe_id: Math.ceil(Math.random() * totalRecipes),
