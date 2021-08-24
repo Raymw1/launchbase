@@ -1,7 +1,6 @@
 const Recipe = require("../model/Recipe");
 const User = require("../model/User");
 const recipeServices = require("../services/recipeServices");
-const { getRecipe } = require("../services/recipeServices");
 
 async function onlyUsers(req, res, next) {
   const id = req.session.userId;
@@ -17,7 +16,7 @@ async function onlyUsers(req, res, next) {
 
 async function onlyAdmins(req, res, next) {
   const id = req.session.userId;
-  if (!req.session.userId) return res.redirect("/admin/users/login");
+  if (!id) return res.redirect("/admin/users/login");
   const user = await User.find(id);
   if (!user)
     return res.render("admin/users/login", {
@@ -41,7 +40,13 @@ async function checkIfIsAdminToCreate(req, res, next) {
   const id = req.session.userId;
   if (id) {
     const user = await User.find(id);
-    req.user = user.is_admin ? user : null;
+    if (!user.is_admin) {
+      return res.render("admin/profile/index", {
+        user: user,
+        error: "Você não tem permissão para entrar nesta área!",
+      });
+    }
+    req.user = user;
   }
   next();
 }

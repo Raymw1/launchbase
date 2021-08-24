@@ -13,7 +13,7 @@ module.exports = {
   async index(req, res) {
     try {
       recipes = await recipeServices.load("getRecipes", { is_admin: req.user.is_admin, id: req.session.userId });
-      return res.render("admin/recipes/index", { user: req.user, recipes });
+      return res.render("admin/recipes/index", { recipes });
     } catch (err) {
       console.error(err);
       return res.render("admin/profile/index", { user: req.user, error: "Algo deu errado!" });
@@ -22,7 +22,7 @@ module.exports = {
   async show(req, res) {
     try {
       const recipe = await recipeServices.load("getRecipe", { id: req.params.id });
-      return res.render("admin/recipes/show", { user: req.user, recipe });
+      return res.render("admin/recipes/show", { recipe, isAllowed: req.user.isAllowed });
     } catch (err) {
       console.error(err);
       return res.render("admin/profile/index", { user: req.user, error: "Algo deu errado!" });
@@ -31,10 +31,10 @@ module.exports = {
   async create(req, res) {
     try {
       let chefs = await Chef.findAll();
-      return res.render("admin/recipes/create", { user: req.user, chefs });
+      return res.render("admin/recipes/create", { chefs });
     } catch (err) {
       console.error(err);
-      return res.render("admin/recipes/create", { user: req.user, error: "Algo deu errado!" });
+      return res.render("admin/recipes/create", { error: "Algo deu errado!" });
     }
   },
   async post(req, res) {
@@ -50,7 +50,7 @@ module.exports = {
       });
       await Promise.all(filesPromise);
       const recipe = await recipeServices.load("getRecipe", { id: recipe_id });
-      return res.render(`admin/recipes/show`, {recipe, user: req.user, success: "Receita criada com sucesso!" });
+      return res.render(`admin/recipes/show`, {recipe, success: "Receita criada com sucesso!" });
     } catch (err) {
       console.error(err);
       return res.render("admin/recipes/create", { user: req.user, error: "Algo deu errado!" });
@@ -63,7 +63,7 @@ module.exports = {
         return res.send("Recipe not found");
       }
       const chefs = await Chef.findAll();
-      return res.render("admin/recipes/edit", { user: req.user, recipe, chefs });
+      return res.render("admin/recipes/edit", { recipe, chefs });
     } catch (err) {
       console.error(err);
       return res.render("admin/profile/index", { user: req.user, error: "Algo deu errado!" })
@@ -71,7 +71,6 @@ module.exports = {
   },
   async put(req, res) {
     try {
-      
       let { id, chef_id, title, ingredients, preparation, information } = req.body;
       ingredients = parseToArray(ingredients);
       preparation = parseToArray(preparation);

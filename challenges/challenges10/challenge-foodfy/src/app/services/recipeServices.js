@@ -8,9 +8,9 @@ const RecipeFiles = require("../model/RecipeFiles");
 async function getImages(file_id) {
   image = await File.find(file_id);
   return {
-    id: image.id,
-    name: image.name,
-    src: image.path.replace("public", ""),
+    id: image?.id,
+    name: image?.name,
+    src: image?.path.replace("public", ""),
   }
 }
 

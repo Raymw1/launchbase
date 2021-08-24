@@ -12,7 +12,7 @@ module.exports = {
     try {
       let chefs = await Chef.findAll();
       chefs = await chefServices.getChefs(chefs);
-      return res.render("admin/chefs/index", { user: req.user, chefs });
+      return res.render("admin/chefs/index", { chefs });
     } catch (err) {
       console.error(err);
       return res.render("admin/profile/index", {
@@ -26,21 +26,21 @@ module.exports = {
       let chef = await Chef.find(req.params.id);
       if (!chef)
         return res.render("admin/chefs/index", {
-          user: req.user,
+          chefs: await chefServices.getChefs(await Chef.findAll()),
           error: "Chef não encontrado!",
         });
       chef = await chefServices.getChef(chef);
       let recipes = await recipeServices.load("getRecipes", {
         chef_id: chef.id,
       });
-      return res.render("admin/chefs/show", { user: req.user, chef, recipes });
+      return res.render("admin/chefs/show", { chef, recipes });
     } catch (err) {
       console.error(err);
       return res.render("admin/profile/index", { user: req.user, error: "Algo deu errado!" });
     }
   },
   create(req, res) {
-    return res.render("admin/chefs/create", { user: req.user });
+    return res.render("admin/chefs/create");
   },
   async post(req, res) {
     try {
@@ -54,11 +54,11 @@ module.exports = {
         avatar: file_id,
         created_at: parseDate(Date.now()).iso,
       });
-      return res.redirect(`chefs/${id}`);
+      const chef = await chefServices.getChef(await Chef.find(id))
+      return res.render(`admin/chefs/show`, { chef, succes: "Chef criado com sucesso!"});
     } catch (err) {
       console.error(err);
       return res.render("admin/chefs/create", {
-        user: req.user,
         error: "Algo deu errado!",
       });
     }
@@ -74,7 +74,6 @@ module.exports = {
       chef = await chefServices.getChef(chef);
       const blockDelete = chef.total_recipes > 0 ? true : false;
       return res.render("admin/chefs/edit", {
-        user: req.user,
         chef,
         blockDelete,
       });
@@ -121,13 +120,13 @@ module.exports = {
       await Chef.delete(req.body.id);
       await File.delete(avatar);
   
-      return res.render(`admin/profile/index`, {
-        user: req.user,
+      return res.render(`admin/chefs/index`, {
+        chefs: await chefServices.getChefs(await Chef.findAll()),
         success: "Chef deletado com sucesso!",
       });
     } catch (err) {
       console.error(err);
-      return res.render("admin/profile/index", { user: req.user });
+      return res.render("admin/profile/index", { user: req.user, error: "Algo deu errado!" });
     }
   },
 };

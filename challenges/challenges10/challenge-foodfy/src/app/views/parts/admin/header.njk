@@ -7,18 +7,14 @@
                     <div class="links">
                         <li><a href="/admin/recipes">Receitas</a></li>
                         <li><a href="/admin/chefs">Chefs</a></li>
-                        {% if user %}
                         <li><a href="/admin/profile">Perfil</a></li>
-                        {% endif %}
-                        {% if user.is_admin or is_admin %}
+                        {% if session.is_admin %}
                         <li><a href="/admin/users">Usuários</a></li>
                         {% endif %}
                     </div>
-                    {% if user %}
                     <form action="/admin/users/logout" method="POST">
                         <button type="submit" class="logout">Sair</button>
                     </form>
-                    {% endif %}
                 </ul>
             </nav>
         </div>

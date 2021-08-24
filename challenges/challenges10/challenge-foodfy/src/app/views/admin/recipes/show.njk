@@ -8,7 +8,7 @@
         <div class="recipe-head">
             <div class="recipe-edit">
                 <h2>Receita: {{ recipe.title }}</h2>
-                {% if user.isAllowed or user.is_admin %}
+                {% if isAllowed or session.is_admin %}
                 <a href="/admin/recipes/{{ recipe.id }}/edit" class="button">Editar receita</a>
                 {% endif %}
             </div>

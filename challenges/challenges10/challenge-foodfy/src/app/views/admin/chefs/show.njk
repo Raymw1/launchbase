@@ -10,7 +10,7 @@
         <div class="recipe-head">
             <div class="recipe-edit">
                 <h2>Chef: {{ chef.name }}</h2>
-                {% if user.is_admin %}
+                {% if session.is_admin %}
                 <a href="/admin/chefs/{{ chef.id }}/edit" class="button">Editar chef</a>
                 {% endif %}
             </div>
