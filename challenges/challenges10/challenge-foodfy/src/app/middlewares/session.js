@@ -53,6 +53,14 @@ async function checkIfIsAdminToCreate(req, res, next) {
 
 async function checkIfIsOfOwnUserOrAdmin(req, res, next) {
   const recipe = await Recipe.find(req.body.id || req.params.id);
+  if (!recipe)
+    return res.render("admin/recipes/index", {
+      recipes: await recipeServices.load("getRecipes", {
+        is_admin: req.session.is_admin,
+        id: req.session.userId,
+      }),
+      error: "Esta receita não existe mais!",
+    });
   if (recipe.user_id != req.session.userId && !req.user.is_admin)
     return res.render("admin/profile/index", {
       user: req.user,
@@ -60,14 +68,15 @@ async function checkIfIsOfOwnUserOrAdmin(req, res, next) {
     });
   req.user.isAllowed = true;
   req.recipe = recipe;
-  next()
+  next();
 }
 
 async function checkIfIsAllowedToChange(req, res, next) {
   const recipe = await recipeServices.load("getRecipe", { id: req.params.id });
-  if (recipe.user_id == req.session.userId || req.user.is_admin) req.user.isAllowed = true;
+  if (recipe.user_id == req.session.userId || req.user.is_admin)
+    req.user.isAllowed = true;
   req.recipe = recipe;
-  next()
+  next();
 }
 
 module.exports = {
@@ -76,5 +85,5 @@ module.exports = {
   onlyAdmins,
   checkIfIsAdminToCreate,
   checkIfIsOfOwnUserOrAdmin,
-  checkIfIsAllowedToChange
+  checkIfIsAllowedToChange,
 };

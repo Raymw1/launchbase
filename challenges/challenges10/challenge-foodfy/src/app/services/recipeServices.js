@@ -88,8 +88,8 @@ module.exports = {
     await RecipeFiles.deleteIf({ where: { recipe_id } });
     const filesPromise = files.map(async file => {
       const pathFile = (await File.find(file.file_id))?.path;
-      unlinkSync(pathFile);
       File.delete(file.file_id);
+      unlinkSync(pathFile);
     });
     await Promise.all(filesPromise);
   }

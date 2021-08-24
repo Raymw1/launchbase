@@ -3,13 +3,18 @@ const Base = require("./Base");
 
 Base.init({ table: "chefs" });
 
-function find(select, joins, filters, group_by) {
-  let query = `SELECT chefs.*, count(recipes) AS total_recipes`;
-      query += select ? `, ${select}` : ``;
-      query += ` FROM chefs LEFT JOIN recipes ON(recipes.chef_id = chefs.id)`
-      query += joins ? ` ${joins}` : ``;
-      query += filters ? ` ${filters} GROUP BY chefs.id` : ` GROUP BY chefs.id` ;
-      query += group_by ? `, ${group_by}` : ``
+function find(filters) {
+  let query = `SELECT chefs.*, count(recipes) AS total_recipes
+  FROM chefs LEFT JOIN recipes ON(recipes.chef_id = chefs.id)`;
+  if (filters) {
+    Object.keys(filters).map((key) => {
+      query += ` ${key}`;
+      Object.keys(filters[key]).map((field) => {
+        query += ` ${field} = '${filters[key][field]}'`;
+      });
+    });
+  }
+  query += `GROUP BY chefs.id`;
   return db.query(query);
 }
 
@@ -21,11 +26,7 @@ module.exports = {
     return results.rows;
   },
   async find(id) {
-    const select = `files.path AS image`,
-      joins = `RIGHT JOIN files ON(chefs.avatar = files.id)`,
-      filters = `WHERE chefs.id = ${id}`,
-      group_by = `files.path`;
-    const results = await find(select, joins, filters, group_by);
+    const results = await find({ where: { "chefs.id": id }});
     return results.rows[0];
   },
 };

@@ -14,7 +14,7 @@
                 <a href="/admin/chefs/{{ chef.id }}/edit" class="button">Editar chef</a>
                 {% endif %}
             </div>
-            <img src="{{ chef.image.src }}" class="chef-avatar" alt="{{ chef.name }}">
+            <img src="{{ chef.image.src or 'https://static.vecteezy.com/ti/vetor-gratis/p1/331801-feliz-chef-vector-icone-vetor.jpg' }}" class="chef-avatar" alt="{{ chef.name }}">
             <h1>{{ chef.name }}</h1>
             {% if chef.total_recipes == 0 %}
             <p>Este chef não possui receitas</p>

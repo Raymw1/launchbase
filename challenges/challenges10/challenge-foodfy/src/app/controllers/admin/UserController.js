@@ -87,7 +87,8 @@ module.exports = {
       await Promise.all(recipesPromise);
 
       await User.delete(id);
-      return res.render(`admin/profile/index`, { user: req.user, success: "Usuário deletado com sucesso!" });
+      const users = await User.findAll();
+      return res.render(`admin/users/index`, { users, success: "Usuário deletado com sucesso!" });
     } catch (err) {
       console.error(err);
       return res.render("admin/profile/index", { user: req.user, error: "Erro inesperado, tente novamente!"});

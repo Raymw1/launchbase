@@ -100,8 +100,8 @@ module.exports = {
         removed_files.pop();
         const removedFilesPromise = removed_files.map(async (id) => {
           const pathFile = (await File.find(id))?.path;
-          unlinkSync(pathFile);
           await File.delete(id)
+          unlinkSync(pathFile);
         });
         await Promise.all(removedFilesPromise);
       }
@@ -115,10 +115,10 @@ module.exports = {
   async delete(req, res) {
     try {
       const avatar = (await Chef.find(req.body.id)).avatar;
-      const pathFile = (await File.find(avatar)).path;
-      unlinkSync(pathFile);
+      const pathFile = (await File.find(avatar))?.path;
       await Chef.delete(req.body.id);
       await File.delete(avatar);
+      if (pathFile) unlinkSync(pathFile);
   
       return res.render(`admin/chefs/index`, {
         chefs: await chefServices.getChefs(await Chef.findAll()),

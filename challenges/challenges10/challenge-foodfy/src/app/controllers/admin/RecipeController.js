@@ -102,7 +102,8 @@ module.exports = {
   async delete(req, res) {
     try {
       await recipeServices.load("deleteRecipe", { recipe_id: req.body.id })
-      return res.render(`admin/profile/index`, { success: "Receita deletada com sucesso!", user: req.user});
+      const recipes = await recipeServices.load("getRecipes", { is_admin: req.session.is_admin })
+      return res.render(`admin/recipes/index`, { recipes, success: "Receita deletada com sucesso!" });
     } catch (err) {
       console.error(err);
       return res.render("admin/profile/index", { user: req.user})

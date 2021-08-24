@@ -1,11 +1,11 @@
 <div class="grid">
   <div class="input-group">
       <h4>Nome</h4>
-      <input type="text" name="name" id="name" placeholder="Digite o nome completo" value="{{ data.name or user.name if not session.is_admin }}">
+      <input type="text" name="name" id="name" placeholder="Digite o nome completo" value="{{ user.name if not session.is_admin else data.name }}">
   </div>
   <div class="input-group">
       <h4>Email</h4>
-      <input type="email" name="email" onblur="Validate.apply(this, 'isEmail')" placeholder="Digite o email" value="{{ data.email or user.email if not session.is_admin }}">
+      <input type="email" name="email" onblur="Validate.apply(this, 'isEmail')" placeholder="Digite o email" value="{{ user.email if not session.is_admin else data.email }}">
   </div>
   <div class="input-group">
       <h4>Senha</h4>

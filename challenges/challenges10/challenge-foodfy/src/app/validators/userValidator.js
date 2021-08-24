@@ -16,12 +16,12 @@ module.exports = {
     await checkIfIsAdminToCreate(req, res, () => {});
     if (emptyFields) return res.render("admin/users/create", { data: emptyFields.user, error: emptyFields.error});
     const { name, email, password, passwordRepeat } = req.body;
-    const reqBody = { name, email}
+    const data = { name, email}
     const mailFormat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
-    if (!email.match(mailFormat)) return res.render("admin/users/create", { data: reqBody, error: "Insira um email válido" });
+    if (!email.match(mailFormat)) return res.render("admin/users/create", { data, error: "Insira um email válido" });
     const user = await User.findOne({ where: { email } });
-    if (user) return res.render("admin/users/create", { data: reqBody, error: "Email já cadastrado!" });
-    if (password != passwordRepeat) return res.render("admin/users/create", { data: reqBody, error: "Senhas diferentes, tente novamente!" });
+    if (user) return res.render("admin/users/create", { data, error: "Email já cadastrado!" });
+    if (password != passwordRepeat) return res.render("admin/users/create", { data, error: "Senhas diferentes, tente novamente!" });
     next();
   },
   async update(req, res, next) {
