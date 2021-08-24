@@ -36,7 +36,7 @@ module.exports = {
       return res.render("admin/chefs/show", { user: req.user, chef, recipes });
     } catch (err) {
       console.error(err);
-      return res.render("admin/profile/index", { user: req.user });
+      return res.render("admin/profile/index", { user: req.user, error: "Algo deu errado!" });
     }
   },
   create(req, res) {

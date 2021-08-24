@@ -20,8 +20,6 @@ module.exports = {
         }
       }
     }
-    // if (req.files?.length == 0)
-    //   callback();
   },
   parseDate(timestamp) {
     const date = new Date(timestamp);

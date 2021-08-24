@@ -21,7 +21,7 @@ CREATE TABLE "chefs" (
   "id" SERIAL PRIMARY KEY,
   "name" text NOT NULL,
   "created_at" timestamp DEFAULT (now()),
-  "avatar" text
+  "avatar" integer
 );
 
 ------------- FOREIGN KEYS -------------

@@ -1,5 +1,6 @@
 const { verifyForm } = require("../../lib/utils");
 const Chef = require("../model/Chef");
+const chefServices = require("../services/chefServices");
 
 module.exports = {
   post(req, res, next) {
@@ -10,9 +11,11 @@ module.exports = {
     if (noImage) return res.render("admin/chefs/create", { user: req.user, chef: req.body, error: "Insira pelo menos uma imagem!"});
     next();
   },
-  put(req, res, next) {
+  async put(req, res, next) {
     const emptyFields = verifyForm(req.body);
-    const data = { chef: emptyFields?.user, error: emptyFields?.error};
+    let chef = await Chef.find(req.body.id);
+    chef = await chefServices.getChef(chef);
+    const data = { chef, error: emptyFields?.error};
     if (emptyFields) return res.render("admin/chefs/edit", { user: req.user, ...data});
     next();
   },

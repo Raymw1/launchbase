@@ -49,8 +49,8 @@ module.exports = {
   },
   async editForm(req, res) {
     try {
-      const userData = await User.find(req.params.id);
-      return res.render("admin/users/edit", { userData, user: req.user });
+      const data = await User.find(req.params.id);
+      return res.render("admin/users/edit", { data, user: req.user });
     } catch (err) {
       console.error(err);
       return res.render("admin/profile/index", { error: "Algo deu errado!", user: req.user });
@@ -63,14 +63,14 @@ module.exports = {
       await User.update(req.params.id, { name, email, is_admin });
       return res.render(`admin/users/edit`, {
         user: req.user,
-        userData: { ...req.body, id: req.params.id },
+        data: { ...req.body, id: req.params.id },
         success: "Usuário atualizado com sucesso!",
       });
     } catch (err) {
       console.error(err);
       return res.render("admin/profile/index", {
         user: req.user,
-        userData: { ...req.body, id: req.params.id },
+        data: { ...req.body, id: req.params.id },
         success: "Erro inesperado, tente novamente!",
       });
     }
@@ -80,7 +80,7 @@ module.exports = {
       const { id } = req.body;
       let user = await User.find(id);
       if (!user) return res.render("admin/profile", { user: req.user, error: "Usuário não encontrado!" });
-      if (user.is_admin) return res.render("admin/users/edit", { user: req.user, userData: user, error: "Este usuário não pode ser deletado!" });
+      if (user.is_admin) return res.render("admin/users/edit", { user: req.user, data: user, error: "Este usuário não pode ser deletado!" });
       
       const recipes = await Recipe.findAll({ where: { user_id: id }});
       const recipesPromise = recipes.map(async recipe => {
