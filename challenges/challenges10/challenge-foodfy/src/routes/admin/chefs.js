@@ -1,6 +1,6 @@
 const express = require("express");
 const routes = express.Router();
-const chefs = require("../../app/controllers/admin/chefsController");
+const chefs = require("../../app/controllers/admin/ChefController");
 const multer = require("../../app/middlewares/multer");
 const { onlyUsers, onlyAdmins, checkIfIsAdminToCreate } = require("../../app/middlewares/session");
 const chefValidator = require("../../app/validators/chefValidator");

@@ -1,6 +1,6 @@
 const express = require("express");
 const routes = express.Router();
-const recipes = require("../../app/controllers/admin/recipesController");
+const recipes = require("../../app/controllers/admin/RecipeController");
 const multer = require("../../app/middlewares/multer");
 const { onlyUsers, checkIfIsOfOwnUserOrAdmin, checkIfIsAllowedToChange } = require("../../app/middlewares/session");
 const recipeValidator = require("../../app/validators/recipeValidator");
