@@ -20,7 +20,7 @@
                 </div>
                 <div class="user-actions">
                   <a href="/admin/users/{{ user.id }}/edit" class="edit-user">Editar</a>
-                  {% if not session.is_admin %}
+                  {% if not user.is_admin %}
                   <form action="/admin/users/{{ user.id }}?_method=DELETE" method="POST">
                     <input type="hidden" name="id" value="{{ user.id }}">
                     <button type="submit">Remover</button>
