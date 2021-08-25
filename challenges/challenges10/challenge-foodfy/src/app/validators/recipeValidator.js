@@ -17,8 +17,13 @@ module.exports = {
   async put(req, res, next) {
     const chefs = await Chef.findAll();
     const emptyFields = verifyForm(req.body);
-    const recipe = await recipeServices.load("getRecipe", { id: req.body.id })
+    const recipe = await recipeServices.load("getRecipe", { id: req.body.id });
+    const removed_files = req.body.removed_files.split(",");
+    removed_files.pop()
+    const noPhotos = (recipe.images?.length + req.files?.length - removed_files.length) <= 0;
     const data = { recipe: {...emptyFields?.user, ingredients: parseToArray(emptyFields?.user.ingredients), images: recipe.images, preparation: parseToArray(emptyFields?.user.preparation) }, error: emptyFields?.error};
+    if ((recipe.images?.length + req.files?.length) > 5) return res.render("admin/recipes/edit", { recipe, chefs, error: "Insira no máximo 5 imagens!"});
+    if (noPhotos) return res.render("admin/recipes/edit", { recipe, chefs, error: "Insira pelo menos 1 imagem!"});
     if (emptyFields) return res.render("admin/recipes/edit", { ...data, chefs});
     next()
   }
