@@ -14,7 +14,7 @@
     {% endblock head %}
 </head>
 <body>
-    <div class="error">Por favor, preencha todos os campos!</div>
+    <div class="error {{ 'show' if error }}">Por favor, preencha todos os campos!</div>
     <header>
         <div class="links">
             <a href="/teachers">Teachers</a>
@@ -24,6 +24,14 @@
     {% block content %}
     {% endblock content %}
     <script src="/scripts/script.js"></script>
+    {% if error %}
+    <script>
+        const errorBox = document.querySelector(".error")
+        setTimeout(() => {
+            errorBox.classList.remove("show");
+        }, 4000);
+    </script>
+    {% endif %}
 </body>
 </html>
 

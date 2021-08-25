@@ -16,7 +16,7 @@ async function createTeachers() {
     teachers.push({
       avatar_url: faker.image.people(),
       name: faker.name.findName(),
-      birth_date: parseDate(faker.date.past()).iso,
+      birth_date: parseDate(faker.date.between('1960-01-01', '2002-12-31')).iso,
       education_level: educationOfTeacher[Math.floor(Math.random() * educationOfTeacher.length)],
       class_type: ['remote', 'presential'][Math.floor(Math.random() * 2)],
       subjects_taught: faker.lorem.words().replace(' ',','),
@@ -36,7 +36,7 @@ async function createStudents() {
       avatar_url: faker.image.people(),
       name: faker.name.findName(),
       email: faker.internet.email(),
-      birth_date: parseDate(faker.date.past()).iso,
+      birth_date: parseDate(faker.date.between('2000-01-01', '2015-12-31')).iso,
       education_level: educationOfStudent[Math.floor(Math.random() * educationOfStudent.length)],
       weektime: parseInt(Math.random() * 50),
       teacher_id: teacherIds[Math.floor(Math.random() * totalTeachers)],

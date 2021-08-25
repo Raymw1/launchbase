@@ -44,10 +44,10 @@ module.exports = {
   },
   async post(req, res) {
     const keys = Object.keys(req.body);
-    keys.forEach((key) => {
+    for (let key of keys) {
       if (req.body[key].trim() === "")
-        return res.send(`Error, please insert value in ${key}`);
-    });
+        return res.render(`students/create`, { student: req.body, education_levels, teachers: await Teacher.findAll(), error: true });
+    }
     let {
       avatar_url,
       name,
@@ -78,10 +78,10 @@ module.exports = {
   },
   async put(req, res) {
     const keys = Object.keys(req.body);
-    keys.forEach((key) => {
+    for (let key of keys) {
       if (req.body[key].trim() === "")
-        return res.send(`Error, please insert value in ${key}`);
-    });
+        return res.render(`students/edit`, { student: req.body, education_levels, teachers: await Teacher.findAll(), error: true });
+    }
 
     let {
       avatar_url,
