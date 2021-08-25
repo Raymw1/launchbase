@@ -2,33 +2,28 @@ const { parseEducationLevel, parseAge, parseDate } = require("../../lib/utils");
 const education_levels = require("../../lib/education_levels").student;
 const Teacher = require("../models/Teacher");
 const Student = require("../models/Student");
+const paginateService = require("../services/paginateService");
 
 module.exports = {
-  index(req, res) {
+  async index(req, res) {
     let { filter, page, limit } = req.query;
-    page = page || 1;
-    limit = limit || 2;
-    const offset = limit * (page - 1);
-    const params = {
+    const params = await paginateService.load("students", {
       filter,
       page,
       limit,
-      offset,
-      callback(students) {
-        const pagination = {
-          total: Math.ceil(students[0].total / limit),
-          page,
-        };
-        students.forEach((student) => {
-          student.education_level = parseEducationLevel(
-            education_levels,
-            student.education_level
-          );
-        });
-        return res.render("students/index", { students, filter, pagination });
-      },
+    });
+    const students = await Student.paginate(params);
+    const pagination = {
+      total: Math.ceil(students[0].total / params.limit),
+      page,
     };
-    Student.paginate(params);
+    students.forEach((student) => {
+      student.education_level = parseEducationLevel(
+        education_levels,
+        student.education_level
+      );
+    });
+    return res.render(`students/index`, { students, filter, pagination });
   },
   async show(req, res) {
     const { id } = req.params;
@@ -98,17 +93,16 @@ module.exports = {
       teacher,
     } = req.body;
 
-    birth_date = parseDate(birth_date).iso,
-
-    await Student.update(req.body.id, {
-      avatar_url,
-      name,
-      email,
-      birth_date,
-      education_level,
-      weektime,
-      teacher_id: teacher,
-    });
+    (birth_date = parseDate(birth_date).iso),
+      await Student.update(req.body.id, {
+        avatar_url,
+        name,
+        email,
+        birth_date,
+        education_level,
+        weektime,
+        teacher_id: teacher,
+      });
 
     return res.redirect(`/students/${req.body.id}`);
   },

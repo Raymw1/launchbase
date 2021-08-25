@@ -31,21 +31,13 @@ const Base = {
     const results = await find(filters, this.table);
     return results.rows;
   },
-  async create(fields, callback) {
+  async create(fields) {
     try {
       let keys = [],
         values = [];
       Object.keys(fields).map((key) => {
         keys.push(key);
-        if (key == "ingredients" || key == "preparation") {
-          let subkeys = [];
-          fields[key].forEach((subkey) => {
-            subkeys.push(`"${subkey}"`);
-          });
-          values.push(`'{${subkeys}}'`);
-        } else {
-          values.push(`'${fields[key]}'`);
-        }
+        values.push(`'${fields[key]}'`);
       });
       keys = keys.join(",");
       values = values.join(",");
@@ -92,27 +84,27 @@ const Base = {
       });
     }
   },
-  paginate(params) {
-    const { filter, offset, limit, callback } = params;
+  async paginate(params) {
+    const { filter, offset, limit } = params;
     let query = "",
       filterQuery = "",
-      totalQuery = `(SELECT count(*) FROM ${this.table}) AS total`;
+      subQuery = this.table == "teachers" ? " count(students) AS total_students, " : ``,
+      totalQuery = ` (SELECT count(*) FROM ${this.table}) AS total`;
     if (filter) {
       filterQuery = `
-      WHERE ${this.table}.name ILIKE '%${filter}%' OR 
-      ${this.table}.email ILIKE '%${filter}%'
-      `;
+      WHERE ${this.table}.name ILIKE '%${filter}%'`;
+      filterQuery += this.table != "teachers" ? ` OR ${this.table}.email ILIKE '%${filter}%'` : ``
       totalQuery = `(SELECT count(*) FROM ${this.table} ${filterQuery}) AS total`;
     }
+    filterQuery = this.table == "teachers" ? `LEFT JOIN students ON (students.teacher_id = teachers.id) 
+    ${filterQuery} GROUP BY teachers.id` : filterQuery,
     query = `
-    SELECT ${this.table}.*, ${totalQuery} FROM ${this.table}
+    SELECT ${this.table}.*,${subQuery}${totalQuery} FROM ${this.table}
     ${filterQuery}
-    ORDER BY name ASC LIMIT $1 OFFSET $2;
+    ORDER BY ${this.table == "teachers" ? `total_students DESC` : "name ASC"} LIMIT $1 OFFSET $2;
     `;
-    db.query(query, [limit, offset], function (err, results) {
-      if (err) throw `Database error! ${err}`;
-      callback(results.rows);
-    });
+    const results = await db.query(query, [limit, offset]);
+    return results.rows;
   },
 };
 
