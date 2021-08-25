@@ -67,7 +67,12 @@ module.exports = {
       subjects_taught,
       created_at: parseDate(Date.now()).iso
     });
-    return res.redirect(`/teachers/${id}`);
+    return res.render("returns/success", {
+      primary_message: "Professor criado com sucesso",
+      secondary_message: "Você pode ver ele aqui!",
+      ctalink: `/teachers/${id}`,
+      cta: "Ver professor",
+    });
   },
   async edit(req, res) {
     const { id } = req.params;
@@ -99,10 +104,20 @@ module.exports = {
       class_type,
       subjects_taught,
     });
-    return res.redirect(`/teachers/${req.body.id}`);
+    return res.render("returns/success", {
+      primary_message: "Professor editado com sucesso",
+      secondary_message: "Você pode ver ele aqui!",
+      ctalink: `/teachers/${req.body.id}`,
+      cta: "Ver professor",
+    });
   },
   async delete(req, res) {
     await Teacher.delete(req.body.id);
-    return res.redirect("/teachers");
+    return res.render("returns/success", {
+      primary_message: "Professor deletado com sucesso",
+      secondary_message: "Você pode ver os outros professores!",
+      ctalink: `/teachers`,
+      cta: "Ver professor",
+    });
   },
 };

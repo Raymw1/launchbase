@@ -46,7 +46,12 @@ module.exports = {
     const keys = Object.keys(req.body);
     for (let key of keys) {
       if (req.body[key].trim() === "")
-        return res.render(`students/create`, { student: req.body, education_levels, teachers: await Teacher.findAll(), error: true });
+        return res.render(`students/create`, {
+          student: req.body,
+          education_levels,
+          teachers: await Teacher.findAll(),
+          error: true,
+        });
     }
     let {
       avatar_url,
@@ -66,7 +71,12 @@ module.exports = {
       weektime,
       teacher_id,
     });
-    return res.redirect(`/students/${id}`);
+    return res.render("returns/success", {
+      primary_message: "Estudante criado com sucesso",
+      secondary_message: "Você pode ver ele aqui!",
+      ctalink: `/students/${id}`,
+      cta: "Ver estudante",
+    });
   },
   async edit(req, res) {
     const { id } = req.params;
@@ -80,7 +90,12 @@ module.exports = {
     const keys = Object.keys(req.body);
     for (let key of keys) {
       if (req.body[key].trim() === "")
-        return res.render(`students/edit`, { student: req.body, education_levels, teachers: await Teacher.findAll(), error: true });
+        return res.render(`students/edit`, {
+          student: req.body,
+          education_levels,
+          teachers: await Teacher.findAll(),
+          error: true,
+        });
     }
 
     let {
@@ -103,11 +118,20 @@ module.exports = {
         weektime,
         teacher_id: teacher,
       });
-
-    return res.redirect(`/students/${req.body.id}`);
+    return res.render("returns/success", {
+      primary_message: "Estudante editado com sucesso",
+      secondary_message: "Você pode ver ele aqui!",
+      ctalink: `/students/${req.body.id}`,
+      cta: "Ver estudante",
+    });
   },
   async delete(req, res) {
     await Student.delete(req.body.id);
-    return res.redirect("/students");
+    return res.render("returns/success", {
+      primary_message: "Estudante deletado com sucesso",
+      secondary_message: "Você também pode ver outros estudantes!",
+      ctalink: `/students`,
+      cta: "Ver estudantes",
+    });
   },
 };

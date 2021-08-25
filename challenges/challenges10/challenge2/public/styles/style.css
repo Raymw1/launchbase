@@ -356,3 +356,20 @@ table td:nth-child(2) span {
     right: 18px;
     opacity: 1;
 }
+
+/* =================== LOTTIE =================== */
+.lottie {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.lottie .button {
+    width: initial;
+    text-transform: uppercase;
+}
+
+.success-lottie {
+    height: 350px;
+}

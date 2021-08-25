@@ -1,0 +1,28 @@
+{% extends 'layout.njk' %}
+
+{% block head %}
+<title>Sucesso!</title>
+{% endblock head %}
+
+{% block content %}
+  <div class="lottie">
+    <div class="success-lottie"></div>
+    <h2>{{ primary_message }}</h2>
+    <p>{{ secondary_message }}</p>
+    <a href="{{ ctalink }}" class="button">{{ cta }}</a>
+  </div>
+{% endblock content %}
+
+{% block scripts %}
+<script src="/animations/lottie.min.js"></script>
+<script>
+  const element = document.querySelector(".success-lottie");
+  lottie.loadAnimation({
+    container: element,
+    renderer: "svg",
+    loop: false,
+    autoplay: true,
+    path: "/animations/73462-cheked.json"
+  })
+</script>
+{% endblock scripts %}
