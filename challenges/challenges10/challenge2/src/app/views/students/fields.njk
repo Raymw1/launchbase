@@ -1,0 +1,52 @@
+<div class="item">
+    <div>Avatar URL</div>
+    <div>
+        <input type="url" name="avatar_url" placeholder="http://" value="{{ student.avatar_url }}">
+    </div>
+</div>
+<div class="item">
+    <div>Estudante</div>
+    <div>
+        <input type="text" name="name" placeholder="Nome do estudante" value="{{ student.name }}">
+    </div>
+</div>
+<div class="item">
+    <div>Email</div>
+    <div>
+        <input type="email" name="email" placeholder="Email do estudante" value="{{ student.email }}">
+    </div>
+</div>
+<div class="item">
+    <div>Data de nascimento</div>
+    <div>
+        <input type="date" name="birth_date" value="{{ student.birth_date }}">
+    </div>
+</div>
+<div class="item">
+    <div>Grau de escolaridade</div>
+    <div>
+        <select name="education_level" id="education_level">
+            <option value="" selected disabled>Selecione o ano escolar</option>
+            {% for education_level, dvalue in education_levels %}
+            <option value="{{ education_level }}" {% if education_level == student.education_level %}selected{% endif %} >{{ dvalue }}</option>
+            {% endfor %}
+        </select>
+    </div>
+</div>
+<div class="item">
+    <div>Carga horária semanal</div>
+    <div>
+        <input type="number" name="weektime" placeholder="X horas" value="{{ student.weektime }}">
+    </div>
+</div>
+<div class="item">
+    <div>Grau de escolaridade</div>
+    <div>
+        <select name="teacher" required id="teacher">
+            <option value="" selected disabled>Selecione o seu professor</option>
+            {% for teacher in teachers %}
+            <option value="{{ teacher.id }}" {% if student.teacher_id == teacher.id %}selected{% endif %} >{{ teacher.name }}</option>
+            {% endfor %}
+        </select>
+    </div>
+</div>
