@@ -96,7 +96,7 @@ module.exports = {
       return res.redirect(`/admin/recipes/${req.body.id}`);
     } catch (err) {
       console.error(err);
-      return res.render("admin/profile/index", { user: req.user})
+      return res.render("admin/profile/index", { user: req.user, error: "Algo deu errado!"})
     }
   },
   async delete(req, res) {
@@ -106,7 +106,7 @@ module.exports = {
       return res.render(`admin/recipes/index`, { recipes, success: "Receita deletada com sucesso!" });
     } catch (err) {
       console.error(err);
-      return res.render("admin/profile/index", { user: req.user})
+      return res.render("admin/profile/index", { user: req.user, error: "Algo deu errado!" })
     }
   },
 };

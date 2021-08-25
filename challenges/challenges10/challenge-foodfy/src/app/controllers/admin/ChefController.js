@@ -79,7 +79,7 @@ module.exports = {
       });
     } catch (err) {
       console.error(err);
-      return res.render("admin/profile/index", { user: req.user });
+      return res.render("admin/profile/index", { user: req.user, error: "Algo deu errado!" });
     }
   },
   async put(req, res) {
@@ -109,7 +109,7 @@ module.exports = {
       return res.redirect(`/admin/chefs/${req.body.id}`);
     } catch (err) {
       console.error(err);
-      return res.render("admin/profile/index", { user: req.user });
+      return res.render("admin/profile/index", { user: req.user, error: "Algo deu errado!" });
     }
   },
   async delete(req, res) {

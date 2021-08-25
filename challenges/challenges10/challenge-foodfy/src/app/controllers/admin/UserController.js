@@ -12,6 +12,7 @@ module.exports = {
       return res.render("admin/users/index", { users });
     } catch (err) {
       console.error(err);
+      return res.render("admin/profile/index", { user: req.user, error: "Algo deu errado!" });
     }
   },
   registerForm(req, res) {
@@ -26,14 +27,14 @@ module.exports = {
 
       req.session.userId = req.user?.is_admin ? req.session.userId : userId;
 
-      // await mailer.sendMail({
-      //   to: req.body.email,
-      //   from: "no-reply@foodfy.com.br",
-      //   subject: "Você foi registrado com sucesso!",
-      //   html: `<h2>Acesse sua conta agora</h2>
-      //   <p>Não se preocupe, clique no link abaixo para acessar sua conta</p>
-      //   <p><a href="http://127.0.0.1:3000/admin/users/login" target="_blank">Acessar minha conta</a></p>`
-      // })
+      await mailer.sendMail({
+        to: req.body.email,
+        from: "no-reply@foodfy.com.br",
+        subject: "Você foi registrado com sucesso!",
+        html: `<h2>Acesse sua conta agora</h2>
+        <p>Não se preocupe, clique no link abaixo para acessar sua conta</p>
+        <p><a href="http://127.0.0.1:3000/admin/users/login" target="_blank">Acessar minha conta</a></p>`
+      })
 
       req.session.save((err) => {
         if (err) throw err;
@@ -69,7 +70,7 @@ module.exports = {
       console.error(err);
       return res.render("admin/profile/index", {
         data: { ...req.body, id: req.params.id },
-        success: "Erro inesperado, tente novamente!",
+        error: "Erro inesperado, tente novamente!",
       });
     }
   },
