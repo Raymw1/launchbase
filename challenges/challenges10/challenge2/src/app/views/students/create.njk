@@ -5,7 +5,7 @@
 {% endblock head %}
 
 {% block content %}
-    <form action="/students" method="POST" class="card">
+    <form action="/students" method="POST" onsubmit="validateFields(event)" class="card">
         <section class="avatar"></section>
         <section class="details">
             <h3>Detalhes</h3>

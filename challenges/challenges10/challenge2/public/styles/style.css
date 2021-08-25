@@ -334,3 +334,24 @@ table td:nth-child(2) span {
 .pagination a:hover {
     filter: brightness(2);
 }
+
+/* =================== ERROR =================== */
+.error {
+    background-color: rgb(255, 65, 65);
+    position: fixed;
+    padding: 20px 28px;
+    max-width: 340px;
+    font-weight: bold;
+    text-align: right;
+    right: -500px;
+    top: 32px;
+    border-radius: 4px;
+    box-shadow: 4px 4px 8px -5px rgba(0, 0, 0, 0.6);
+    opacity: 0;
+    transition: all 400ms ease-in-out;
+}
+
+.error.show {
+    right: 18px;
+    opacity: 1;
+}

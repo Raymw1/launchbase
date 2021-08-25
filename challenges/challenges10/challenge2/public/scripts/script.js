@@ -61,3 +61,18 @@ const pagination = document.querySelector(".pagination");
 if (pagination) {
   createPagination(pagination);
 }
+
+
+function validateFields(event) {
+  const fields = document.querySelectorAll(".item input, .item select");
+  const errorBox = document.querySelector(".error")
+  for (let field of fields) {
+    if (field.value.trim() == '') {
+      event.preventDefault();
+      errorBox.classList.add("show");
+      setTimeout(() => {
+        errorBox.classList.remove("show");
+      }, 4000);
+    }
+  }
+}

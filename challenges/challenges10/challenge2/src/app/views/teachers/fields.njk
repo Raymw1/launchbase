@@ -30,7 +30,7 @@
 <div class="item">
     <div>Tipo de aula</div>
     <div>
-        <label><span><input type="radio" name="class_type" value="presential" {% if teacher.class_type == 'presential' %}checked{% endif %}>Presencial</span></label>
+        <label><span><input type="radio" name="class_type" value="presential" {% if teacher.class_type == 'presential' or not teacher %}checked{% endif %}>Presencial</span></label>
         <label><span><input type="radio" name="class_type" value="remote" {% if teacher.class_type == 'remote' %}checked{% endif %}>À distância</span></label>
     </div>
 </div>

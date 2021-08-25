@@ -8,7 +8,7 @@
     <div class="card">
         <section class="avatar" style="background: url({{ student.avatar_url }}) no-repeat center center / cover;"></section>
         <section class="details">
-            <form action="/students?_method=PUT" method="POST">
+            <form action="/students?_method=PUT" onsubmit="validateFields(event)" method="POST">
                 <h3>Editar</h3>
                 {% include 'students/fields.njk' %}
                 <input type="hidden" name="id" value="{{ student.id }}">
