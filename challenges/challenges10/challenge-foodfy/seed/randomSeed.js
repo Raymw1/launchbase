@@ -8,13 +8,8 @@ const Recipe = require("../src/app/model/Recipe");
 const RecipeFiles = require("../src/app/model/RecipeFiles");
 const getImages = require("./getImages");
 
-const {
-  chefs: dataChefs,
-  recipes: dataRecipes,
-} = require("./backupfoodfy.json");
-
 let userIds = [],
-  filesCount= 0,
+  totalRecipeFiles = 20,
   totalRecipes = 10,
   totalChefs = 5,
   totalUsers = 3;
@@ -38,14 +33,15 @@ async function createUsers() {
 async function createChefs() {
   const chefs = [];
   const files = [];
-  for (dataChef of dataChefs) {
+
+  while (files.length < totalChefs) {
+    const photoName = await getImages(['cChD4mWaulQ', "5055749", "4065524"], true)
     files.push({
-      name: dataChef.name,
-      path: dataChef.path,
+      name: photoName,
+      path: `public/assets/images/${photoName}`,
     });
-    filesCount++
     chefs.push({
-      name: dataChef.name,
+      name: faker.name.findName(),
       avatar: files.length,
     });
   }
@@ -60,37 +56,44 @@ async function createChefs() {
 async function createRecipes() {
   const recipes = [],
     files = [],
-    recipeFiles = [];
+    recipeFiles = []
 
-  for (dataRecipe of dataRecipes) {
-    files.push({
-      name: dataRecipe.title,
-      path: dataRecipe.path,
-    });
-    filesCount++
-    recipeFiles.push({
-      recipe_id: files.length,
-      file_id: filesCount,
-    });
+  while (recipes.length < totalRecipes) {
+    const ingredients = [], preparation = [];
+    for (let i = 0; i < 5; i++) {
+      ingredients.push(faker.commerce.productName());
+      preparation.push(faker.commerce.productName());
+    }
     recipes.push({
-      chef_id: dataRecipe.chef_id,
-      title: dataRecipe.title,
-      ingredients: dataRecipe.ingredients,
-      preparation: dataRecipe.preparation,
-      information: dataRecipe.information,
-      user_id: Math.ceil(Math.random() * totalUsers),
+      chef_id: Math.ceil(Math.random() * totalChefs),
+      title: faker.commerce.productName(),
+      ingredients,
+      preparation,
+      information: faker.lorem.words(20),
+      user_id: Math.ceil(Math.random() * totalUsers)
     });
   }
 
+  while (files.length < totalRecipeFiles) {
+    const photoName = await getImages(['3775871'])
+    files.push({
+      name: photoName,
+      path: `public/assets/images/${photoName}`,
+    });
+    recipeFiles.push({
+      recipe_id: Math.ceil(Math.random() * totalRecipes),
+      file_id: files.length
+    })
+  }
+
+
   const filesPromise = files.map((file) => File.create(file));
   await Promise.all(filesPromise);
-
+  
   const recipesPromise = recipes.map((recipe) => Recipe.create(recipe));
   await Promise.all(recipesPromise);
 
-  const recipeFilesPromise = recipeFiles.map((file) =>
-    RecipeFiles.create(file)
-  );
+  const recipeFilesPromise = recipeFiles.map((file) => RecipeFiles.create(file));
   await Promise.all(recipeFilesPromise);
 }
 
