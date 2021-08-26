@@ -55,12 +55,14 @@ const PhotosUpload = {
   input: "",
   preview: document.querySelector("#photos-preview"),
   uploadLimit: document.querySelector(".avatar") ? 1 : 5,
+  lastInput: document.querySelector("#photos-input")?.value,
   files: [],
   handleFileInput(event) {
     const { files: fileList } = event.target;
-    PhotosUpload.input = event.target;
     const { uploadLimit, preview, getContainer, hasLimit } = PhotosUpload;
-    if (hasLimit(uploadLimit, event)) return;
+    if (hasLimit(uploadLimit, event)) return event.preventDefault();
+    PhotosUpload.lastInput = event.target.value;
+    PhotosUpload.input = event.target;
     Array.from(fileList).forEach((file) => {
       PhotosUpload.files.push(file);
       const reader = new FileReader();
@@ -76,7 +78,7 @@ const PhotosUpload = {
   },
   hasLimit(uploadLimit, event) {
     const { input, preview } = PhotosUpload;
-    const { files: fileList } = input;
+    const { files: fileList } = event.target;
     const photosDiv = [];
     preview.childNodes.forEach((item) => {
       if (item.classList?.value == "photo") {
@@ -87,6 +89,7 @@ const PhotosUpload = {
     if (totalPhotos > uploadLimit) {
       alert(`Envie no máximo ${uploadLimit} fotos!`);
       event.preventDefault();
+      event.target.value = PhotosUpload.lastInput;
       return 1;
     }
     return 0;
