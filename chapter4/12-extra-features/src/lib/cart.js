@@ -13,10 +13,10 @@ const Cart = {
         formattedPrice: formatPrice(0)
       }
     }
-    return this
+    return this;
   },
   addOne(product) {
-    let inCart = this.items.find(item => item.product.id == product.id);
+    let inCart = this.getCartItem(product.id);
     if (!inCart) {
       inCart = {
         product: {
@@ -38,10 +38,10 @@ const Cart = {
     this.total.quantity++;
     this.total.price += inCart.product.price;
     this.total.formattedPrice = formatPrice(this.total.price);
-    return this
+    return this;
   },
   removeOne(productId) {
-    const inCart = this.items.find(item => item.product.id == productId);
+    const inCart = this.getCartItem(productId);
     if (!inCart) return this;
     inCart.quantity--;
     inCart.price = inCart.product.price - inCart.quantity;
@@ -58,28 +58,19 @@ const Cart = {
     return this
   },
   delete(productId) {
-
+    const inCart = this.getCartItem(productId);
+    if (!inCart) return this;
+    if (this.items.length > 0) {
+      this.total.quantity -= inCart.quantity;
+      this.total.price -= inCart.price; //
+      this.total.formattedPrice = formatPrice(this.total.price);
+    }
+    this.items = this.items.filter(item => item.product.id != productId);
+    return this;
+  },
+  getCartItem(productId) {
+    return this.items.find(item => item.product.id == productId);
   }
 }
-
-const product = {
-  id: 1,
-  price: 199,
-  quantity: 2
-}
-
-const product2 = {
-  id: 2,
-  price: 299,
-  quantity: 1
-}
-
-let a = Cart.init().addOne(product)
-a = Cart.init(a).addOne(product)
-console.log(a);
-a = Cart.init(a).addOne(product2)
-console.log(a);
-a = Cart.init(a).removeOne(product2.id)
-console.log(a);
 
 module.exports = Cart;
