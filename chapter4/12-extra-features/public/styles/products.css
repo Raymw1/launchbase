@@ -1,0 +1,145 @@
+/* =================== PRODUCT VIEW =================== */
+.product-single .card-content{
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+}
+
+.product-single .gallery {
+  width: 100%;
+}
+
+.product-single .gallery img {
+  border-radius: 4px;
+  box-shadow: 2px 2px 2px -4px rgba(255, 255, 255, 0.5);
+}
+
+.product-single .gallery .highlight > img {
+  width: 100%;
+  height: 280px;
+  object-fit: cover;
+  /* object-fit: none;
+  object-position: 50% 50%; */
+  cursor: zoom-in;
+}
+
+.product-single .gallery .gallery-preview {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 4px;
+}
+
+.product-single .gallery .gallery-preview img {
+  object-fit: cover;
+  height: 100px;
+  width: 100%;
+  cursor: pointer;
+  opacity: .6;
+  transition: opacity .2s;
+}
+
+.product-single .gallery .gallery-preview img:hover, 
+.product-single .gallery .gallery-preview img.active {
+  opacity: 1;
+}
+
+/* ============= LIGHTBOX ============= */
+.product-single .highlight .lightbox-target {
+  background-color: rgba(0, 0, 0, 0.7);
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  top: -100%;
+  left: 0;
+  z-index: 100;
+  opacity: 0;
+  overflow: hidden;
+  transition: opacity 400ms;
+}
+
+.product-single .highlight .lightbox-target img {
+  margin: auto;
+  position: absolute;
+  inset: 0;
+  background-color: #fff;
+  box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.3);
+  width: 90%;
+  height: 90%;
+  object-fit: contain;
+}
+
+.product-single .highlight a.lightbox-close {
+  width: 50px;
+  height: 50px;
+  background-color: #fff;
+  position: absolute;
+  right: 0;
+  top: -80px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: 400ms;
+}
+
+
+/* ============= PRODUCT SINGLE INFO ============= */
+.product-single .info {
+  display: grid;
+  grid-template-rows: auto 40px 2fr 1fr;
+}
+
+.product-single .info h1 {
+  font-size: 32px;
+  line-height: 42px;
+  color: #333;
+  text-transform: uppercase;
+}
+
+.product-single .info .published {
+  color: #888;
+  font-size: 12px;
+  line-height: 22px;
+  letter-spacing: 0.4px;
+}
+
+/* ============= PRICE BUY ============= */
+.product-single .price-buy {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 8px;
+  border-top: 1px solid #eee;
+  margin-top: auto;
+}
+
+.product-single .price-buy .price {
+  font-size: 24px;
+  color: #333;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.product-single .price-buy .price .old {
+  text-decoration: line-through;
+  color: #999;
+  font-size: 14px;
+  font-weight: normal;
+  margin-left: 8px;
+}
+
+.product-single .price-buy .buy button {
+  background-color: var(--secondary-color);
+  font-size: 14px;
+  letter-spacing: .4px;
+}
+
+.product-single .unavailable {
+  font-size: 14px;
+  color: #ccc;
+  font-weight: bold;
+  background-color: #eee;
+  padding: 8px 16px;
+  border-radius: 4px;
+}
