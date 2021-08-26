@@ -2,7 +2,7 @@
 {% import 'parts/card.njk' as card %}
 
 {% block content %}
-    {% call card.render("Carrionho", "cart container") %}
+    {% call card.render("Carrinho", "cart container") %}
         <div class="header">
           <p>Produto</p>
           <p>Preço</p>
@@ -38,7 +38,7 @@
         <div class="actions">
           <a href="/products/search" class="button shop">Continuar comprando</a>
           <form class="trash" action="/" method="POST">
-            <button class="delete button order">Realizar pedido</button>
+            <button class="button order">Realizar pedido</button>
           </form>
         </div>
     {% endcall %}
