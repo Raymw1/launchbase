@@ -1,3 +1,4 @@
+const { removeOne } = require("../../lib/cart");
 const Cart = require("../../lib/cart");
 const LoadProductService = require("../services/LoadProductService");
 
@@ -24,5 +25,15 @@ module.exports = {
     } catch (err) {
       console.error(err);
     }
+  },
+  async removeOne(req, res) {
+    let { cart } = req.session;
+    if (!cart) return res.redirect("/cart");
+    cart = Cart.init(cart).removeOne(req.params.id);
+    req.session.cart = cart;
+    req.session.save(err => {
+      if (err) throw err;
+      return res.redirect("/cart")
+    })
   }
 }
