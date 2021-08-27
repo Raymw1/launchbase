@@ -109,3 +109,26 @@ DELETE FROM files;
 ALTER SEQUENCE products_id_seq RESTART WITH 1;
 ALTER SEQUENCE users_id_seq RESTART WITH 1;
 ALTER SEQUENCE files_id_seq RESTART WITH 1;
+
+------------- ORDERS -------------
+CREATE TABLE "orders" (
+	"id" SERIAL PRIMARY KEY,
+  "seller_id" integer NOT NULL,
+  "buyer_id" integer NOT NULL,
+  "product_id" integer NOT NULL,
+  "price" integer NOT NULL,
+  "quantity" integer DEFAULT 0,
+  "total" integer NOT NULL,
+  "status" text NOT NULL,
+  "created_at" timestamp DEFAULT (now()),
+  "updated_at" timestamp DEFAULT (now())  
+);
+
+ALTER TABLE "orders" ADD FOREIGN KEY ("seller_id") REFERENCES "users" ("id");
+ALTER TABLE "orders" ADD FOREIGN KEY ("buyer_id") REFERENCES "users" ("id");
+ALTER TABLE "orders" ADD FOREIGN KEY ("product_id") REFERENCES "products" ("id");
+
+CREATE TRIGGER set_timestamp
+BEFORE UPDATE ON orders
+FOR EACH ROW
+EXECUTE PROCEDURE trigger_set_timestamp();
