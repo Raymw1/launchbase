@@ -12,6 +12,7 @@ module.exports = {
       year,
       hour,
       minutes,
+      time: `${hour}h${minutes}`,
       birthday: `${day}/${month}`,
       format: `${day}/${month}/${year}`,
       iso: `${year}-${month}-${day}`,

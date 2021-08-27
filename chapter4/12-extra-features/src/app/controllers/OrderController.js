@@ -4,6 +4,7 @@ const User = require("../models/User");
 const Order = require("../models/Order");
 
 const LoadProductService = require("../services/LoadProductService");
+const LoadOrderService = require("../services/LoadOrderService");
 const Cart = require("../../lib/cart");
 
 const email = (seller, product, buyer) => `
@@ -24,6 +25,15 @@ const email = (seller, product, buyer) => `
 `
 
 module.exports = {
+  async index(req, res) {
+    try {
+      const orders = await LoadOrderService.load("orders", { where: { buyer_id: req.session.userId } });
+      return res.render("orders/index", { orders })
+    } catch (err) {
+      console.error(err);
+      return res.render("cart/index", { error: "Algo inesperado ocorreu, tente novamente!" })
+    }
+  },
   async post(req, res) {
     try {
       const cart = Cart.init(req.session.cart);
@@ -47,7 +57,9 @@ module.exports = {
         })
         return order;
       })
-      await Promise.all(createOrdersPromise)
+      await Promise.all(createOrdersPromise);
+      req.session.cart = null;
+      Cart.init(req.session.cart)
       return res.render("orders/success")
     } catch (err) {
       console.error(err);
