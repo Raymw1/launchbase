@@ -8,7 +8,7 @@ module.exports = {
     try {
       let { filter, category } = req.query;
 
-      if (!filter.trim() || filter.toLowerCase() == 'toda a loja') filter = null;
+      if (!filter?.trim() || filter?.toLowerCase() == 'toda a loja') filter = null;
 
       let products = await Product.search({ filter, category});
       const productsPromise = products.map(LoadProductService.format)
