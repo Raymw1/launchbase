@@ -29,7 +29,7 @@
   transition: background-color 200ms;
 }
 
-.card .item:hover {
+.cart .item:hover {
   background-color: rgba(0, 0, 0, 0.03);
 }
 
