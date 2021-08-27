@@ -1,3 +1,76 @@
+/* ================ MY ORDERS ================ */
+.orders .item-container {
+  display: grid;
+  grid-template-columns: 1fr auto auto 100px;
+  grid-gap: 32px;
+  align-items: center;
+  color: #444;
+  padding: 16px 0;
+  border-bottom: 1px solid #f1f1f1;
+}
+
+.orders .item-container:hover {
+  background-color: #eee;
+}
+
+.orders .item {
+  display: flex;
+}
+
+.orders .item img {
+  height: 70px;
+  width: 70px;
+  object-fit: cover;
+  margin: 0 16px;
+  border-radius: 4px;
+  border: 1px solid #fefefe;
+  box-shadow: 2px 2px 4px -4px black;
+}
+
+.orders .item > div {
+  display: flex;
+  flex-direction: column;
+}
+
+.orders .item > div > div {
+  color: #555;
+  margin-bottom: 4px;
+}
+
+.orders .item .price, .orders .total {
+  font-weight: bold;
+}
+
+.orders .item .updated_at {
+  margin-top: auto;
+  margin-bottom: 0;
+  font-size: 14px;
+  font-weight: 300;
+}
+
+.orders .status {
+  color: #fff;
+  font-weight: bold;
+  padding: 4px 12px;
+  border-radius: 16px;
+  justify-self: center;
+  text-transform: uppercase;
+}
+
+.orders .status.open {
+  background-color: rgb(2, 173, 185);
+}
+
+.orders .status.sold {
+  background-color: rgb(2, 185, 2);
+}
+
+.orders .status.canceled {
+  background-color: #f50000;
+}
+
+
+/* ============ LOTTIES ============ */
 .order-success, .order-error {
   padding: 0;
   padding-bottom: 38px;

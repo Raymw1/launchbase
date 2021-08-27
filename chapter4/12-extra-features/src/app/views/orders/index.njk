@@ -22,7 +22,7 @@
               </div>
               <div class="quantity">Qtd. {{ order.quantity }}</div>
               <div class="total">{{ order.formattedTotal }}</div>
-              <div class="status">{{ order.formattedStatus }}</div>
+              <div class="status {{ order.status}}">{{ order.formattedStatus }}</div>
             </div>
             {% endfor %}
           </div>
