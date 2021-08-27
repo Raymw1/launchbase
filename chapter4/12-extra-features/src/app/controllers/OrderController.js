@@ -65,5 +65,18 @@ module.exports = {
       console.error(err);
       return res.render("orders/error")
     }
-  }
+  },
+  async show(req, res) {
+    const order = await LoadOrderService.load("order", { where: { id: req.params.id } });
+    return res.render("orders/details", { order });
+  },
+  async sales(req, res) {
+    try {
+      const sales = await LoadOrderService.load("orders", { where: { seller_id: req.session.userId } });
+      return res.render("orders/sales", { sales });
+    } catch (err) {
+      console.error(err);
+      return res.render("cart/index", { error: "Algo inesperado ocorreu, tente novamente!" });
+    }
+  },
 }

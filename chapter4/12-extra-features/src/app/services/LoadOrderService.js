@@ -25,14 +25,14 @@ const LoadService = {
     this.filters = filters;
     return this[service]();
   },
-  // async product() {
-  //   try {
-  //     let product = await Product.findOne(this.filters);
-  //     return format(product);
-  //   } catch (err) {
-  //     console.error(err);
-  //   }
-  // },
+  async order() {
+    try {
+      let order = await Order.findOne(this.filters);
+      return format(order);
+    } catch (err) {
+      console.error(err);
+    }
+  },
   async orders() {
     try {
       let orders = await Order.findAll(this.filters);
