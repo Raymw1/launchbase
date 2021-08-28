@@ -23,6 +23,12 @@
               <div class="quantity">Qtd. {{ order.quantity }}</div>
               <div class="total">{{ order.formattedTotal }}</div>
               <div class="status {{ order.status}}">{{ order.formattedStatus }}</div>
+              <div class="actions dropdown-container">
+                Ações <i class="material-icons">arrow_drop_down</i>
+                <ul class="dropdown">
+                  <li><a href="/orders/{{ order.id }}">Ver pedido</a></li>
+                </ul>
+              </div>
             </div>
             {% endfor %}
           </div>

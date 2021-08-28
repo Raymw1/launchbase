@@ -118,7 +118,6 @@ module.exports = {
         console.error(err);
       }
     });
-
-    return res.redirect("/products");
+    return res.redirect("/");
   },
 };

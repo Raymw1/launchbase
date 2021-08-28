@@ -48,6 +48,14 @@ const LoadService = {
       console.error(err);
     }
   },
+  async productWithDeleted() {
+    try {
+      let product = await Product.findOneWithDeleted(this.filters);
+      return format(product);
+    } catch (err) {
+      console.error(err);
+    }
+  },
   format,
 };
 
