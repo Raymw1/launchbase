@@ -34,6 +34,19 @@ module.exports = {
       return res.render("cart/index", { error: "Algo inesperado ocorreu, tente novamente!" })
     }
   },
+  async show(req, res) {
+    const order = await LoadOrderService.load("order", { where: { id: req.params.id } });
+    return res.render("orders/details", { order });
+  },
+  async sales(req, res) {
+    try {
+      const sales = await LoadOrderService.load("orders", { where: { seller_id: req.session.userId } });
+      return res.render("orders/sales", { sales });
+    } catch (err) {
+      console.error(err);
+      return res.render("cart/index", { error: "Algo inesperado ocorreu, tente novamente!" });
+    }
+  },
   async post(req, res) {
     try {
       const cart = Cart.init(req.session.cart);
@@ -66,17 +79,20 @@ module.exports = {
       return res.render("orders/error")
     }
   },
-  async show(req, res) {
-    const order = await LoadOrderService.load("order", { where: { id: req.params.id } });
-    return res.render("orders/details", { order });
-  },
-  async sales(req, res) {
+  async update(req, res) {
     try {
-      const sales = await LoadOrderService.load("orders", { where: { seller_id: req.session.userId } });
-      return res.render("orders/sales", { sales });
+      const { id, action } = req.params;
+      const acceptedActions = ["close", "cancel"];
+      if (!acceptedActions.includes(action)) return res.render("cart/index", { error: "Ação foi definida incorretamente!" });
+      const order = await LoadOrderService.load("order", { where: { id } });
+      if (!order) return res.render("cart/index", { error: "Pedido não encontrado!" });
+      if (order.status != 'open') return res.render("cart/index", { error: "Este pedido já não está mais aberto!" });
+      const statuses = { close: "sold", cancel: "canceled"};
+      await Order.update(id, { status: statuses[action] });
+      return res.redirect("/orders/sales")
     } catch (err) {
       console.error(err);
-      return res.render("cart/index", { error: "Algo inesperado ocorreu, tente novamente!" });
+      return res.render("cart/index", { error: "Erro inesperado, tente novamente!" });
     }
   },
 }

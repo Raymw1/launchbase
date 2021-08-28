@@ -2,6 +2,7 @@
   --status-open: rgb(2, 173, 185);
   --status-sold: rgb(2, 185, 2);
   --status-canceled: #f50000;
+  margin-bottom: 64px;
 }
 
 /* ================ MY ORDERS ================ */
